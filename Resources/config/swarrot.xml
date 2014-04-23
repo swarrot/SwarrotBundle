@@ -15,6 +15,7 @@
             <argument />
             <argument />
             <argument />
+            <argument type="service" id="logger" />
         </service>
     </services>
 </container>

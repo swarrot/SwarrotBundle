@@ -10,6 +10,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Swarrot\Processor\ProcessorInterface;
 use Swarrot\Consumer;
+use Swarrot\Processor\Stack\Builder;
+use Psr\Log\LoggerInterface;
 
 /**
  * SwarrotCommand.
@@ -22,13 +24,15 @@ class SwarrotCommand extends ContainerAwareCommand
     protected $name;
     protected $processor;
     protected $connectionName;
+    protected $logger;
 
-    public function __construct(FactoryInterface $factory, ProcessorInterface $processor, $name, $connectionName)
+    public function __construct(FactoryInterface $factory, ProcessorInterface $processor, $name, $connectionName, LoggerInterface $logger = null)
     {
         $this->factory        = $factory;
         $this->name           = $name;
         $this->processor      = $processor;
         $this->connectionName = $connectionName;
+        $this->logger         = $logger;
 
         parent::__construct();
     }
@@ -55,7 +59,35 @@ class SwarrotCommand extends ContainerAwareCommand
 
         $messageProvider = $this->factory->getMessageProvider($queue, $connection);
 
-        $consumer = new Consumer($messageProvider, $this->processor);
+        $stack = new Builder();
+
+        //$stack->push('Cappl\Swarrot\Processor\CapplProcessor', $this->container);
+        $stack->push('Swarrot\Processor\SignalHandler\SignalHandlerProcessor', $this->logger);
+
+        if (!$input->getOption('no-catch')) {
+            $stack->push('Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor', $this->logger);
+        }
+
+        $stack
+            ->push('Swarrot\Processor\MaxMessages\MaxMessagesProcessor', $this->logger)
+            ->push('Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor', $this->logger)
+            ->push('Swarrot\Processor\Ack\AckProcessor', $messageProvider, $this->logger)
+        ;
+
+        //$config = $this->container['config'];
+        //if (isset($config['swarrot']['retry'])) {
+            //$retryConfig = $config['swarrot']['retry'];
+            //$messagePublisher = $this->getMessagePublisher(
+                //$retryConfig['exchange'],
+                //$input->getArgument('connection')
+            //);
+
+            //$stack->push('Swarrot\Processor\Retry\RetryProcessor', $messagePublisher, $logger);
+        //}
+
+        $processor = $stack->resolve($this->processor);
+
+        $consumer = new Consumer($messageProvider, $processor);
 
         $consumer->consume();
     }
