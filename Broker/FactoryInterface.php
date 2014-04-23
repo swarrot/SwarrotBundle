@@ -25,7 +25,7 @@ interface FactoryInterface
      *
      * @return MessageProviderInterface
      */
-    public function getMessageProvider($name, $connection = null);
+    public function getMessageProvider($name, $connection);
 
     /**
      * getMessagePublisher
@@ -35,5 +35,5 @@ interface FactoryInterface
      *
      * @return MessagePublisherInterface
      */
-    public function getMessagePublisher($name, $connection = null);
+    public function getMessagePublisher($name, $connection);
 }

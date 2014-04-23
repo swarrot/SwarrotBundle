@@ -42,7 +42,7 @@ class PeclFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getMessagePublisher($name, $connection = null)
+    public function getMessagePublisher($name, $connection)
     {
     }
 

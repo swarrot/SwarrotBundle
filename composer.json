@@ -17,9 +17,7 @@
     "require-dev": {
         "phpunit/phpunit": "~3.7",
         "phpspec/prophecy": "~1.1",
-        "symfony/http-kernel": "@stable",
-        "symfony/config": "@stable",
-        "symfony/dependency-injection": "@stable"
+        "symfony/symfony": "@stable"
     },
     "config": {
         "bin-dir": "bin"
