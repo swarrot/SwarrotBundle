@@ -3,7 +3,6 @@
 namespace Swarrot\SwarrotBundle\Command;
 
 use Swarrot\SwarrotBundle\Tests\TestCase;
-use Swarrot\SwarrotBundle\Command\SwarrotCommand;
 
 class SwarrotCommandTest extends TestCase
 {

@@ -3,7 +3,6 @@
 namespace Swarrot\SwarrotBundle\Tests\DependencyInjection;
 
 use Swarrot\SwarrotBundle\Tests\TestCase;
-use Symfony\Component\Config\Definition\Processor;
 use Swarrot\SwarrotBundle\DependencyInjection\Configuration;
 
 class ConfigurationTest extends TestCase

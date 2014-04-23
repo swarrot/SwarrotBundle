@@ -3,7 +3,6 @@
 namespace Swarrot\SwarrotBundle\Broker;
 
 use Swarrot\SwarrotBundle\Tests\TestCase;
-use Swarrot\SwarrotBundle\Broker\PeclFactory;
 
 class PeclFactoryTest extends TestCase
 {
