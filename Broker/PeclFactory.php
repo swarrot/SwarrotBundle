@@ -41,11 +41,12 @@ class PeclFactory implements FactoryInterface
                 $this->messageProviders[$connection] = array();
             }
 
-            $this->messageProviders[$connection][$name] = new PeclPackageMessageProvider(
-                new \AMQPQueue(
-                    $this->getChannel($name, $connection)
-                )
+            $queue = new \AMQPQueue(
+                $this->getChannel($connection)
             );
+            $queue->setName($name);
+
+            $this->messageProviders[$connection][$name] = new PeclPackageMessageProvider($queue);
         }
 
         return $this->messageProviders[$connection][$name];
@@ -61,22 +62,22 @@ class PeclFactory implements FactoryInterface
     /**
      * getChannel
      *
-     * @param string $name
      * @param string $connection
      *
      * @throws \AMQPConnectionException
      *
      * @return \AMQPChannel
      */
-    protected function getChannel($name, $connection)
+    protected function getChannel($connection)
     {
-        if (isset($this->channels[$connection][$name])) {
-            return $this->channels[$connection][$name];
+        if (isset($this->channels[$connection])) {
+            return $this->channels[$connection];
         }
 
-        if (!isset($this->connection[$name])) {
+        if (!isset($this->connections[$connection])) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown connection "%s". Available: [%s]',
+                $connection,
                 implode(', ', array_keys($this->connections))
             ));
         }
@@ -85,12 +86,12 @@ class PeclFactory implements FactoryInterface
             $this->channels[$connection] = array();
         }
 
-        $conn = new \AMQPConnection($this->connection[$name]);
+        $conn = new \AMQPConnection($this->connections[$connection]);
         $conn->connect();
 
-        $this->channels[$connection][$name] = new \AMQPChannel($conn);
+        $this->channels[$connection] = new \AMQPChannel($conn);
 
-        return $this->channels[$connection][$name];
+        return $this->channels[$connection];
     }
 
     /**

@@ -8,6 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Swarrot\SwarrotBundle\Broker\FactoryInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
+use Swarrot\Processor\ProcessorInterface;
+use Swarrot\Consumer;
 
 /**
  * SwarrotCommand.
@@ -18,14 +20,14 @@ class SwarrotCommand extends ContainerAwareCommand
 {
     protected $factory;
     protected $name;
-    protected $processorId;
+    protected $processor;
     protected $connectionName;
 
-    public function __construct(FactoryInterface $factory, $name, $processorId, $connectionName)
+    public function __construct(FactoryInterface $factory, ProcessorInterface $processor, $name, $connectionName)
     {
         $this->factory        = $factory;
         $this->name           = $name;
-        $this->processorId    = $processorId;
+        $this->processor      = $processor;
         $this->connectionName = $connectionName;
 
         parent::__construct();
@@ -48,6 +50,13 @@ class SwarrotCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        //$messageProvider = $this->factory->getMessageProvider();
+        $queue = $input->getArgument('queue');
+        $connection = $input->getArgument('connection');
+
+        $messageProvider = $this->factory->getMessageProvider($queue, $connection);
+
+        $consumer = new Consumer($messageProvider, $this->processor);
+
+        $consumer->consume();
     }
 }

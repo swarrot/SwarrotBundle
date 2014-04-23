@@ -64,8 +64,8 @@ class SwarrotExtension extends Extension
         $container
             ->getDefinition($id)
             ->replaceArgument(0, $container->getDefinition('swarrot.channel_factory.pecl'))
-            ->replaceArgument(1, $name)
-            ->replaceArgument(2, $consumerConfig['processor'])
+            ->replaceArgument(1, new Reference($consumerConfig['processor']))
+            ->replaceArgument(2, $name)
             ->replaceArgument(3, $consumerConfig['connection'])
         ;
 
