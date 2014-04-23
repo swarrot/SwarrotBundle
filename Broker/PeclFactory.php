@@ -6,9 +6,8 @@ use Swarrot\Broker\MessageProvider\PeclPackageMessageProvider;
 
 class PeclFactory implements FactoryInterface
 {
-    protected $connections = array();
-    protected $defaultConnection;
-
+    protected $connections      = array();
+    protected $channels         = array();
     protected $messageProviders = array();
 
     /**
@@ -22,20 +21,8 @@ class PeclFactory implements FactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function setDefaultConnection($name)
+    public function getMessageProvider($name, $connection)
     {
-        $this->defaultConnection = $name;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getMessageProvider($name, $connection = null)
-    {
-        if (null === $connection) {
-            $connection = $this->getDefaultConnection();
-        }
-
         if (!isset($this->messageProviders[$connection][$name])) {
             if (!isset($this->messageProviders[$connection])) {
                 $this->messageProviders[$connection] = array();
@@ -92,19 +79,5 @@ class PeclFactory implements FactoryInterface
         $this->channels[$connection] = new \AMQPChannel($conn);
 
         return $this->channels[$connection];
-    }
-
-    /**
-     * getDefaultConnection
-     *
-     * @return string
-     */
-    protected function getDefaultConnection()
-    {
-        if (null === $this->defaultConnection) {
-            $this->setDefaultConnection(key($this->connection));
-        }
-
-        return $this->defaultConnection;
     }
 }

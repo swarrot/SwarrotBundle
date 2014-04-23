@@ -18,15 +18,6 @@ interface FactoryInterface
     public function addConnection($name, array $connection);
 
     /**
-     * setDefaultConnection
-     *
-     * @param string $name The connection name
-     *
-     * @return void
-     */
-    public function setDefaultConnection($name);
-
-    /**
      * getMessageProvider
      *
      * @param string $name       The name of the queue where the MessageProviderInterface will found messages
