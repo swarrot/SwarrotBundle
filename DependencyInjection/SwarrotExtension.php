@@ -29,32 +29,20 @@ class SwarrotExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('swarrot.xml');
 
-        if ('pecl' === $config['provider']) {
-            $id = 'swarrot.channel_factory.pecl';
-        } else {
-            throw new \InvalidArgumentException('Only pecl is supported for now');
-        }
-        $definition = $container->getDefinition($id);
-
-        foreach ($config['connections'] as $name => $connectionConfig) {
-            $definition->addMethodCall('addConnection', array(
-                $name,
-                $connectionConfig
-            ));
-        }
-
         if (null === $config['default_connection']) {
             reset($config['connections']);
             $config['default_connection'] = key($config['connections']);
         }
 
-        $container->setAlias('swarrot.channel_factory.default', $id);
+        $container->setParameter('swarrot.config', array($config['provider'], $config['connections']));
 
         $commands = array();
+
         foreach ($config['consumers'] as $name => $consumerConfig) {
             if (null === $consumerConfig['command']) {
                 $consumerConfig['command'] = $config['default_command'];
             }
+
             if (null === $consumerConfig['connection']) {
                 $consumerConfig['connection'] = $config['default_connection'];
             }
