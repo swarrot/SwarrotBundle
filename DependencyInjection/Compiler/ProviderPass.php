@@ -35,7 +35,11 @@ class ProviderPass implements CompilerPassInterface
         $broker     = $brokers[$provider];
         $definition = $container->getDefinition($broker);
 
-        // todo : verification that the choosen broker implements FactoryInterface ? Need to use reflection
+        $reflection = new \ReflectionClass($definition->getClass());
+
+        if (!$reflection->implementsInterface('Swarrot\\SwarrotBundle\\Broker\\FactoryInterface')) {
+            throw new \InvalidArgumentException(sprintf('The provider "%s" is not valid', $provider));
+        }
 
         foreach ($connections as $name => $config) {
             $definition->addMethodCall('addConnection', array(
