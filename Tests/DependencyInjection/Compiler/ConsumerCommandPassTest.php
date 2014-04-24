@@ -28,7 +28,6 @@ class ConsumerCommandPassTest extends TestCase
             ->willReturn(false)
             ->shouldBeCalledTimes(1);
 
-        $container->getAlias()->shouldNotBeCalled();
         $container->setParameter()->shouldNotBeCalled();
         $container->getParameter()->shouldNotBeCalled();
         $container->setDefinition()->shouldNotBeCalled();
@@ -47,10 +46,6 @@ class ConsumerCommandPassTest extends TestCase
             ->willReturn(true)
             ->shouldBeCalledTimes(1);
 
-        $container->getAlias(Argument::exact('swarrot.channel_factory.default'))
-            ->willReturn('swarrot.channel_factory.foo')
-            ->shouldBeCalledTimes(1);
-
         $container->getParameter(Argument::exact('swarrot.consumers'))
             ->willReturn(array(
                 'foo' => array(
@@ -67,19 +62,15 @@ class ConsumerCommandPassTest extends TestCase
                     return false;
                 }
 
-                if (!$decorator->getArgument(0) instanceof Reference || 'swarrot.channel_factory.foo' !== (string) $decorator->getArgument(0)) {
+                if ('foo' !== $decorator->getArgument(0)) {
                     return false;
                 }
 
-                if (!$decorator->getArgument(1) instanceof Reference || 'bar' !== (string) $decorator->getArgument(1)) {
+                if ('baz' !== $decorator->getArgument(1)) {
                     return false;
                 }
 
-                if ('foo' !== $decorator->getArgument(2)) {
-                    return false;
-                }
-
-                if ('baz' !== $decorator->getArgument(3)) {
+                if (!$decorator->getArgument(2) instanceof Reference || 'bar' !== (string) $decorator->getArgument(2)) {
                     return false;
                 }
 
