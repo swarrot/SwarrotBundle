@@ -38,19 +38,17 @@ class SwarrotExtension extends Extension
 
         $commands = array();
 
-        foreach ($config['consumers'] as $name => $consumerConfig) {
-            if (null === $consumerConfig['command']) {
-                $consumerConfig['command'] = $config['default_command'];
+        foreach ($config['consumers'] as $name => &$consumer) {
+            if (null === $consumer['command']) {
+                $consumer['command'] = $config['default_command'];
             }
 
-            if (null === $consumerConfig['connection']) {
-                $consumerConfig['connection'] = $config['default_connection'];
+            if (null === $consumer['connection']) {
+                $consumer['connection'] = $config['default_connection'];
             }
-
-            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig);
         }
 
-        $container->setParameter('swarrot.commands', $commands);
+        $container->setParameter('swarrot.consumers', $config['consumers']);
 
         $messagesTypes = array();
         foreach ($config['messages_types'] as $name => $messageConfig) {
@@ -62,19 +60,5 @@ class SwarrotExtension extends Extension
         }
 
         $container->setParameter('swarrot.messages_types', $messagesTypes);
-    }
-
-    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig)
-    {
-        $id = 'swarrot.command.generated.'.$name;
-        $container->setDefinition($id, new DefinitionDecorator('swarrot.command.base'));
-        $container
-            ->getDefinition($id)
-            ->replaceArgument(0, $name)
-            ->replaceArgument(1, $consumerConfig['connection'])
-            ->replaceArgument(2, new Reference($consumerConfig['processor']))
-        ;
-
-        return $id;
     }
 }
