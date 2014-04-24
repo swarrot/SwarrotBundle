@@ -89,6 +89,28 @@ class SwarrotCommand extends ContainerAwareCommand
 
         $consumer = new Consumer($messageProvider, $processor);
 
-        $consumer->consume();
+        $consumer->consume($this->getOptions($input));
+    }
+
+    /**
+     * getOptions
+     *
+     * @param InputInterface $input
+     *
+     * @return array
+     */
+    protected function getOptions(InputInterface $input)
+    {
+        $options = array(
+            'max_messages'       => (int) $input->getOption('max-messages'),
+            'max_execution_time' => (int) $input->getOption('max-execution-time'),
+            'poll_interval'      => (int) $input->getOption('poll-interval'),
+        );
+
+        if ($input->getOption('requeue-on-error')) {
+            $options['requeue_on_error'] = true;
+        }
+
+        return $options;
     }
 }
