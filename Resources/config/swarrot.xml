@@ -5,6 +5,7 @@
     <parameters>
         <parameter key="swarrot.channel_factory.pecl.class">Swarrot\SwarrotBundle\Broker\PeclFactory</parameter>
         <parameter key="swarrot.command.base.class">Swarrot\SwarrotBundle\Command\SwarrotCommand</parameter>
+        <parameter key="swarrot.publisher.class">Swarrot\SwarrotBundle\Broker\Publisher</parameter>
     </parameters>
 
     <services>
@@ -16,6 +17,11 @@
             <argument />
             <argument />
             <argument type="service" id="logger" />
+        </service>
+
+        <service id="swarrot.publisher" class="%swarrot.publisher.class%">
+            <argument type="service" id="swarrot.channel_factory.default" />
+            <argument>%swarrot.messages_types%</argument>
         </service>
     </services>
 </container>

@@ -53,6 +53,16 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('messages_types')
+                    ->useAttributeAsKey('name')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('connection')->defaultValue(null)->end()
+                            ->scalarNode('exchange')->isRequired()->end()
+                            ->scalarNode('routing_key')->defaultValue(null)->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 

@@ -30,10 +30,11 @@ class SwarrotExtension extends Extension
         $loader->load('swarrot.xml');
 
         if ('pecl' === $config['provider']) {
-            $definition = $container->getDefinition('swarrot.channel_factory.pecl');
+            $id = 'swarrot.channel_factory.pecl';
         } else {
             throw new \InvalidArgumentException('Only pecl is supported for now');
         }
+        $definition = $container->getDefinition($id);
 
         foreach ($config['connections'] as $name => $connectionConfig) {
             $definition->addMethodCall('addConnection', array(
@@ -41,6 +42,8 @@ class SwarrotExtension extends Extension
                 $connectionConfig
             ));
         }
+
+        $container->setAlias('swarrot.channel_factory.default', $id);
 
         $commands = array();
         foreach ($config['consumers'] as $name => $consumerConfig) {
@@ -55,6 +58,17 @@ class SwarrotExtension extends Extension
         }
 
         $container->setParameter('swarrot.commands', $commands);
+
+        $messagesTypes = array();
+        foreach ($config['messages_types'] as $name => $messageConfig) {
+            if (null === $messageConfig['connection']) {
+                $messageConfig['connection'] = $config['default_connection'];
+            }
+
+            $messagesTypes[$name] = $messageConfig;
+        }
+
+        $container->setParameter('swarrot.messages_types', $messagesTypes);
     }
 
     public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig)
