@@ -1,6 +1,6 @@
 <?php
 
-namespace Broker;
+namespace Swarrot\SwarrotBundle\Broker;
 
 class Publisher
 {
@@ -16,14 +16,14 @@ class Publisher
     /**
      * publish
      *
-     * @param string $messageType
+     * @param string  $messageType
      * @param Message $message
      *
      * @return void
      */
     public function publish($messageType, Message $message)
     {
-        if (!isset($this->messageTypes[$messageType])) {
+        if (!$this->isKnownMessageType($messageType)) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown message type "%s". Available are [].',
                 $messageType,
@@ -35,5 +35,17 @@ class Publisher
         $messagePublisher = $this->factory->getMessagePublisher($config['exchange'], $config['conenction']);
 
         $messagePublisher->publish($message, $config['routing_key']);
+    }
+
+    /**
+     * isKnownMessageType
+     *
+     * @param string $messageType
+     *
+     * @return boolean
+     */
+    public function isKnownMessageType($messageType)
+    {
+        return isset($this->messageTypes[$messageType]);
     }
 }
