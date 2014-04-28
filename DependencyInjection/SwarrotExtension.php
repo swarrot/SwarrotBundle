@@ -43,6 +43,11 @@ class SwarrotExtension extends Extension
             ));
         }
 
+        if (null === $config['default_connection']) {
+            reset($config['connections']);
+            $config['default_connection'] = key($config['connections']);
+        }
+
         $container->setAlias('swarrot.channel_factory.default', $id);
 
         $commands = array();
