@@ -3,6 +3,7 @@
 namespace Swarrot\SwarrotBundle\Broker;
 
 use Swarrot\Broker\MessageProvider\PeclPackageMessageProvider;
+use Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher;
 
 class PeclFactory implements FactoryInterface
 {
@@ -44,6 +45,20 @@ class PeclFactory implements FactoryInterface
      */
     public function getMessagePublisher($name, $connection)
     {
+        if (!isset($this->messagePublishers[$connection][$name])) {
+            if (!isset($this->messagePublishers[$connection])) {
+                $this->messagePublishers[$connection] = array();
+            }
+
+            $exchange = new \AMQPExchange(
+                $this->getChannel($connection)
+            );
+            $exchange->setName($name);
+
+            $this->messagePublishers[$connection][$name] = new PeclPackageMessagePublisher($exchange);
+        }
+
+        return $this->messagePublishers[$connection][$name];
     }
 
     /**

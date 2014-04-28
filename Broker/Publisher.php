@@ -2,6 +2,8 @@
 
 namespace Swarrot\SwarrotBundle\Broker;
 
+use Swarrot\Broker\Message;
+
 class Publisher
 {
     protected $factory;
@@ -32,7 +34,7 @@ class Publisher
         }
 
         $config = $this->messageTypes[$messageType];
-        $messagePublisher = $this->factory->getMessagePublisher($config['exchange'], $config['conenction']);
+        $messagePublisher = $this->factory->getMessagePublisher($config['exchange'], $config['connection']);
 
         $messagePublisher->publish($message, $config['routing_key']);
     }
