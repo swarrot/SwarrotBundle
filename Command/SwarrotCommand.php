@@ -20,18 +20,16 @@ use Psr\Log\LoggerInterface;
  */
 class SwarrotCommand extends ContainerAwareCommand
 {
-    protected $factory;
     protected $name;
-    protected $processor;
     protected $connectionName;
+    protected $processor;
     protected $logger;
 
-    public function __construct(FactoryInterface $factory, ProcessorInterface $processor, $name, $connectionName, LoggerInterface $logger = null)
+    public function __construct($name, $connectionName, ProcessorInterface $processor, LoggerInterface $logger = null)
     {
-        $this->factory        = $factory;
         $this->name           = $name;
-        $this->processor      = $processor;
         $this->connectionName = $connectionName;
+        $this->processor      = $processor;
         $this->logger         = $logger;
 
         parent::__construct();
@@ -49,7 +47,7 @@ class SwarrotCommand extends ContainerAwareCommand
             ->addOption('requeue-on-error', 'r', InputOption::VALUE_NONE, 'Requeue in the same queue on error')
             ->addOption('no-catch', 'C', InputOption::VALUE_NONE, 'Deactivate exception catching.')
             ->addOption('poll-interval', null, InputOption::VALUE_REQUIRED, 'Poll interval (in micro-seconds)', 500000)
-            ;
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -57,7 +55,8 @@ class SwarrotCommand extends ContainerAwareCommand
         $queue = $input->getArgument('queue');
         $connection = $input->getArgument('connection');
 
-        $messageProvider = $this->factory->getMessageProvider($queue, $connection);
+        $factory = $this->getContainer()->get('swarrot.channel_factory.default');
+        $messageProvider = $factory->getMessageProvider($queue, $connection);
 
         $stack = new Builder();
 
