@@ -7,9 +7,10 @@ use Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher;
 
 class PeclFactory implements FactoryInterface
 {
-    protected $connections      = array();
-    protected $channels         = array();
-    protected $messageProviders = array();
+    protected $connections       = array();
+    protected $channels          = array();
+    protected $messageProviders  = array();
+    protected $messagePublishers = array();
 
     /**
      * {@inheritDoc}
