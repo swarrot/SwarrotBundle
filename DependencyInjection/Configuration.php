@@ -19,14 +19,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('provider')
-                    ->defaultValue('pecl')
-                    ->isRequired()
-                    ->validate()
-                    ->ifNotInArray(array('pecl', 'amqp_lib'))
-                        ->thenInvalid('Invalid provider "%s"')
-                    ->end()
-                ->end()
+                ->scalarNode('provider')->defaultValue('pecl')->isRequired()->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
                 ->scalarNode('default_command')->defaultValue('swarrot.command.base')->cannotBeEmpty()->end()
                 ->arrayNode('connections')

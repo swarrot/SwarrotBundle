@@ -9,7 +9,9 @@
     </parameters>
 
     <services>
-        <service id="swarrot.channel_factory.pecl" class="%swarrot.channel_factory.pecl.class%" />
+        <service id="swarrot.channel_factory.pecl" class="%swarrot.channel_factory.pecl.class%">
+            <tag name="swarrot.provider" alias="pecl" />
+        </service>
 
         <service id="swarrot.command.base" class="%swarrot.command.base.class%" abstract="true">
             <argument />

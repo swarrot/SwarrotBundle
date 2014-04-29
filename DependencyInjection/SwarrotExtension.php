@@ -29,40 +29,26 @@ class SwarrotExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('swarrot.xml');
 
-        if ('pecl' === $config['provider']) {
-            $id = 'swarrot.channel_factory.pecl';
-        } else {
-            throw new \InvalidArgumentException('Only pecl is supported for now');
-        }
-        $definition = $container->getDefinition($id);
-
-        foreach ($config['connections'] as $name => $connectionConfig) {
-            $definition->addMethodCall('addConnection', array(
-                $name,
-                $connectionConfig
-            ));
-        }
-
         if (null === $config['default_connection']) {
             reset($config['connections']);
             $config['default_connection'] = key($config['connections']);
         }
 
-        $container->setAlias('swarrot.channel_factory.default', $id);
+        $container->setParameter('swarrot.config', array($config['provider'], $config['connections']));
 
         $commands = array();
-        foreach ($config['consumers'] as $name => $consumerConfig) {
-            if (null === $consumerConfig['command']) {
-                $consumerConfig['command'] = $config['default_command'];
-            }
-            if (null === $consumerConfig['connection']) {
-                $consumerConfig['connection'] = $config['default_connection'];
+
+        foreach ($config['consumers'] as $name => &$consumer) {
+            if (null === $consumer['command']) {
+                $consumer['command'] = $config['default_command'];
             }
 
-            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig);
+            if (null === $consumer['connection']) {
+                $consumer['connection'] = $config['default_connection'];
+            }
         }
 
-        $container->setParameter('swarrot.commands', $commands);
+        $container->setParameter('swarrot.consumers', $config['consumers']);
 
         $messagesTypes = array();
         foreach ($config['messages_types'] as $name => $messageConfig) {
@@ -74,19 +60,5 @@ class SwarrotExtension extends Extension
         }
 
         $container->setParameter('swarrot.messages_types', $messagesTypes);
-    }
-
-    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig)
-    {
-        $id = 'swarrot.command.generated.'.$name;
-        $container->setDefinition($id, new DefinitionDecorator('swarrot.command.base'));
-        $container
-            ->getDefinition($id)
-            ->replaceArgument(0, $name)
-            ->replaceArgument(1, $consumerConfig['connection'])
-            ->replaceArgument(2, new Reference($consumerConfig['processor']))
-        ;
-
-        return $id;
     }
 }
