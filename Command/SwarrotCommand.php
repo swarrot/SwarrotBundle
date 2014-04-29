@@ -5,7 +5,6 @@ namespace Swarrot\SwarrotBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Swarrot\SwarrotBundle\Broker\FactoryInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Swarrot\Processor\ProcessorInterface;
