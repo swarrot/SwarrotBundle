@@ -131,7 +131,7 @@ class SwarrotCommand extends ContainerAwareCommand
             $options['requeue_on_error'] = (bool) $input->getOption('requeue-on-error');
         }
 
-        if (array_key_exists('retry', $this->processorStack)) {
+        if (array_key_exists('retry', $this->processorStack) && !$input->getOption('no-retry')) {
             $key = 'retry_%attempt%s';
             if (isset($this->extras['retry_routing_key_pattern'])) {
                 $key = $this->extras['retry_routing_key_pattern'];
