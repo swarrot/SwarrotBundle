@@ -10,7 +10,7 @@ class SwarrotCommandTest extends TestCase
     {
         $processor = $this->prophet->prophesize('Swarrot\Processor\ProcessorInterface');
 
-        $command = new SwarrotCommand('foobar', 'foobar', $processor->reveal());
+        $command = new SwarrotCommand('foobar', 'foobar', $processor->reveal(), array(), array());
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Command\SwarrotCommand', $command);
     }
 }

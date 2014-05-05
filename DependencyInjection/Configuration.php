@@ -7,6 +7,15 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    protected $knownProcessors = array(
+        'ack'                => 'Swarrot\Processor\Ack\AckProcessor',
+        'exception_catcher'  => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
+        'max_execution_time' => 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
+        'max_messages'       => 'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
+        'retry'              => 'Swarrot\Processor\Retry\RetryProcessor',
+        'signal_handler'     => 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor',
+    );
+
     /**
      * Generates the configuration tree.
      *
@@ -50,6 +59,9 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('processor')->isRequired()->end()
                             ->scalarNode('command')->defaultValue(null)->end()
                             ->scalarNode('connection')->defaultValue(null)->end()
+                            ->arrayNode('extras')
+                                ->prototype('scalar')->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()
@@ -61,10 +73,30 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('exchange')->isRequired()->end()
                             ->scalarNode('routing_key')->defaultValue(null)->end()
                             ->arrayNode('extras')
-                                ->prototype('scalar')
+                                ->prototype('scalar')->end()
                             ->end()
                         ->end()
                     ->end()
+                ->end()
+                ->arrayNode('processors_stack')
+                    ->beforeNormalization()
+                        ->ifArray()
+                        ->then(function ($v) {
+                            foreach ($v as $key => $class) {
+                                if (!array_key_exists($key, $this->knownProcessors)) {
+                                    continue;
+                                }
+
+                                if (!isset($class) || null === $class) {
+                                    $v[$key] = $this->knownProcessors[$key];
+                                }
+                            }
+
+                            return $v;
+                        })
+                    ->end()
+                    ->useAttributeAsKey('name')
+                    ->prototype('scalar')->isRequired()->end()
                 ->end()
             ->end()
         ;

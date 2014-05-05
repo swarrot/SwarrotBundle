@@ -59,7 +59,7 @@ class SwarrotExtension extends Extension
                 $consumerConfig['connection'] = $config['default_connection'];
             }
 
-            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig);
+            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig, $config['processors_stack']);
         }
 
         $container->setParameter('swarrot.commands', $commands);
@@ -76,7 +76,17 @@ class SwarrotExtension extends Extension
         $container->setParameter('swarrot.messages_types', $messagesTypes);
     }
 
-    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig)
+    /**
+     * buildCommand
+     *
+     * @param ContainerBuilder $container
+     * @param string $name
+     * @param array $consumerConfig
+     * @param array $processorStack
+     *
+     * @return string
+     */
+    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig, array $processorStack)
     {
         $id = 'swarrot.command.generated.'.$name;
         $container->setDefinition($id, new DefinitionDecorator('swarrot.command.base'));
@@ -85,6 +95,8 @@ class SwarrotExtension extends Extension
             ->replaceArgument(0, $name)
             ->replaceArgument(1, $consumerConfig['connection'])
             ->replaceArgument(2, new Reference($consumerConfig['processor']))
+            ->replaceArgument(3, $processorStack)
+            ->replaceArgument(4, $consumerConfig['extras'])
         ;
 
         return $id;
