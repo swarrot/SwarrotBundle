@@ -81,13 +81,13 @@ class SwarrotCommand extends ContainerAwareCommand
         if (array_key_exists('exception_catcher', $this->processorStack) && !$input->getOption('no-catch')) {
             $stack->push($this->processorStack['exception_catcher'], $this->logger);
         }
-        if (array_key_exists('max_messages', $this->processorStack) && !$input->getOption('no-catch')) {
+        if (array_key_exists('max_messages', $this->processorStack)) {
             $stack->push($this->processorStack['max_messages'], $this->logger);
         }
-        if (array_key_exists('max_execution_time', $this->processorStack) && !$input->getOption('no-catch')) {
+        if (array_key_exists('max_execution_time', $this->processorStack)) {
             $stack->push($this->processorStack['max_execution_time'], $this->logger);
         }
-        if (array_key_exists('ack', $this->processorStack) && !$input->getOption('no-catch')) {
+        if (array_key_exists('ack', $this->processorStack)) {
             $stack->push($this->processorStack['ack'], $messageProvider, $this->logger);
         }
 
