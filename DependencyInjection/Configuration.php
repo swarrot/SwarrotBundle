@@ -26,6 +26,8 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('swarrot');
 
+        $knownProcessors = $this->knownProcessors;
+
         $rootNode
             ->children()
                 ->scalarNode('provider')
@@ -81,14 +83,14 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('processors_stack')
                     ->beforeNormalization()
                         ->ifArray()
-                        ->then(function ($v) {
+                        ->then(function ($v) use ($knownProcessors) {
                             foreach ($v as $key => $class) {
-                                if (!array_key_exists($key, $this->knownProcessors)) {
+                                if (!array_key_exists($key, $knownProcessors)) {
                                     continue;
                                 }
 
                                 if (!isset($class) || null === $class) {
-                                    $v[$key] = $this->knownProcessors[$key];
+                                    $v[$key] = $knownProcessors[$key];
                                 }
                             }
 
