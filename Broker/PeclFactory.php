@@ -11,6 +11,8 @@ class PeclFactory implements FactoryInterface
     protected $channels          = array();
     protected $messageProviders  = array();
     protected $messagePublishers = array();
+    protected $queues            = array();
+    protected $exchanges         = array();
 
     /**
      * {@inheritDoc}
@@ -30,10 +32,7 @@ class PeclFactory implements FactoryInterface
                 $this->messageProviders[$connection] = array();
             }
 
-            $queue = new \AMQPQueue(
-                $this->getChannel($connection)
-            );
-            $queue->setName($name);
+            $queue = $this->getQueue($name, $connection);
 
             $this->messageProviders[$connection][$name] = new PeclPackageMessageProvider($queue);
         }
@@ -51,15 +50,64 @@ class PeclFactory implements FactoryInterface
                 $this->messagePublishers[$connection] = array();
             }
 
-            $exchange = new \AMQPExchange(
-                $this->getChannel($connection)
-            );
-            $exchange->setName($name);
+            $exchange = $this->getExchange($name, $connection);
 
             $this->messagePublishers[$connection][$name] = new PeclPackageMessagePublisher($exchange);
         }
 
         return $this->messagePublishers[$connection][$name];
+    }
+
+    /**
+     * getQueue
+     *
+     * @param string $name
+     * @param string $connection
+     *
+     * @return \AMQPQueue
+     */
+    public function getQueue($name, $connection)
+    {
+        if (!isset($this->queues[$connection][$name])) {
+            if (!isset($this->queues[$connection])) {
+                $this->queues[$connection] = array();
+            }
+
+            $queue = new \AMQPQueue(
+                $this->getChannel($connection)
+            );
+            $queue->setName($name);
+
+            $this->queues[$connection][$name] = $queue;
+        }
+
+        return $this->queues[$connection][$name];
+    }
+
+    /**
+     * getExchange
+     *
+     * @param string $name
+     * @param string $connection
+     *
+     * @return \AMQPExchange
+     */
+    public function getExchange($name, $connection)
+    {
+        if (!isset($this->exchanges[$connection][$name])) {
+            if (!isset($this->exchanges[$connection])) {
+                $this->exchanges[$connection] = array();
+            }
+
+            $exchange = new \AMQPExchange(
+                $this->getChannel($connection)
+            );
+            $exchange->setName($name);
+
+            $this->exchanges[$connection][$name] = $exchange;
+        }
+
+        return $this->exchanges[$connection][$name];
     }
 
     /**
