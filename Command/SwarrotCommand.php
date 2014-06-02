@@ -70,7 +70,7 @@ class SwarrotCommand extends ContainerAwareCommand
         $queue = $input->getArgument('queue');
         $connection = $input->getArgument('connection');
 
-        $factory = $this->getContainer()->get('swarrot.channel_factory.default');
+        $factory = $this->getContainer()->get('swarrot.factory.default');
         $messageProvider = $factory->getMessageProvider($queue, $connection);
 
         $stack = new Builder();

@@ -30,7 +30,7 @@ class SwarrotExtension extends Extension
         $loader->load('swarrot.xml');
 
         if ('pecl' === $config['provider']) {
-            $id = 'swarrot.channel_factory.pecl';
+            $id = 'swarrot.factory.pecl';
         } else {
             throw new \InvalidArgumentException('Only pecl is supported for now');
         }
@@ -48,7 +48,7 @@ class SwarrotExtension extends Extension
             $config['default_connection'] = key($config['connections']);
         }
 
-        $container->setAlias('swarrot.channel_factory.default', $id);
+        $container->setAlias('swarrot.factory.default', $id);
 
         $commands = array();
         foreach ($config['consumers'] as $name => $consumerConfig) {
