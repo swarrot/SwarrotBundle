@@ -50,4 +50,24 @@ class Publisher
     {
         return isset($this->messageTypes[$messageType]);
     }
+
+    /**
+     * getConfigForMessageType
+     *
+     * @param string $messageType
+     *
+     * @return array
+     */
+    public function getConfigForMessageType($messageType)
+    {
+        if (!$this->isKnownMessageType($messageType)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Unknown message type "%s". Available are [%s].',
+                $messageType,
+                implode(array_keys($this->messageTypes))
+            ));
+        }
+
+        return $this->messageTypes[$messageType];
+    }
 }
