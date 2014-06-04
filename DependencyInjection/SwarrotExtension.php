@@ -89,7 +89,7 @@ class SwarrotExtension extends Extension
     public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig, array $processorStack)
     {
         $id = 'swarrot.command.generated.'.$name;
-        $container->setDefinition($id, new DefinitionDecorator('swarrot.command.base'));
+        $container->setDefinition($id, new DefinitionDecorator($consumerConfig['command']));
         $container
             ->getDefinition($id)
             ->replaceArgument(0, $name)
