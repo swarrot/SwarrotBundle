@@ -2,14 +2,14 @@
 
 namespace Swarrot\SwarrotBundle\DataCollector;
 
-use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
+use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 
-class SwarrotDataCollector implements DataCollectorInterface
+class SwarrotDataCollector extends DataCollector
 {
-    protected $publishedMessages = array();
+    protected $data = array();
 
     /**
      * {@inheritDoc}
@@ -27,7 +27,7 @@ class SwarrotDataCollector implements DataCollectorInterface
      */
     public function onMessagePublished(MessagePublishedEvent $event)
     {
-        $this->publishedMessages[] = array(
+        $this->data[] = array(
             'message_type' => $event->getMessageType(),
             'message'      => $event->getMessage(),
             'connection'   => $event->getConnection(),
@@ -43,7 +43,7 @@ class SwarrotDataCollector implements DataCollectorInterface
      */
     public function getMessages()
     {
-        return $this->publishedMessages;
+        return $this->data;
     }
 
     /**
@@ -53,7 +53,7 @@ class SwarrotDataCollector implements DataCollectorInterface
      */
     public function getNbMessages()
     {
-        return count($this->publishedMessages);
+        return count($this->data);
     }
 
     /**
