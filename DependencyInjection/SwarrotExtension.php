@@ -84,9 +84,9 @@ class SwarrotExtension extends Extension
      * buildCommand
      *
      * @param ContainerBuilder $container
-     * @param string $name
-     * @param array $consumerConfig
-     * @param array $processorStack
+     * @param string           $name
+     * @param array            $consumerConfig
+     * @param array            $processorStack
      *
      * @return string
      */
