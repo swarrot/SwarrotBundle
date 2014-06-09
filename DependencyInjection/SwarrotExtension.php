@@ -74,6 +74,10 @@ class SwarrotExtension extends Extension
         }
 
         $container->setParameter('swarrot.messages_types', $messagesTypes);
+
+        if ($config['enable_collector']) {
+            $loader->load('collector.xml');
+        }
     }
 
     /**

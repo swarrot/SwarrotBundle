@@ -30,6 +30,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->booleanNode('enable_collector')->defaultValue(false)->end()
                 ->scalarNode('provider')
                     ->defaultValue('pecl')
                     ->isRequired()

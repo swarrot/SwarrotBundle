@@ -3,16 +3,20 @@
 namespace Swarrot\SwarrotBundle\Broker;
 
 use Swarrot\Broker\Message;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 
 class Publisher
 {
     protected $factory;
+    protected $eventDispatcher;
     protected $messageTypes;
 
-    public function __construct(FactoryInterface $factory, array $messageTypes = array())
+    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = array())
     {
-        $this->factory      = $factory;
-        $this->messageTypes = $messageTypes;
+        $this->factory         = $factory;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->messageTypes    = $messageTypes;
     }
 
     /**
@@ -42,6 +46,11 @@ class Publisher
         $messagePublisher = $this->factory->getMessagePublisher($exchange, $connection);
 
         $messagePublisher->publish($message, $routingKey);
+
+        $this->eventDispatcher->dispatch(
+            MessagePublishedEvent::NAME,
+            new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey)
+        );
     }
 
     /**
