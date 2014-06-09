@@ -1,8 +1,9 @@
 <?php
 
-namespace Swarrot\SwarrotBundle\Broker;
+namespace Swarrot\SwarrotBundle\Tests\Broker;
 
 use Swarrot\SwarrotBundle\Tests\TestCase;
+use Swarrot\SwarrotBundle\Broker\PeclFactory;
 
 class PeclFactoryTest extends TestCase
 {

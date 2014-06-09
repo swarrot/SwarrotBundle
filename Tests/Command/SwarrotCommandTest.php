@@ -1,8 +1,9 @@
 <?php
 
-namespace Swarrot\SwarrotBundle\Command;
+namespace Swarrot\SwarrotBundle\Tests\Command;
 
 use Swarrot\SwarrotBundle\Tests\TestCase;
+use Swarrot\SwarrotBundle\Command\SwarrotCommand;
 
 class SwarrotCommandTest extends TestCase
 {
