@@ -1,0 +1,15 @@
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="swarrot.data_collector.class">Swarrot\SwarrotBundle\DataCollector\SwarrotDataCollector</parameter>
+    </parameters>
+
+    <services>
+        <service id="swarrot.data_collector" class="%swarrot.data_collector.class%">
+            <tag name="data_collector" template="SwarrotBundle:Collector:collector.html.twig" id="swarrot" />
+            <tag name="kernel.event_listener" event="swarrot.message_published" method="onMessagePublished" />
+        </service>
+    </services>
+</container>

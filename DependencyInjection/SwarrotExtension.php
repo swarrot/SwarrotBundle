@@ -74,15 +74,19 @@ class SwarrotExtension extends Extension
         }
 
         $container->setParameter('swarrot.messages_types', $messagesTypes);
+
+        if ($container->getParameter('kernel.debug')) {
+            $loader->load('collector.xml');
+        }
     }
 
     /**
      * buildCommand
      *
      * @param ContainerBuilder $container
-     * @param string $name
-     * @param array $consumerConfig
-     * @param array $processorStack
+     * @param string           $name
+     * @param array            $consumerConfig
+     * @param array            $processorStack
      *
      * @return string
      */
