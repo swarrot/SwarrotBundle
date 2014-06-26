@@ -25,5 +25,10 @@
     },
     "autoload": {
         "psr-4": { "Swarrot\\SwarrotBundle\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
     }
 }
