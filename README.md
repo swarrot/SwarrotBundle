@@ -26,6 +26,20 @@ package into your `composer.json` file:
 [`swarrot/swarrot-bundle`](https://packagist.org/packages/swarrot/swarrot-bundle)
 page to choose a stable version to use, avoid the `@stable` meta constraint.
 
+Update `app/AppKernel.php`:
+
+```php
+public function registerBundles()
+{
+    $bundles = array(
+        // ...
+        new Swarrot\Bundle\SwarrotBundle\SwarrotBundle(),
+    );
+
+    return $bundles;
+}
+```
+
 ## Configuration reference
 
 ```
