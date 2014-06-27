@@ -108,8 +108,8 @@ app/console swarrot:consume:my_consumer_name queue_name [connection_name]
 ```
 
 Your processor will automatically be decorated by all processors named in the
-`processors_stack` section. No matthers the order you named your
-processors, here is the default order:
+`processors_stack` section. No matter the order you list your processors,
+here is the default order:
 
 * SignalHandler
 * ExceptionCatcher
