@@ -74,16 +74,16 @@ $message = new \Swarrot\Broker\Message\Message('"My first message with the aweso
 
 Then you can publish a new message into a predefined configuration (connection, exchange, routing_key, etc.) from your ```message_types```.
 ```php
-    $messagePublisher->publish('webhook.send', $message);
+$messagePublisher->publish('webhook.send', $message);
 ```
 
 When publishing a message you can override the ```message_types``` configuration by passing a third argument:
 ```php
-    $messagePublisher->publish('webhook.send', $message, array(
-        'exchange' => 'my_new_echange',
-        'connection' => 'my_second_connection',
-        'routing_key' => 'my_new_routing_key'
-    );
+$messagePublisher->publish('webhook.send', $message, array(
+    'exchange' => 'my_new_echange',
+    'connection' => 'my_second_connection',
+    'routing_key' => 'my_new_routing_key'
+);
 ```
 
 ## License
