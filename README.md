@@ -52,7 +52,40 @@ swarrot:
                 retry_exchange: my_consumer_exchange
                 retry_attempts: 3
                 retry_routing_key_pattern: 'retry_%%attempt%%'
+    messages_types:
+        my_publisher:
+            connection: rabbitmq // use the default connection by default
+            exchange: my_exchange
+            routing_key: my_routing_key
+
 ```
+
+## Publish a message
+
+First step is to retrieve the swarrot publisher service from your controller.
+```php
+$messagePublisher = $this->get('swarrot.publisher');
+```
+
+After you need to prepare your message with the [Message](https://github.com/swarrot/swarrot/blob/master/src/Swarrot/Broker/Message.php) class.
+```php
+$message = new \Swarrot\Broker\Message\Message('"My first message with the awesome Swarrot lib :)"');
+```
+
+Then you can publish a new message into a predefined configuration (connection, exchange, routing_key, etc.) from your ```message_types```.
+```php
+    $messagePublisher->publish('webhook.send', $message);
+```
+
+When publishing a message you can override the ```message_types``` configuration by passing a third argument:
+```php
+    $messagePublisher->publish('webhook.send', $message, array(
+        'exchange' => 'my_new_echange',
+        'connection' => 'my_second_connection',
+        'routing_key' => 'my_new_routing_key'
+    );
+```
+
 ## License
 
 This bundle is released under the MIT License. See the bundled LICENSE file for
