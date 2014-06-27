@@ -26,6 +26,7 @@ package into your `composer.json` file:
 page to choose a stable version to use, avoid the `@stable` meta constraint.
 
 ## Configuration reference
+
 ```
 swarrot:
     provider: pecl // pecl or amqp_lib
@@ -63,28 +64,74 @@ swarrot:
 ## Publish a message
 
 First step is to retrieve the swarrot publisher service from your controller.
+
 ```php
 $messagePublisher = $this->get('swarrot.publisher');
 ```
 
-After you need to prepare your message with the [Message](https://github.com/swarrot/swarrot/blob/master/src/Swarrot/Broker/Message.php) class.
+After you need to prepare your message with the
+[Message](https://github.com/swarrot/swarrot/blob/master/src/Swarrot/Broker/Message.php)
+class.
+
 ```php
-$message = new \Swarrot\Broker\Message\Message('"My first message with the awesome Swarrot lib :)"');
+use Swarrot\Broker\Message;
+
+$message = new Message('"My first message with the awesome Swarrot lib :)"');
 ```
 
-Then you can publish a new message into a predefined configuration (connection, exchange, routing_key, etc.) from your ```message_types```.
+Then you can publish a new message into a predefined configuration (connection,
+exchange, routing_key, etc.) from your `message_types`.
+
 ```php
 $messagePublisher->publish('webhook.send', $message);
 ```
 
-When publishing a message you can override the ```message_types``` configuration by passing a third argument:
+When publishing a message you can override the `message_types` configuration by
+passing a third argument:
+
 ```php
 $messagePublisher->publish('webhook.send', $message, array(
-    'exchange' => 'my_new_echange',
-    'connection' => 'my_second_connection',
+    'exchange'    => 'my_new_echange',
+    'connection'  => 'my_second_connection',
     'routing_key' => 'my_new_routing_key'
 );
 ```
+
+## Consume a message
+
+Swarrot will automatically create new commands according to your configuration.
+This command need the queue name to consume as first argument. You can also use
+a named connection as second argument if you don't want to use the default one.
+
+```bash
+app/console swarrot:consume:my_consumer_name queue_name [connection_name]
+```
+
+Your processor will automatically be decorated by all processors named in the
+`processors_stack` section. No matthers the order you named your
+processors, here is the default order:
+
+* SignalHandler
+* ExceptionCatcher
+* MaxMessages
+* MaxExecutionTime
+* Ack
+* Retry
+
+All this processors are configurable with some options:
+
+* **--poll-interval** [default: 500000]: Change the polling interval when no
+  message found in broker
+* **--requeue-on-error (-r)**: Re-queue the message in the same queue if an error
+  occurred.
+* **--no-catch (-C)**: Disable the ExceptionCatcher processor (available only if
+  the processor is in the stack)
+* **--max-execution-time (-t)** [default: 300]: Configure the MaxExecutionTime
+  processor (available only if the processor is in the stack)
+* **--max-messages (-m)** [default: 300]: Configure the MaxMessages processor
+  (available only if the processor is in the stack)
+* **--no-retry (-R)**: Disable the Retry processor (available only if the processor
+  is in the stack)
 
 ## License
 
