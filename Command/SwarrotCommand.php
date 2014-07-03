@@ -51,14 +51,14 @@ class SwarrotCommand extends ContainerAwareCommand
         if (array_key_exists('ack', $this->processorStack)) {
             $this->addOption('requeue-on-error', 'r', InputOption::VALUE_NONE, 'Requeue in the same queue on error');
         }
-        if (array_key_exists('exception_catcher', $this->processorStack)) {
-            $this->addOption('no-catch', 'C', InputOption::VALUE_NONE, 'Deactivate exception catching.');
-        }
         if (array_key_exists('max_execution_time', $this->processorStack)) {
             $this->addOption('max-execution-time', 't', InputOption::VALUE_REQUIRED, 'Max execution time (seconds) before exit', 300);
         }
         if (array_key_exists('max_messages', $this->processorStack)) {
             $this->addOption('max-messages', 'm', InputOption::VALUE_REQUIRED, 'Max messages to process before exit', 300);
+        }
+        if (array_key_exists('exception_catcher', $this->processorStack)) {
+            $this->addOption('no-catch', 'C', InputOption::VALUE_NONE, 'Deactivate exception catching.');
         }
         if (array_key_exists('retry', $this->processorStack)) {
             $this->addOption('no-retry', 'R', InputOption::VALUE_NONE, 'Deactivate retry.');
@@ -78,14 +78,14 @@ class SwarrotCommand extends ContainerAwareCommand
         if (array_key_exists('signal_handler', $this->processorStack)) {
             $stack->push($this->processorStack['signal_handler'], $this->logger);
         }
-        if (array_key_exists('exception_catcher', $this->processorStack) && !$input->getOption('no-catch')) {
-            $stack->push($this->processorStack['exception_catcher'], $this->logger);
-        }
         if (array_key_exists('max_messages', $this->processorStack)) {
             $stack->push($this->processorStack['max_messages'], $this->logger);
         }
         if (array_key_exists('max_execution_time', $this->processorStack)) {
             $stack->push($this->processorStack['max_execution_time'], $this->logger);
+        }
+        if (array_key_exists('exception_catcher', $this->processorStack) && !$input->getOption('no-catch')) {
+            $stack->push($this->processorStack['exception_catcher'], $this->logger);
         }
         if (array_key_exists('ack', $this->processorStack)) {
             $stack->push($this->processorStack['ack'], $messageProvider, $this->logger);
