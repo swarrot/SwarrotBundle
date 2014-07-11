@@ -33,7 +33,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Swarrot\Bundle\SwarrotBundle\SwarrotBundle(),
+        new Swarrot\SwarrotBundle\SwarrotBundle(),
     );
 
     return $bundles;
