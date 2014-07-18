@@ -11,6 +11,7 @@ use Swarrot\Processor\ProcessorInterface;
 use Swarrot\Consumer;
 use Swarrot\Processor\Stack\Builder;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * SwarrotCommand.
@@ -103,7 +104,10 @@ class SwarrotCommand extends ContainerAwareCommand
 
         $processor = $stack->resolve($this->processor);
 
-        $consumer = new Consumer($messageProvider, $processor);
+        $optionsResolver = new OptionsResolver();
+        $optionsResolver->setOptional(array('queue', 'connection'));
+
+        $consumer = new Consumer($messageProvider, $processor, $optionsResolver);
 
         $consumer->consume($this->getOptions($input));
     }
@@ -118,6 +122,8 @@ class SwarrotCommand extends ContainerAwareCommand
     protected function getOptions(InputInterface $input)
     {
         $options = array(
+            'queue'         => $input->getArgument('queue'),
+            'connection'    => $input->getArgument('connection'),
             'poll_interval' => (int) $input->getOption('poll-interval'),
         );
 
