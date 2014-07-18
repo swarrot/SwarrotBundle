@@ -118,6 +118,8 @@ class SwarrotCommand extends ContainerAwareCommand
     protected function getOptions(InputInterface $input)
     {
         $options = array(
+            'queue'         => $input->getArgument('queue'),
+            'connection'    => $input->getArgument('connection'),
             'poll_interval' => (int) $input->getOption('poll-interval'),
         );
 
