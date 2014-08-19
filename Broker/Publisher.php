@@ -33,7 +33,7 @@ class Publisher
             throw new \InvalidArgumentException(sprintf(
                 'Unknown message type "%s". Available are [%s].',
                 $messageType,
-                implode(array_keys($this->messageTypes))
+                implode(',', array_keys($this->messageTypes))
             ));
         }
 
