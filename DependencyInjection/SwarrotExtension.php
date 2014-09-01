@@ -31,8 +31,8 @@ class SwarrotExtension extends Extension
 
         if ('pecl' === $config['provider']) {
             $id = 'swarrot.factory.pecl';
-        } else {
-            throw new \InvalidArgumentException('Only pecl is supported for now');
+        } elseif ('amqp_lib' === $config['provider']) {
+            $id = 'swarrot.factory.amqp_lib';
         }
         $definition = $container->getDefinition($id);
 
