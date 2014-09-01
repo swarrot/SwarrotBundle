@@ -34,8 +34,6 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('pecl')
                     ->isRequired()
                     ->validate()
-                    ->ifNotInArray(array('pecl', 'amqp_lib'))
-                        ->thenInvalid('Invalid provider "%s"')
                     ->end()
                 ->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
