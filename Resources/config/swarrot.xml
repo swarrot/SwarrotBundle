@@ -4,12 +4,14 @@
 
     <parameters>
         <parameter key="swarrot.factory.pecl.class">Swarrot\SwarrotBundle\Broker\PeclFactory</parameter>
+        <parameter key="swarrot.factory.amqp_lib.class">Swarrot\SwarrotBundle\Broker\AmqpLibFactory</parameter>
         <parameter key="swarrot.command.base.class">Swarrot\SwarrotBundle\Command\SwarrotCommand</parameter>
         <parameter key="swarrot.publisher.class">Swarrot\SwarrotBundle\Broker\Publisher</parameter>
     </parameters>
 
     <services>
         <service id="swarrot.factory.pecl" class="%swarrot.factory.pecl.class%" />
+        <service id="swarrot.factory.amqp_lib" class="%swarrot.factory.amqp_lib.class%" />
 
         <service id="swarrot.command.base" class="%swarrot.command.base.class%" abstract="true">
             <argument />

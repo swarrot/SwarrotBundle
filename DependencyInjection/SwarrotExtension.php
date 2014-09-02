@@ -29,11 +29,11 @@ class SwarrotExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('swarrot.xml');
 
-        if ('pecl' === $config['provider']) {
-            $id = 'swarrot.factory.pecl';
-        } else {
-            throw new \InvalidArgumentException('Only pecl is supported for now');
+        $id = 'swarrot.factory.'.$config['provider'];
+        if (!$container->has($id)) {
+            throw new \InvalidArgumentException('Unsupported provider');
         }
+
         $definition = $container->getDefinition($id);
 
         foreach ($config['connections'] as $name => $connectionConfig) {
