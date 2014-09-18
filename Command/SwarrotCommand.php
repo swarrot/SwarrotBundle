@@ -149,6 +149,10 @@ class SwarrotCommand extends ContainerAwareCommand
             if (isset($this->extras['retry_attempts'])) {
                 $attempts = $this->extras['retry_attempts'];
             }
+
+            if ($input->hasOption('retry-attempts') && null !== $input->getOption('retry-attempts')) {
+                $attempts = (int) $input->getOption('retry-attempts');
+            }
             $options['retry_attempts'] = $attempts;
         }
 
