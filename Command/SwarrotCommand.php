@@ -63,6 +63,7 @@ class SwarrotCommand extends ContainerAwareCommand
         }
         if (array_key_exists('retry', $this->processorStack)) {
             $this->addOption('no-retry', 'R', InputOption::VALUE_NONE, 'Deactivate retry.');
+            $this->addOption('retry-attempts', null, InputOption::VALUE_REQUIRED, 'Number of maximum retry attempts (if it exists, override the extra data parameter)');
         }
     }
 
@@ -148,6 +149,10 @@ class SwarrotCommand extends ContainerAwareCommand
             $attempts = 3;
             if (isset($this->extras['retry_attempts'])) {
                 $attempts = $this->extras['retry_attempts'];
+            }
+
+            if ($input->hasOption('retry-attempts')) {
+                $attempts = (int) $input->getOption('retry-attempts');
             }
             $options['retry_attempts'] = $attempts;
         }
