@@ -65,6 +65,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('processor')->isRequired()->end()
                             ->scalarNode('command')->defaultValue(null)->end()
                             ->scalarNode('connection')->defaultValue(null)->end()
+                            ->scalarNode('queue')->defaultValue(null)->end()
                             ->arrayNode('extras')
                                 ->prototype('scalar')->end()
                             ->end()
