@@ -26,15 +26,24 @@ class SwarrotCommand extends ContainerAwareCommand
     protected $processorStack;
     protected $extras;
     protected $logger;
+    protected $queue;
 
-    public function __construct($name, $connectionName, ProcessorInterface $processor, array $processorStack, array $extras, LoggerInterface $logger = null)
-    {
+    public function __construct(
+        $name,
+        $connectionName,
+        ProcessorInterface $processor,
+        array $processorStack,
+        array $extras,
+        LoggerInterface $logger = null,
+        $queue = null
+    ) {
         $this->name           = $name;
         $this->connectionName = $connectionName;
         $this->processor      = $processor;
         $this->processorStack = $processorStack;
         $this->extras         = $extras;
         $this->logger         = $logger;
+        $this->queue          = $queue;
 
         parent::__construct();
     }
@@ -44,7 +53,7 @@ class SwarrotCommand extends ContainerAwareCommand
         $this
             ->setName('swarrot:consume:'.$this->name)
             ->setDescription(sprintf('Consume message of type "%s" from a given queue', $this->name))
-            ->addArgument('queue', InputArgument::REQUIRED, 'Queue to consume')
+            ->addArgument('queue', InputArgument::REQUIRED, 'Queue to consume', $this->queue)
             ->addArgument('connection', InputArgument::OPTIONAL, 'Connection to use', $this->connectionName)
             ->addOption('poll-interval', null, InputOption::VALUE_REQUIRED, 'Poll interval (in micro-seconds)', 500000)
         ;
