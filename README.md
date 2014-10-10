@@ -44,9 +44,9 @@ public function registerBundles()
 
 ```
 swarrot:
-    provider: pecl // pecl or amqp_lib
+    provider: pecl # pecl or amqp_lib
     default_connection: rabbitmq
-    default_command: swarrot.command.base // Swarrot\SwarrotBundle\Command\SwarrotCommand
+    default_command: swarrot.command.base # Swarrot\SwarrotBundle\Command\SwarrotCommand
     connections:
         rabbitmq:
             host: "%rabbitmq_host%"
@@ -70,7 +70,7 @@ swarrot:
                 retry_routing_key_pattern: 'retry_%%attempt%%'
     messages_types:
         my_publisher:
-            connection: rabbitmq // use the default connection by default
+            connection: rabbitmq # use the default connection by default
             exchange: my_exchange
             routing_key: my_routing_key
 
