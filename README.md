@@ -109,7 +109,7 @@ $messagePublisher->publish('webhook.send', $message, array(
     'exchange'    => 'my_new_echange',
     'connection'  => 'my_second_connection',
     'routing_key' => 'my_new_routing_key'
-);
+));
 ```
 
 ## Consume a message
