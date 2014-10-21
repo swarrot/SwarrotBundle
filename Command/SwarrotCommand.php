@@ -53,7 +53,7 @@ class SwarrotCommand extends ContainerAwareCommand
         $this
             ->setName('swarrot:consume:'.$this->name)
             ->setDescription(sprintf('Consume message of type "%s" from a given queue', $this->name))
-            ->addArgument('queue', InputArgument::REQUIRED, 'Queue to consume', $this->queue)
+            ->addArgument('queue', InputArgument::OPTIONAL, 'Queue to consume', $this->queue)
             ->addArgument('connection', InputArgument::OPTIONAL, 'Connection to use', $this->connectionName)
             ->addOption('poll-interval', null, InputOption::VALUE_REQUIRED, 'Poll interval (in micro-seconds)', 500000)
         ;
