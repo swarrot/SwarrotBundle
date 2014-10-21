@@ -98,10 +98,10 @@ class SwarrotExtension extends Extension
             ->getDefinition($id)
             ->replaceArgument(0, $name)
             ->replaceArgument(1, $consumerConfig['connection'])
-            ->replaceArgument(2, new Reference($consumerConfig['processor']))
-            ->replaceArgument(3, $processorStack)
-            ->replaceArgument(4, $consumerConfig['extras'])
-            ->replaceArgument(6, $consumerConfig['queue'])
+            ->replaceArgument(3, new Reference($consumerConfig['processor']))
+            ->replaceArgument(4, $processorStack)
+            ->replaceArgument(5, $consumerConfig['extras'])
+            ->replaceArgument(7, $consumerConfig['queue'])
         ;
 
         return $id;

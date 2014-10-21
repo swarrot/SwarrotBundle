@@ -16,14 +16,12 @@
         <service id="swarrot.command.base" class="%swarrot.command.base.class%" abstract="true">
             <argument /> <!-- name -->
             <argument /> <!-- connection name -->
+            <argument type="service" id="swarrot.factory.default"/>
             <argument /> <!-- processor -->
             <argument /> <!-- processor stack -->
             <argument /> <!-- extra -->
             <argument type="service" id="logger" />
             <argument /> <!-- queue -->
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
         </service>
 
         <service id="swarrot.publisher" class="%swarrot.publisher.class%">

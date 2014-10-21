@@ -2,7 +2,8 @@
 
 namespace Swarrot\SwarrotBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Swarrot\SwarrotBundle\Broker\FactoryInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -18,10 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Olivier Dolbeau <contact@odolbeau.fr>
  */
-class SwarrotCommand extends ContainerAwareCommand
+class SwarrotCommand extends Command
 {
     protected $name;
     protected $connectionName;
+    private $factory;
     protected $processor;
     protected $processorStack;
     protected $extras;
@@ -31,6 +33,7 @@ class SwarrotCommand extends ContainerAwareCommand
     public function __construct(
         $name,
         $connectionName,
+        FactoryInterface $factory,
         ProcessorInterface $processor,
         array $processorStack,
         array $extras,
@@ -39,6 +42,7 @@ class SwarrotCommand extends ContainerAwareCommand
     ) {
         $this->name           = $name;
         $this->connectionName = $connectionName;
+        $this->factory        = $factory;
         $this->processor      = $processor;
         $this->processorStack = $processorStack;
         $this->extras         = $extras;
@@ -74,6 +78,9 @@ class SwarrotCommand extends ContainerAwareCommand
             $this->addOption('no-retry', 'R', InputOption::VALUE_NONE, 'Deactivate retry.');
             $this->addOption('retry-attempts', null, InputOption::VALUE_REQUIRED, 'Number of maximum retry attempts (if it exists, override the extra data parameter)');
         }
+        if (array_key_exists('insomniac', $this->processorStack)) {
+            $this->addOption('exit-when-empty', null, InputOption::VALUE_NONE, 'Exit consumer when queue is empty.');
+        }
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -81,11 +88,13 @@ class SwarrotCommand extends ContainerAwareCommand
         $queue = $input->getArgument('queue');
         $connection = $input->getArgument('connection');
 
-        $factory = $this->getContainer()->get('swarrot.factory.default');
-        $messageProvider = $factory->getMessageProvider($queue, $connection);
+        $messageProvider = $this->factory->getMessageProvider($queue, $connection);
 
         $stack = new Builder();
 
+        if (array_key_exists('insomniac', $this->processorStack) && $input->getOption('exit-when-empty')) {
+            $stack->push($this->processorStack['insomniac']);
+        }
         if (array_key_exists('signal_handler', $this->processorStack)) {
             $stack->push($this->processorStack['signal_handler'], $this->logger);
         }
@@ -107,7 +116,7 @@ class SwarrotCommand extends ContainerAwareCommand
             if (isset($this->extras['retry_exchange'])) {
                 $exchange = $this->extras['retry_exchange'];
             }
-            $messagePublisher = $factory->getMessagePublisher($exchange, $connection);
+            $messagePublisher = $this->factory->getMessagePublisher($exchange, $connection);
 
             $stack->push($this->processorStack['retry'], $messagePublisher, $this->logger);
         }
