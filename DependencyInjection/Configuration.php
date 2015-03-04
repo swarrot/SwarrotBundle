@@ -14,6 +14,7 @@ class Configuration implements ConfigurationInterface
         'max_messages'       => 'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
         'retry'              => 'Swarrot\Processor\Retry\RetryProcessor',
         'signal_handler'     => 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor',
+        'object_manager'     => 'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
     );
 
     /**

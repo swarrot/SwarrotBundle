@@ -70,6 +70,9 @@ class SwarrotCommand extends ContainerAwareCommand
         if (array_key_exists('exception_catcher', $this->processorStack)) {
             $this->addOption('no-catch', 'C', InputOption::VALUE_NONE, 'Deactivate exception catching.');
         }
+        if (array_key_exists('object_manager', $this->processorStack)) {
+            $this->addOption('no-reset', null, InputOption::VALUE_NONE, 'Deactivate object manager reset after processing');
+        }
         if (array_key_exists('retry', $this->processorStack)) {
             $this->addOption('no-retry', 'R', InputOption::VALUE_NONE, 'Deactivate retry.');
             $this->addOption('retry-attempts', null, InputOption::VALUE_REQUIRED, 'Number of maximum retry attempts (if it exists, override the extra data parameter)');
@@ -100,6 +103,9 @@ class SwarrotCommand extends ContainerAwareCommand
         }
         if (array_key_exists('ack', $this->processorStack)) {
             $stack->push($this->processorStack['ack'], $messageProvider, $this->logger);
+        }
+        if (array_key_exists('object_manager', $this->processorStack) && !$input->getOption('no-reset')) {
+            $stack->push($this->processorStack['object_manager'], $this->getContainer()->get('doctrine'));
         }
 
         if (array_key_exists('retry', $this->processorStack) && !$input->getOption('no-retry')) {
