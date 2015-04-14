@@ -7,12 +7,59 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    public function test_it_is_initializable()
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_it_rejects_invalid_providers()
     {
-        $this->assertInstanceOf(
-            'Swarrot\SwarrotBundle\DependencyInjection\SwarrotExtension',
-            new SwarrotExtension()
+        $this->loadConfig($this->createContainer(), array('provider' => 'invalid'));
+    }
+
+    public function test_it_uses_the_default_connection_for_message_types()
+    {
+        $container = $this->createContainer();
+        $config = array(
+            'messages_types' => array(
+                'test' => array('exchange' => 'test'),
+            )
         );
+
+        $this->loadConfig($container, $config);
+
+        $this->assertTrue($container->hasParameter('swarrot.messages_types'));
+
+        $messagesTypes = $container->getParameter('swarrot.messages_types');
+
+        $this->assertArrayHasKey('test', $messagesTypes);
+        $expectedMessageType = array(
+            'connection' => 'default',
+            'exchange' => 'test',
+            'routing_key' => null,
+            'extras' => array(),
+        );
+        $this->assertEquals($expectedMessageType, $messagesTypes['test']);
+    }
+
+    public function test_it_registers_commands()
+    {
+        $container = $this->createContainer();
+        $config = array(
+            'consumers' => array(
+                'testing' => array(
+                    'processor' => 'app.swarrot_processor',
+                )
+            )
+        );
+
+        $this->loadConfig($container, $config);
+
+        $this->assertHasService($container, 'swarrot.command.generated.testing');
+
+        $this->assertTrue($container->hasParameter('swarrot.commands'));
+
+        $commands = $container->getParameter('swarrot.commands');
+        $this->assertArrayHasKey('testing', $commands);
+        $this->assertSame('swarrot.command.generated.testing', $commands['testing']);
     }
 
     public function test_it_registers_the_collector_by_default_in_debug_mode()
@@ -65,7 +112,6 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
     {
         // Minimal config required by the Configuration class
         $defaultConfig = array(
-            'provider' => 'pecl',
             'connections' => array('default' => null),
         );
 
