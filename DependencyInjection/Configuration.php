@@ -17,6 +17,13 @@ class Configuration implements ConfigurationInterface
         'object_manager'     => 'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
     );
 
+    private $debug;
+
+    public function __construct($debug)
+    {
+        $this->debug = $debug;
+    }
+
     /**
      * Generates the configuration tree.
      *
@@ -106,6 +113,7 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->prototype('scalar')->isRequired()->end()
                 ->end()
+                ->booleanNode('enable_collector')->defaultValue($this->debug)->end()
             ->end()
         ;
 
