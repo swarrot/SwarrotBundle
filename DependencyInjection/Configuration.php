@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('provider')
                     ->defaultValue('pecl')
-                    ->isRequired()
+                    ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
                 ->scalarNode('default_command')->defaultValue('swarrot.command.base')->cannotBeEmpty()->end()
