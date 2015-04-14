@@ -9,8 +9,6 @@ use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 
 class SwarrotDataCollector extends DataCollector
 {
-    protected $data = array();
-
     /**
      * {@inheritDoc}
      */

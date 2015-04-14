@@ -10,7 +10,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf(
             'Swarrot\SwarrotBundle\DependencyInjection\Configuration',
-            new Configuration()
+            new Configuration(false)
         );
     }
 }
