@@ -84,6 +84,22 @@ class SwarrotExtension extends Extension
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getXsdValidationBasePath()
+    {
+        return __DIR__.'/../Resources/config/schema';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getNamespace()
+    {
+        return 'http://swarrot.io/schema/dic/swarrot';
+    }
+
+    /**
      * buildCommand
      *
      * @param ContainerBuilder $container

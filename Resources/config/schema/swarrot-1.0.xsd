@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<xsd:schema xmlns="http://swarrot.io/schema/dic/swarrot"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://swarrot.io/schema/dic/swarrot"
+    elementFormDefault="qualified">
+
+    <xsd:element name="config">
+        <xsd:annotation>
+            <xsd:documentation>The root node for the SwarrotBundle configuration</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                <xsd:element name="connection" type="connection" minOccurs="0" maxOccurs="unbounded" />
+                <xsd:element name="consumer" type="consumer" minOccurs="0" maxOccurs="unbounded" />
+                <xsd:element name="messages-type" type="messages_type" minOccurs="0" maxOccurs="unbounded" />
+                <xsd:element name="processor" type="named_scalar" minOccurs="0" maxOccurs="unbounded" />
+            </xsd:choice>
+
+            <xsd:attribute name="provider" type="xsd:string" />
+            <xsd:attribute name="default-connection" type="xsd:string" />
+            <xsd:attribute name="default-command" type="xsd:string" />
+            <xsd:attribute name="enable-collector" type="boolean" />
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:simpleType name="dic-parameter">
+        <xsd:annotation>
+            <xsd:documentation>A parameter reference</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="%([^%\s]+)%" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="boolean">
+        <xsd:annotation>
+            <xsd:documentation>A boolean value, allowing to use a parameter to reference it</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="xsd:boolean dic-parameter" />
+    </xsd:simpleType>
+
+    <xsd:simpleType name="integer">
+        <xsd:annotation>
+            <xsd:documentation>An integer, allowing to use a parameter to reference it</xsd:documentation>
+        </xsd:annotation>
+        <xsd:union memberTypes="xsd:int dic-parameter" />
+    </xsd:simpleType>
+
+    <xsd:complexType name="connection">
+        <xsd:all>
+            <xsd:element name="ssl-options" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:attribute name="verify-peer" type="boolean" />
+                    <xsd:attribute name="cafile" type="xsd:string" />
+                    <xsd:attribute name="local-cert" type="xsd:string" />
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:all>
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="host" type="xsd:string" />
+        <xsd:attribute name="port" type="integer" />
+        <xsd:attribute name="login" type="xsd:string" />
+        <xsd:attribute name="password" type="xsd:string" />
+        <xsd:attribute name="vhost" type="xsd:string" />
+        <xsd:attribute name="ssl" type="boolean" />
+    </xsd:complexType>
+
+    <xsd:complexType name="consumer">
+        <xsd:sequence>
+            <xsd:element name="extra" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="connection" type="xsd:string" />
+        <xsd:attribute name="exchange" type="xsd:string" />
+        <xsd:attribute name="routing_key" type="xsd:string" />
+    </xsd:complexType>
+
+    <xsd:complexType name="messages_type">
+        <xsd:sequence>
+            <xsd:element name="extra" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="processor" type="xsd:string" />
+        <xsd:attribute name="command" type="xsd:string" />
+        <xsd:attribute name="connection" type="xsd:string" />
+        <xsd:attribute name="queue" type="xsd:string" />
+    </xsd:complexType>
+
+    <xsd:complexType name="named_scalar">
+        <xsd:annotation>
+            <xsd:documentation>The type representing the scalar-prototyped array node, using named elements</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>
