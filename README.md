@@ -148,6 +148,18 @@ All this processors are configurable with some options:
 * **--no-retry (-R)**: Disable the Retry processor (available only if the processor
   is in the stack)
 
+## Running your tests without publishing
+If you use Swarrot you may not want to realy publish  messages like in test environment for example. You can use the `BlackholePublisher` to achieve this.
+
+Simply override the `swarrot.publisher.class` parameter in the DIC with the `Swarrot\SwarrotBundle\Broker\PublisherBlackhole` class.
+
+Update `config_test.yml` for example:
+
+```yaml
+parameters:
+    swarrot.publisher.class: SP\Utils\Swarrot\PublisherBlackhole
+```
+
 ## License
 
 This bundle is released under the MIT License. See the bundled LICENSE file for
