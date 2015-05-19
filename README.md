@@ -151,13 +151,13 @@ All this processors are configurable with some options:
 ## Running your tests without publishing
 If you use Swarrot you may not want to realy publish  messages like in test environment for example. You can use the `BlackholePublisher` to achieve this.
 
-Simply override the `swarrot.publisher.class` parameter in the DIC with the `Swarrot\SwarrotBundle\Broker\PublisherBlackhole` class.
+Simply override the `swarrot.publisher.class` parameter in the DIC with the `Swarrot\SwarrotBundle\Broker\BlackholePublisher` class.
 
 Update `config_test.yml` for example:
 
 ```yaml
 parameters:
-    swarrot.publisher.class: SP\Utils\Swarrot\PublisherBlackhole
+    swarrot.publisher.class: SP\Utils\Swarrot\BlackholePublisher
 ```
 
 ## License
