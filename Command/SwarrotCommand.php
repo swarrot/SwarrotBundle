@@ -121,7 +121,7 @@ class SwarrotCommand extends ContainerAwareCommand
         $processor = $stack->resolve($this->processor);
 
         $optionsResolver = new OptionsResolver();
-        $optionsResolver->setOptional(array('queue', 'connection'));
+        $optionsResolver->setDefined(array('queue', 'connection'));
 
         $consumer = new Consumer($messageProvider, $processor, $optionsResolver);
 
