@@ -5,18 +5,22 @@ namespace Swarrot\SwarrotBundle\Broker;
 use Swarrot\Broker\Message;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class Publisher
 {
     protected $factory;
     protected $eventDispatcher;
     protected $messageTypes;
+    protected $logger;
 
-    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = array())
+    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = array(), LoggerInterface $logger = null)
     {
         $this->factory         = $factory;
         $this->eventDispatcher = $eventDispatcher;
         $this->messageTypes    = $messageTypes;
+        $this->logger          = $logger ?: new NullLogger();
     }
 
     /**
@@ -44,6 +48,12 @@ class Publisher
         $routingKey = isset($overridenConfig['routing_key'])? $overridenConfig['routing_key'] : $config['routing_key'];
 
         $messagePublisher = $this->factory->getMessagePublisher($exchange, $connection);
+
+        $this->logger->debug('Publish message in {exchange}:{routing_key} (connection {connection})', [
+            'exchange'    => $exchange,
+            'routing_key' => $routingKey,
+            'connection'  => $connection,
+        ]);
 
         $messagePublisher->publish($message, $routingKey);
 
