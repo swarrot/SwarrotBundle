@@ -19,7 +19,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Broker\Publisher', $publisher);
     }
 
-    public function test_it_is_initializable_with_unknown_message_type()
+    public function test_publish_with_unknown_message_type()
     {
         $publisher = new Publisher(
             $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface')->reveal(),
@@ -32,7 +32,7 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function test_it_is_initializable_with_valid_message_type()
+    public function test_publish_with_valid_message_type()
     {
         $message = new Message();
 
