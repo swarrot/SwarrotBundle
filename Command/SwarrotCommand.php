@@ -12,6 +12,7 @@ use Swarrot\Consumer;
 use Swarrot\Processor\Stack\Builder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * SwarrotCommand.
@@ -55,17 +56,32 @@ class SwarrotCommand extends ContainerAwareCommand
             ->setDescription(sprintf('Consume message of type "%s" from a given queue', $this->name))
             ->addArgument('queue', InputArgument::OPTIONAL, 'Queue to consume', $this->queue)
             ->addArgument('connection', InputArgument::OPTIONAL, 'Connection to use', $this->connectionName)
-            ->addOption('poll-interval', null, InputOption::VALUE_REQUIRED, 'Poll interval (in micro-seconds)', 500000)
+            ->addOption(
+                'poll-interval',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Poll interval (in micro-seconds)',
+                (isset($this->extras['poll_interval']))?$this->extras['poll_interval']:500000)
         ;
 
         if (array_key_exists('ack', $this->processorStack)) {
             $this->addOption('requeue-on-error', 'r', InputOption::VALUE_NONE, 'Requeue in the same queue on error');
         }
         if (array_key_exists('max_execution_time', $this->processorStack)) {
-            $this->addOption('max-execution-time', 't', InputOption::VALUE_REQUIRED, 'Max execution time (seconds) before exit', 300);
+            $this->addOption(
+                'max-execution-time',
+                't',
+                InputOption::VALUE_REQUIRED,
+                'Max execution time (seconds) before exit',
+                (isset($this->extras['max_execution_time']))?$this->extras['max_execution_time']:300);
         }
         if (array_key_exists('max_messages', $this->processorStack)) {
-            $this->addOption('max-messages', 'm', InputOption::VALUE_REQUIRED, 'Max messages to process before exit', 300);
+            $this->addOption(
+                'max-messages',
+                'm',
+                InputOption::VALUE_REQUIRED,
+                'Max messages to process before exit',
+                (isset($this->extras['max_messages']))?$this->extras['max_messages']:300);
         }
         if (array_key_exists('exception_catcher', $this->processorStack)) {
             $this->addOption('no-catch', 'C', InputOption::VALUE_NONE, 'Deactivate exception catching.');
@@ -75,7 +91,12 @@ class SwarrotCommand extends ContainerAwareCommand
         }
         if (array_key_exists('retry', $this->processorStack)) {
             $this->addOption('no-retry', 'R', InputOption::VALUE_NONE, 'Deactivate retry.');
-            $this->addOption('retry-attempts', null, InputOption::VALUE_REQUIRED, 'Number of maximum retry attempts (if it exists, override the extra data parameter)');
+            $this->addOption(
+                'retry-attempts',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Number of maximum retry attempts (if it exists, override the extra data parameter)',
+                (isset($this->extras['retry_attempts']))?$this->extras['retry_attempts']:3);
         }
     }
 
@@ -153,8 +174,9 @@ class SwarrotCommand extends ContainerAwareCommand
         if ($input->hasOption('max-messages')) {
             $options['max_messages'] = (int) $input->getOption('max-messages');
         }
-        if ($input->hasOption('requeue-on-error')) {
-            $options['requeue_on_error'] = (bool) $input->getOption('requeue-on-error');
+
+        if (array_key_exists('ack', $this->processorStack)) {
+            $options['requeue_on_error'] = ((isset($this->extras['requeue_on_error']) && true == $this->extras['requeue_on_error']) || (true === $input->getOption('requeue-on-error')));
         }
 
         if (array_key_exists('retry', $this->processorStack) && !$input->getOption('no-retry')) {
@@ -166,11 +188,7 @@ class SwarrotCommand extends ContainerAwareCommand
             $options['retry_key_pattern'] = $key;
 
             $attempts = 3;
-            if (isset($this->extras['retry_attempts'])) {
-                $attempts = $this->extras['retry_attempts'];
-            }
-
-            if (null !== $input->getOption('retry-attempts')) {
+            if ($input->hasOption('retry-attempts')) {
                 $attempts = (int) $input->getOption('retry-attempts');
             }
             $options['retry_attempts'] = $attempts;

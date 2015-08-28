@@ -58,13 +58,16 @@ swarrot:
         signal_handler: 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor'
         ack: 'Swarrot\Processor\Ack\AckProcessor'
         max_messages: 'Swarrot\Processor\MaxMessages\MaxMessagesProcessor'
-        retry: 'Swarrot\Processor\Retry\RetryProcessor'
         exception_catcher: 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor'
         max_execution_time: 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor'
     consumers:
         my_consumer:
             processor: my_consumer.processor.service
+            exclusive_processor_stack: true
+            processors_stack:
+                    retry: 'Swarrot\Processor\Retry\RetryProcessor'
             extras:
+                poll_interval: 500000
                 retry_exchange: my_consumer_exchange
                 retry_attempts: 3
                 retry_routing_key_pattern: 'retry_%%attempt%%'
@@ -75,6 +78,9 @@ swarrot:
             routing_key: my_routing_key
 
 ```
+
+`processors_stack` under `consumers` keys are merge to global `processors_stack` if `exclusive_processor_stack` == false (default).
+if `exclusive_processor_stack` == true only this processors stack is passed to the command.
 
 ## Publish a message
 
@@ -133,7 +139,25 @@ here is the default order:
 * Ack
 * Retry
 
-All this processors are configurable with some options:
+All this processors are configurable.
+You can add `extras` key on each consumer definition in your `config.yml`
+
+```
+swarrot:
+    ...
+    consumers:
+        my_consumer:
+            processor: my_consumer.processor.service
+            extras:
+                poll_interval: 500000
+                requeue_on_error: 1
+                max_messages: 10
+                retry_exchange: my_consumer_exchange
+                retry_attempts: 3
+                retry_routing_key_pattern: 'retry_%%attempt%%'
+```
+ 
+You can also use options of the commande line:
 
 * **--poll-interval** [default: 500000]: Change the polling interval when no
   message found in broker
@@ -148,16 +172,18 @@ All this processors are configurable with some options:
 * **--no-retry (-R)**: Disable the Retry processor (available only if the processor
   is in the stack)
 
+Default values will be override by your `config.yml` and use of options will override defaut|config values.
+
 ## Running your tests without publishing
 If you use Swarrot you may not want to realy publish  messages like in test environment for example. You can use the `BlackholePublisher` to achieve this.
 
-Simply override the `swarrot.publisher.class` parameter in the DIC with the `Swarrot\SwarrotBundle\Broker\BlackholePublisher` class.
+Simply override the `swarrot.publisher.class` parameter in the DIC with the `Swarrot\SwarrotBundle\Broker\PublisherBlackhole` class.
 
 Update `config_test.yml` for example:
 
 ```yaml
 parameters:
-    swarrot.publisher.class: SP\Utils\Swarrot\BlackholePublisher
+    swarrot.publisher.class: SP\Utils\Swarrot\PublisherBlackhole
 ```
 
 ## License

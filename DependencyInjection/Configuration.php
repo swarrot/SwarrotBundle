@@ -34,8 +34,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('swarrot');
 
-        $knownProcessors = $this->knownProcessors;
-
         $rootNode
             ->fixXmlConfig('connection')
             ->fixXmlConfig('consumer')
@@ -81,6 +79,8 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('command')->defaultValue(null)->end()
                             ->scalarNode('connection')->defaultValue(null)->end()
                             ->scalarNode('queue')->defaultValue(null)->end()
+                            ->booleanNode('exclusive_processor_stack')->defaultValue(false)->end()
+                            ->append($this->addProcessorStack())
                             ->arrayNode('extras')
                                 ->prototype('scalar')->end()
                             ->end()
@@ -99,34 +99,50 @@ class Configuration implements ConfigurationInterface
                             ->arrayNode('extras')
                                 ->prototype('scalar')->end()
                             ->end()
+                            ->end()
                         ->end()
                     ->end()
-                ->end()
-                ->arrayNode('processors_stack')
-                    ->beforeNormalization()
-                        ->ifArray()
-                        ->then(function ($v) use ($knownProcessors) {
-                            foreach ($v as $key => $class) {
-                                if (!array_key_exists($key, $knownProcessors)) {
-                                    continue;
-                                }
-
-                                if (!isset($class) || null === $class) {
-                                    $v[$key] = $knownProcessors[$key];
-                                }
-                            }
-
-                            return $v;
-                        })
-                    ->end()
-                    ->useAttributeAsKey('name')
-                    ->normalizeKeys(false)
-                    ->prototype('scalar')->isRequired()->end()
-                ->end()
+                ->append($this->addProcessorStack())
                 ->booleanNode('enable_collector')->defaultValue($this->debug)->end()
             ->end()
         ;
 
         return $treeBuilder;
+    }
+
+    /**
+     * Add processor stack definition
+     *
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition|\Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    private function addProcessorStack()
+    {
+        $knownProcessors = $this->knownProcessors;
+
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('processors_stack');
+
+        $node->beforeNormalization()
+            ->ifArray()
+            ->then(function ($v) use ($knownProcessors) {
+                foreach ($v as $key => $class) {
+                    if (!array_key_exists($key, $knownProcessors)) {
+                        continue;
+                    }
+
+                    if (!isset($class) || null === $class) {
+                        $v[$key] = $knownProcessors[$key];
+                    }
+                }
+
+                return $v;
+            })
+            ->end()
+            ->useAttributeAsKey('name')
+            ->normalizeKeys(false)
+            ->prototype('scalar')->isRequired()->end()
+            ->end();
+
+        return $node;
     }
 }
