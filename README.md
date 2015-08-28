@@ -78,8 +78,8 @@ swarrot:
 
 ```
 
-`processors_stack` under `consumers` keys are merge to global `processors_stack` if `exclusive_processor_stack` == false (default).
-if `exclusive_processor_stack` == true only this processors stack is passed to the command.
+`processors_stack` under `consumers` keys are merge to global `processors_stack` if `exclusive_processor_stack` equal to false (default).
+if `exclusive_processor_stack` is equal true only this processors stack is passed to the command.
 
 ## Publish a message
 
