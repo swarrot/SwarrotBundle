@@ -74,6 +74,7 @@ class Configuration implements ConfigurationInterface
                     ->normalizeKeys(false)
                     ->prototype('array')
                         ->fixXmlConfig('extra')
+                        ->fixXmlConfig('processor', 'processors_stack')
                         ->children()
                             ->scalarNode('processor')->isRequired()->end()
                             ->scalarNode('command')->defaultValue(null)->end()
