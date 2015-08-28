@@ -12,6 +12,7 @@ use Swarrot\Consumer;
 use Swarrot\Processor\Stack\Builder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * SwarrotCommand.
@@ -55,16 +56,16 @@ class SwarrotCommand extends ContainerAwareCommand
             ->setDescription(sprintf('Consume message of type "%s" from a given queue', $this->name))
             ->addArgument('queue', InputArgument::OPTIONAL, 'Queue to consume', $this->queue)
             ->addArgument('connection', InputArgument::OPTIONAL, 'Connection to use', $this->connectionName)
-            ->addOption('poll-interval', null, InputOption::VALUE_REQUIRED, 'Poll interval (in micro-seconds)', 500000)
+            ->addOption(
+                'poll-interval',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Poll interval (in micro-seconds)',
+                (isset($this->extras['poll_interval']))?$this->extras['poll_interval']:500000)
         ;
 
         if (array_key_exists('ack', $this->processorStack)) {
-            $this->addOption(
-                'requeue-on-error',
-                'r',
-                InputOption::VALUE_OPTIONAL,
-                'Requeue in the same queue on error',
-                (isset($this->extras['requeue_on_error']))?$this->extras['requeue_on_error']:false);
+            $this->addOption('requeue-on-error', 'r', InputOption::VALUE_NONE, 'Requeue in the same queue on error');
         }
         if (array_key_exists('max_execution_time', $this->processorStack)) {
             $this->addOption(
@@ -173,9 +174,8 @@ class SwarrotCommand extends ContainerAwareCommand
         if ($input->hasOption('max-messages')) {
             $options['max_messages'] = (int) $input->getOption('max-messages');
         }
-        if ($input->hasOption('requeue-on-error')) {
-            $options['requeue_on_error'] = (bool) $input->getOption('requeue-on-error');
-        }
+
+        $options['requeue_on_error'] = ((isset($this->extras['requeue_on_error']) && true == $this->extras['requeue_on_error']) || (true === $input->getOption('requeue-on-error')));
 
         if (array_key_exists('retry', $this->processorStack) && !$input->getOption('no-retry')) {
             $key = 'retry_%attempt%s';
