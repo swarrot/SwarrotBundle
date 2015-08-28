@@ -58,12 +58,14 @@ swarrot:
         signal_handler: 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor'
         ack: 'Swarrot\Processor\Ack\AckProcessor'
         max_messages: 'Swarrot\Processor\MaxMessages\MaxMessagesProcessor'
-        retry: 'Swarrot\Processor\Retry\RetryProcessor'
         exception_catcher: 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor'
         max_execution_time: 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor'
     consumers:
         my_consumer:
             processor: my_consumer.processor.service
+            exclusive_processor_stack: true
+            processors_stack:
+                    retry: 'Swarrot\Processor\Retry\RetryProcessor'
             extras:
                 retry_exchange: my_consumer_exchange
                 retry_attempts: 3
@@ -75,6 +77,9 @@ swarrot:
             routing_key: my_routing_key
 
 ```
+
+`processors_stack` under `consumers` keys are merge to global `processors_stack` if `exclusive_processor_stack` == false (default).
+if `exclusive_processor_stack` == true only this processors stack is passed to the command.
 
 ## Publish a message
 
