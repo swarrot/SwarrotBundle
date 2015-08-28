@@ -175,7 +175,9 @@ class SwarrotCommand extends ContainerAwareCommand
             $options['max_messages'] = (int) $input->getOption('max-messages');
         }
 
-        $options['requeue_on_error'] = ((isset($this->extras['requeue_on_error']) && true == $this->extras['requeue_on_error']) || (true === $input->getOption('requeue-on-error')));
+        if (array_key_exists('ack', $this->processorStack)) {
+            $options['requeue_on_error'] = ((isset($this->extras['requeue_on_error']) && true == $this->extras['requeue_on_error']) || (true === $input->getOption('requeue-on-error')));
+        }
 
         if (array_key_exists('retry', $this->processorStack) && !$input->getOption('no-retry')) {
             $key = 'retry_%attempt%s';
