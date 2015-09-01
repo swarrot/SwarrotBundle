@@ -8,11 +8,11 @@ use Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher;
 class PeclFactory implements FactoryInterface
 {
     protected $connections       = array();
-    protected $channels          = array();
     protected $messageProviders  = array();
     protected $messagePublishers = array();
     protected $queues            = array();
     protected $exchanges         = array();
+    protected $amqpConnections   = array();
 
     /**
      * {@inheritDoc}
@@ -121,10 +121,6 @@ class PeclFactory implements FactoryInterface
      */
     protected function getChannel($connection)
     {
-        if (isset($this->channels[$connection])) {
-            return $this->channels[$connection];
-        }
-
         if (!isset($this->connections[$connection])) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown connection "%s". Available: [%s]',
@@ -133,15 +129,11 @@ class PeclFactory implements FactoryInterface
             ));
         }
 
-        if (!isset($this->channels[$connection])) {
-            $this->channels[$connection] = array();
+        if (!isset($this->amqpConnections[$connection])) {
+            $this->amqpConnections[$connection] = new \AMQPConnection($this->connections[$connection]);
+            $this->amqpConnections[$connection]->connect();
         }
 
-        $conn = new \AMQPConnection($this->connections[$connection]);
-        $conn->connect();
-
-        $this->channels[$connection] = new \AMQPChannel($conn);
-
-        return $this->channels[$connection];
+        return new \AMQPChannel($this->amqpConnections[$connection]);
     }
 }
