@@ -55,9 +55,9 @@ class SwarrotExtension extends Extension
             }
 
             if (true === $consumerConfig['exclusive_processor_stack']) {
-                $processorsStack = $consumerConfig['processors_stack'];
+                $processorsStack = $consumerConfig['stacked_processors'];
             } else {
-                $processorsStack = array_merge($config['processors_stack'], $consumerConfig['processors_stack']);
+                $processorsStack = array_merge($config['stacked_processors'], $consumerConfig['stacked_processors']);
             }
 
             $commands[$name] = $this->buildCommand($container, $name, $consumerConfig, $processorsStack);

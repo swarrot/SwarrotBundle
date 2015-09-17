@@ -38,7 +38,7 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('connection')
             ->fixXmlConfig('consumer')
             ->fixXmlConfig('messages_type')
-            ->fixXmlConfig('processor', 'processors_stack')
+            ->fixXmlConfig('stacked_processor', 'stacked_processors')
             ->children()
                 ->scalarNode('provider')
                     ->defaultValue('pecl')
@@ -74,7 +74,7 @@ class Configuration implements ConfigurationInterface
                     ->normalizeKeys(false)
                     ->prototype('array')
                         ->fixXmlConfig('extra')
-                        ->fixXmlConfig('processor', 'processors_stack')
+                        ->fixXmlConfig('stacked_processor', 'stacked_processors')
                         ->children()
                             ->scalarNode('processor')->isRequired()->end()
                             ->scalarNode('command')->defaultValue(null)->end()
@@ -121,7 +121,7 @@ class Configuration implements ConfigurationInterface
         $knownProcessors = $this->knownProcessors;
 
         $treeBuilder = new TreeBuilder();
-        $node = $treeBuilder->root('processors_stack');
+        $node = $treeBuilder->root('stacked_processors');
 
         $node->beforeNormalization()
             ->ifArray()
