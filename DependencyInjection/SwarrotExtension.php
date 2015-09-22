@@ -24,26 +24,12 @@ class SwarrotExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('swarrot.xml');
 
-        $id = 'swarrot.factory.'.$config['provider'];
-        if (!$container->has($id)) {
-            throw new \InvalidArgumentException('Unsupported provider');
-        }
-
-        $definition = $container->getDefinition($id);
-
-        foreach ($config['connections'] as $name => $connectionConfig) {
-            $definition->addMethodCall('addConnection', array(
-                $name,
-                $connectionConfig
-            ));
-        }
-
         if (null === $config['default_connection']) {
             reset($config['connections']);
             $config['default_connection'] = key($config['connections']);
         }
 
-        $container->setAlias('swarrot.factory.default', $id);
+        $container->setParameter('swarrot.provider_config', [$config['provider'], $config['connections']]);
 
         $commands = array();
         foreach ($config['consumers'] as $name => $consumerConfig) {
