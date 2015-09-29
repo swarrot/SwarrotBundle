@@ -16,7 +16,15 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function test_should_not_run_if_already_declared()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
+            'has',
+            'setAlias',
+            'hasParameter',
+            'getParameter',
+            'getDefinition',
+            'getParameterBag',
+            'findTaggedServiceIds',
+        ]);
 
         $container
             ->expects($this->once())
@@ -38,7 +46,15 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function test_should_not_run_if_not_configured()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
+            'has',
+            'setAlias',
+            'hasParameter',
+            'getParameter',
+            'getDefinition',
+            'getParameterBag',
+            'findTaggedServiceIds',
+        ]);
 
         $container
             ->expects($this->once())
@@ -69,7 +85,15 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function test_unexistant_provider()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
+            'has',
+            'setAlias',
+            'hasParameter',
+            'getParameter',
+            'getDefinition',
+            'getParameterBag',
+            'findTaggedServiceIds',
+        ]);
 
         $container
             ->expects($this->once())
@@ -122,7 +146,15 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function test_invalid_provider()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
+            'has',
+            'setAlias',
+            'hasParameter',
+            'getParameter',
+            'getDefinition',
+            'getParameterBag',
+            'findTaggedServiceIds',
+        ]);
         $definition = $this->getMock('Symfony\\Component\\DependencyInjection\\Definition');
 
         $definition->expects($this->once())
@@ -185,7 +217,15 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function test_successful_provider()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
+            'has',
+            'setAlias',
+            'hasParameter',
+            'getParameter',
+            'getDefinition',
+            'getParameterBag',
+            'findTaggedServiceIds',
+        ]);
         $definition = $this->getMock('Symfony\\Component\\DependencyInjection\\Definition');
         $parameterBag = $this->getMock('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
 
