@@ -16,15 +16,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function test_should_not_run_if_already_declared()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
-            'has',
-            'setAlias',
-            'hasParameter',
-            'getParameter',
-            'getDefinition',
-            'getParameterBag',
-            'findTaggedServiceIds',
-        ]);
+        $container = $this->getContainer();
 
         $container
             ->expects($this->once())
@@ -37,7 +29,6 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->expects($this->never())->method('hasParameter');
         $container->expects($this->never())->method('getParameter');
         $container->expects($this->never())->method('getDefinition');
-        $container->expects($this->never())->method('getParameterBag');
         $container->expects($this->never())->method('findTaggedServiceIds');
 
         $compiler = new ProviderCompilerPass;
@@ -46,15 +37,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function test_should_not_run_if_not_configured()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
-            'has',
-            'setAlias',
-            'hasParameter',
-            'getParameter',
-            'getDefinition',
-            'getParameterBag',
-            'findTaggedServiceIds',
-        ]);
+        $container = $this->getContainer();
 
         $container
             ->expects($this->once())
@@ -72,7 +55,6 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->expects($this->never())->method('setAlias');
         $container->expects($this->never())->method('getParameter');
         $container->expects($this->never())->method('getDefinition');
-        $container->expects($this->never())->method('getParameterBag');
         $container->expects($this->never())->method('findTaggedServiceIds');
 
         $compiler = new ProviderCompilerPass;
@@ -85,15 +67,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function test_unexistant_provider()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
-            'has',
-            'setAlias',
-            'hasParameter',
-            'getParameter',
-            'getDefinition',
-            'getParameterBag',
-            'findTaggedServiceIds',
-        ]);
+        $container = $this->getContainer();
 
         $container
             ->expects($this->once())
@@ -134,7 +108,6 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container->expects($this->never())->method('setAlias');
         $container->expects($this->never())->method('getDefinition');
-        $container->expects($this->never())->method('getParameterBag');
 
         $compiler = new ProviderCompilerPass;
         $compiler->process($container);
@@ -146,15 +119,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function test_invalid_provider()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
-            'has',
-            'setAlias',
-            'hasParameter',
-            'getParameter',
-            'getDefinition',
-            'getParameterBag',
-            'findTaggedServiceIds',
-        ]);
+        $container = $this->getContainer();
         $definition = $this->getMock('Symfony\\Component\\DependencyInjection\\Definition');
 
         $definition->expects($this->once())
@@ -162,8 +127,14 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
                    ->with()
                    ->willReturn('stdClass')
         ;
-
         $definition->expects($this->never())->method('addMethodCall');
+
+        $container->getParameterBag()
+                  ->expects($this->once())
+                  ->method('resolveValue')
+                  ->with('stdClass')
+                  ->willReturn('stdClass')
+        ;
 
         $container
             ->expects($this->once())
@@ -209,7 +180,6 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         ;
 
         $container->expects($this->never())->method('setAlias');
-        $container->expects($this->never())->method('getParameterBag');
 
         $compiler = new ProviderCompilerPass;
         $compiler->process($container);
@@ -217,17 +187,8 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function test_successful_provider()
     {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
-            'has',
-            'setAlias',
-            'hasParameter',
-            'getParameter',
-            'getDefinition',
-            'getParameterBag',
-            'findTaggedServiceIds',
-        ]);
+        $container = $this->getContainer();
         $definition = $this->getMock('Symfony\\Component\\DependencyInjection\\Definition');
-        $parameterBag = $this->getMock('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
 
         $definition->expects($this->once())
                    ->method('getClass')
@@ -237,6 +198,13 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         $definition->expects($this->once())
                    ->method('addMethodCall')
                    ->with('addConnection', ['foo', []])
+        ;
+
+        $container->getParameterBag()
+                  ->expects($this->once())
+                  ->method('resolveValue')
+                  ->with('Swarrot\\SwarrotBundle\\Broker\\FactoryInterface')
+                  ->willReturn('Swarrot\\SwarrotBundle\\Broker\\FactoryInterface')
         ;
 
         $container
@@ -288,19 +256,30 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->method('setAlias')
             ->with('swarrot.factory.default', 'foo')
         ;
+
+        $compiler = new ProviderCompilerPass;
+        $compiler->process($container);;
+    }
+
+    private function getContainer()
+    {
+        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
+            'has',
+            'setAlias',
+            'hasParameter',
+            'getParameter',
+            'getDefinition',
+            'getParameterBag',
+            'findTaggedServiceIds',
+        ]);
+        $parameterBag = $this->getMock('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
+
         $container
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getParameterBag')
             ->willReturn($parameterBag)
         ;
 
-        $parameterBag
-            ->expects($this->once())
-            ->method('remove')
-            ->with('swarrot.provider_config')
-        ;
-
-        $compiler = new ProviderCompilerPass;
-        $compiler->process($container);;
+        return $container;
     }
 }

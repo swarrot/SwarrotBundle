@@ -30,7 +30,9 @@ class ProviderCompilerPass implements CompilerPassInterface
 
         $id = $providersIds[$provider];
         $definition = $container->getDefinition($id);
-        $reflection = new \ReflectionClass($definition->getClass());
+        $className = $container->getParameterBag()->resolveValue($definition->getClass());
+
+        $reflection = new \ReflectionClass($className);
 
         if (!$reflection->implementsInterface('Swarrot\\SwarrotBundle\\Broker\\FactoryInterface')) {
             throw new \InvalidArgumentException(sprintf('The provider "%s" is not valid', $provider));
