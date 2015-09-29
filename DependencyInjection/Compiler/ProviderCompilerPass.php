@@ -18,7 +18,12 @@ class ProviderCompilerPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds('swarrot.provider_factory') as $id => $tags) {
             foreach ($tags as $tag) {
-                $providersIds[isset($tag['alias']) ? $tag['alias'] : $id] = $id;
+                if (!isset($tag['alias'])) {
+                    throw new \InvalidArgumentException(
+                        sprintf('The provider\'s alias is no defined for the service "%s"', $id)
+                    );
+                }
+                $providersIds[$tag['alias']] = $id;
             }
         }
 

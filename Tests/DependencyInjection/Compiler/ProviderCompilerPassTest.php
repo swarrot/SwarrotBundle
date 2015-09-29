@@ -63,6 +63,45 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage The provider's alias is no defined for the service "foo"
+     */
+    public function test_missing_alias()
+    {
+        $container = $this->getContainer();
+
+        $container
+            ->expects($this->once())
+            ->method('has')
+            ->with('swarrot.factory.default')
+            ->willReturn(false)
+        ;
+        $container
+            ->expects($this->once())
+            ->method('hasParameter')
+            ->with('swarrot.provider_config')
+            ->willReturn(true)
+        ;
+        $container
+            ->expects($this->once())
+            ->method('findTaggedServiceIds')
+            ->with('swarrot.provider_factory')
+            ->willReturn([
+                'foo' => [
+                    []
+                ]
+            ])
+        ;
+
+        $container->expects($this->never())->method('getParameter');
+        $container->expects($this->never())->method('setAlias');
+        $container->expects($this->never())->method('getDefinition');
+
+        $compiler = new ProviderCompilerPass;
+        $compiler->process($container);
+    }
+
+    /**
+     * @expectedException        InvalidArgumentException
      * @expectedExceptionMessage Invalid provider "foo"
      */
     public function test_unexistant_provider()
@@ -92,7 +131,9 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'bar' => [
-                    []
+                    [
+                        'alias' => 'bar'
+                    ]
                 ]
             ])
         ;
@@ -159,7 +200,9 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'bar' => [
-                    []
+                    [
+                        'alias' => 'bar'
+                    ]
                 ]
             ])
         ;
@@ -230,7 +273,9 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
                     ]
                 ],
                 'bar' => [
-                    []
+                    [
+                        'alias' => 'bar'
+                    ]
                 ]
             ])
         ;
