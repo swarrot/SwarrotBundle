@@ -29,14 +29,10 @@ class SwarrotExtension extends Extension
             throw new \InvalidArgumentException('Unsupported provider');
         }
 
-        $definition = $container->getDefinition($id);
-
         foreach ($config['connections'] as $name => $connectionConfig) {
-            $definition->addMethodCall('addConnection', array(
-                $name,
-                $connectionConfig
-            ));
+            $connections[$name] = $connectionConfig;
         }
+        $container->setParameter('swarrot.connections', $connections);
 
         if (null === $config['default_connection']) {
             reset($config['connections']);

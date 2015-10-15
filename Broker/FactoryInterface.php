@@ -8,16 +8,6 @@ use Swarrot\Broker\MessagePublisher\MessagePublisherInterface;
 interface FactoryInterface
 {
     /**
-     * addConnection
-     *
-     * @param string $name       A name for the connection
-     * @param array  $connection An array containing connection informations
-     *
-     * @return FactoryInterface
-     */
-    public function addConnection($name, array $connection);
-
-    /**
      * getMessageProvider
      *
      * @param string $name       The name of the queue where the MessageProviderInterface will found messages

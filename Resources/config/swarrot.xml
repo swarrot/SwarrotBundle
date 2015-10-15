@@ -10,8 +10,12 @@
     </parameters>
 
     <services>
-        <service id="swarrot.factory.pecl" class="%swarrot.factory.pecl.class%" />
-        <service id="swarrot.factory.amqp_lib" class="%swarrot.factory.amqp_lib.class%" />
+        <service id="swarrot.factory.abstract" abstract="true">
+            <argument>%swarrot.connections%</argument>
+        </service>
+
+        <service id="swarrot.factory.pecl" class="%swarrot.factory.pecl.class%" parent="swarrot.factory.abstract" />
+        <service id="swarrot.factory.amqp_lib" class="%swarrot.factory.amqp_lib.class%" parent="swarrot.factory.abstract" />
 
         <service id="swarrot.command.base" class="%swarrot.command.base.class%" abstract="true">
             <argument /> <!-- name -->
