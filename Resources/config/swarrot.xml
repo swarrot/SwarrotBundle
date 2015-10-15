@@ -34,6 +34,9 @@
             <argument type="service" id="swarrot.factory.default" />
             <argument type="service" id="event_dispatcher" />
             <argument>%swarrot.messages_types%</argument>
+            <argument type="service" id="swarrot.logger" />
         </service>
+
+        <service id="swarrot.logger.null" class="Psr\Log\NullLogger" public="false" />
     </services>
 </container>

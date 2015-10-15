@@ -46,6 +46,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
                 ->scalarNode('default_command')->defaultValue('swarrot.command.base')->cannotBeEmpty()->end()
+                ->scalarNode('publisher_logger')->defaultValue('swarrot.logger.null')->cannotBeEmpty()->end()
                 ->arrayNode('connections')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
