@@ -14,12 +14,9 @@ class PeclFactory implements FactoryInterface
     protected $exchanges         = array();
     protected $amqpConnections   = array();
 
-    /**
-     * {@inheritDoc}
-     */
-    public function addConnection($name, array $connection)
+    public function __construct(array $connections = [])
     {
-        $this->connections[$name] = $connection;
+        $this->connections = $connections;
     }
 
     /**
