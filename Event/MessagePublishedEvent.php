@@ -15,6 +15,15 @@ class MessagePublishedEvent extends Event
     protected $exchange;
     protected $routingKey;
 
+    /**
+     * __construct.
+     *
+     * @param string  $messageType
+     * @param Message $message
+     * @param string  $connection
+     * @param string  $exchange
+     * @param string  $routingKey
+     */
     public function __construct($messageType, Message $message, $connection, $exchange, $routingKey)
     {
         $this->messageType = $messageType;

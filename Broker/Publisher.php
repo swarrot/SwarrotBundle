@@ -15,6 +15,14 @@ class Publisher
     protected $messageTypes;
     protected $logger;
 
+    /**
+     * __construct.
+     *
+     * @param FactoryInterface         $factory
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param array                    $messageTypes
+     * @param LoggerInterface          $logger
+     */
     public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = array(), LoggerInterface $logger = null)
     {
         $this->factory = $factory;

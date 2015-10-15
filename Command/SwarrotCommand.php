@@ -13,11 +13,6 @@ use Swarrot\Processor\Stack\Builder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * SwarrotCommand.
- *
- * @author Olivier Dolbeau <contact@odolbeau.fr>
- */
 class SwarrotCommand extends ContainerAwareCommand
 {
     protected $name;
@@ -48,6 +43,9 @@ class SwarrotCommand extends ContainerAwareCommand
         parent::__construct();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
@@ -99,6 +97,9 @@ class SwarrotCommand extends ContainerAwareCommand
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $queue = $input->getArgument('queue');
