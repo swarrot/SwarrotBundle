@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
 /**
- * SwarrotExtension
+ * SwarrotExtension.
  */
 class SwarrotExtension extends Extension
 {
@@ -21,7 +21,7 @@ class SwarrotExtension extends Extension
     {
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('swarrot.xml');
 
         if (null === $config['default_connection']) {
@@ -86,7 +86,7 @@ class SwarrotExtension extends Extension
     }
 
     /**
-     * buildCommand
+     * buildCommand.
      *
      * @param ContainerBuilder $container
      * @param string           $name

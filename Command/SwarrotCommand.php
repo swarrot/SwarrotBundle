@@ -12,13 +12,7 @@ use Swarrot\Consumer;
 use Swarrot\Processor\Stack\Builder;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\VarDumper\VarDumper;
 
-/**
- * SwarrotCommand.
- *
- * @author Olivier Dolbeau <contact@odolbeau.fr>
- */
 class SwarrotCommand extends ContainerAwareCommand
 {
     protected $name;
@@ -38,17 +32,20 @@ class SwarrotCommand extends ContainerAwareCommand
         LoggerInterface $logger = null,
         $queue = null
     ) {
-        $this->name           = $name;
+        $this->name = $name;
         $this->connectionName = $connectionName;
-        $this->processor      = $processor;
+        $this->processor = $processor;
         $this->processorStack = $processorStack;
-        $this->extras         = $extras;
-        $this->logger         = $logger;
-        $this->queue          = $queue;
+        $this->extras = $extras;
+        $this->logger = $logger;
+        $this->queue = $queue;
 
         parent::__construct();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function configure()
     {
         $this
@@ -61,7 +58,7 @@ class SwarrotCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Poll interval (in micro-seconds)',
-                (isset($this->extras['poll_interval']))?$this->extras['poll_interval']:500000)
+                (isset($this->extras['poll_interval'])) ? $this->extras['poll_interval'] : 500000)
         ;
 
         if (array_key_exists('ack', $this->processorStack)) {
@@ -73,7 +70,7 @@ class SwarrotCommand extends ContainerAwareCommand
                 't',
                 InputOption::VALUE_REQUIRED,
                 'Max execution time (seconds) before exit',
-                (isset($this->extras['max_execution_time']))?$this->extras['max_execution_time']:300);
+                (isset($this->extras['max_execution_time'])) ? $this->extras['max_execution_time'] : 300);
         }
         if (array_key_exists('max_messages', $this->processorStack)) {
             $this->addOption(
@@ -81,7 +78,7 @@ class SwarrotCommand extends ContainerAwareCommand
                 'm',
                 InputOption::VALUE_REQUIRED,
                 'Max messages to process before exit',
-                (isset($this->extras['max_messages']))?$this->extras['max_messages']:300);
+                (isset($this->extras['max_messages'])) ? $this->extras['max_messages'] : 300);
         }
         if (array_key_exists('exception_catcher', $this->processorStack)) {
             $this->addOption('no-catch', 'C', InputOption::VALUE_NONE, 'Deactivate exception catching.');
@@ -96,10 +93,13 @@ class SwarrotCommand extends ContainerAwareCommand
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Number of maximum retry attempts (if it exists, override the extra data parameter)',
-                (isset($this->extras['retry_attempts']))?$this->extras['retry_attempts']:3);
+                (isset($this->extras['retry_attempts'])) ? $this->extras['retry_attempts'] : 3);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $queue = $input->getArgument('queue');
@@ -154,7 +154,7 @@ class SwarrotCommand extends ContainerAwareCommand
     }
 
     /**
-     * getOptions
+     * getOptions.
      *
      * @param InputInterface $input
      *
@@ -163,8 +163,8 @@ class SwarrotCommand extends ContainerAwareCommand
     protected function getOptions(InputInterface $input)
     {
         $options = array(
-            'queue'         => $input->getArgument('queue'),
-            'connection'    => $input->getArgument('connection'),
+            'queue' => $input->getArgument('queue'),
+            'connection' => $input->getArgument('connection'),
             'poll_interval' => (int) $input->getOption('poll-interval'),
         );
 

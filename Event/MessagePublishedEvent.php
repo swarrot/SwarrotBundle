@@ -15,17 +15,26 @@ class MessagePublishedEvent extends Event
     protected $exchange;
     protected $routingKey;
 
+    /**
+     * __construct.
+     *
+     * @param string  $messageType
+     * @param Message $message
+     * @param string  $connection
+     * @param string  $exchange
+     * @param string  $routingKey
+     */
     public function __construct($messageType, Message $message, $connection, $exchange, $routingKey)
     {
         $this->messageType = $messageType;
-        $this->message     = $message;
-        $this->connection  = $connection;
-        $this->exchange    = $exchange;
-        $this->routingKey  = $routingKey;
+        $this->message = $message;
+        $this->connection = $connection;
+        $this->exchange = $exchange;
+        $this->routingKey = $routingKey;
     }
 
     /**
-     * getMessageType
+     * getMessageType.
      *
      * @return string
      */
@@ -35,7 +44,7 @@ class MessagePublishedEvent extends Event
     }
 
     /**
-     * getMessage
+     * getMessage.
      *
      * @return Message
      */
@@ -45,7 +54,7 @@ class MessagePublishedEvent extends Event
     }
 
     /**
-     * getConnection
+     * getConnection.
      *
      * @return string
      */
@@ -55,7 +64,7 @@ class MessagePublishedEvent extends Event
     }
 
     /**
-     * getExchange
+     * getExchange.
      *
      * @return string
      */
@@ -65,7 +74,7 @@ class MessagePublishedEvent extends Event
     }
 
     /**
-     * getRoutingKey
+     * getRoutingKey.
      *
      * @return string
      */

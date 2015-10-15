@@ -13,7 +13,7 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $config = array(
             'messages_types' => array(
                 'test' => array('exchange' => 'test'),
-            )
+            ),
         );
 
         $this->loadConfig($container, $config);
@@ -39,8 +39,8 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
             'consumers' => array(
                 'testing' => array(
                     'processor' => 'app.swarrot_processor',
-                )
-            )
+                ),
+            ),
         );
 
         $this->loadConfig($container, $config);

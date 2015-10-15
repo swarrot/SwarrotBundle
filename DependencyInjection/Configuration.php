@@ -8,13 +8,13 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     protected $knownProcessors = array(
-        'ack'                => 'Swarrot\Processor\Ack\AckProcessor',
-        'exception_catcher'  => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
+        'ack' => 'Swarrot\Processor\Ack\AckProcessor',
+        'exception_catcher' => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
         'max_execution_time' => 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
-        'max_messages'       => 'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
-        'retry'              => 'Swarrot\Processor\Retry\RetryProcessor',
-        'signal_handler'     => 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor',
-        'object_manager'     => 'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
+        'max_messages' => 'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
+        'retry' => 'Swarrot\Processor\Retry\RetryProcessor',
+        'signal_handler' => 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor',
+        'object_manager' => 'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
     );
 
     private $debug;
@@ -25,9 +25,7 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * Generates the configuration tree.
-     *
-     * @return TreeBuilder
+     * {@inheritDoc}
      */
     public function getConfigTreeBuilder()
     {

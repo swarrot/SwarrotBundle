@@ -7,7 +7,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ProviderCompilerPass implements CompilerPassInterface
 {
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     */
     public function process(ContainerBuilder $container)
     {
         if ($container->has('swarrot.factory.default') || !$container->hasParameter('swarrot.provider_config')) {
@@ -46,7 +48,7 @@ class ProviderCompilerPass implements CompilerPassInterface
         foreach ($connections as $name => $connectionConfig) {
             $definition->addMethodCall('addConnection', [
                 $name,
-                $connectionConfig
+                $connectionConfig,
             ]);
         }
 

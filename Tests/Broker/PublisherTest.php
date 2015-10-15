@@ -29,7 +29,6 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\InvalidArgumentException');
         $message = new Message();
         $publisher->publish('message_type', $message);
-
     }
 
     public function test_publish_with_valid_message_type()
@@ -50,9 +49,9 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             ->debug(
                 Argument::exact('Publish message in {exchange}:{routing_key} (connection {connection})'),
                 Argument::exact([
-                    'exchange'    => 'exchange',
+                    'exchange' => 'exchange',
                     'routing_key' => 'routing_key',
-                    'connection'  => 'connection',
+                    'connection' => 'connection',
                 ])
             )
             ->shouldBeCalledTimes(1)
@@ -79,12 +78,11 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
                     'connection' => 'connection',
                     'exchange' => 'exchange',
                     'routing_key' => 'routing_key',
-                ]
+                ],
             ],
             $logger->reveal()
         );
 
         $publisher->publish('message_type', $message);
-
     }
 }

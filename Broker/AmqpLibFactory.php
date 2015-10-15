@@ -10,9 +10,9 @@ use Swarrot\Broker\MessagePublisher\PhpAmqpLibMessagePublisher;
 
 class AmqpLibFactory implements FactoryInterface
 {
-    protected $connections       = array();
-    protected $channels          = array();
-    protected $messageProviders  = array();
+    protected $connections = array();
+    protected $channels = array();
+    protected $messageProviders = array();
     protected $messagePublishers = array();
 
     /**
@@ -60,7 +60,7 @@ class AmqpLibFactory implements FactoryInterface
     }
 
     /**
-     * getChannel
+     * getChannel.
      *
      * @param string $connection
      *
@@ -87,15 +87,15 @@ class AmqpLibFactory implements FactoryInterface
         if (isset($this->connections[$connection]['ssl']) && $this->connections[$connection]['ssl']) {
             if (empty($this->connections[$connection]['ssl_options'])) {
                 $ssl_opts = array(
-                    'verify_peer' => true
+                    'verify_peer' => true,
                 );
             } else {
-               $ssl_opts = array();
-               foreach ($this->connections[$connection]['ssl_options'] as $key => $value) {
-                   if (!empty($value)) {
+                $ssl_opts = array();
+                foreach ($this->connections[$connection]['ssl_options'] as $key => $value) {
+                    if (!empty($value)) {
                         $ssl_opts[$key] = $value;
-                   }
-               }
+                    }
+                }
             }
 
             $conn = new AMQPSSLConnection(
