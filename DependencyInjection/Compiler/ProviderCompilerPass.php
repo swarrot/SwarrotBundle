@@ -46,7 +46,7 @@ class ProviderCompilerPass implements CompilerPassInterface
         foreach ($connections as $name => $connectionConfig) {
             $definition->addMethodCall('addConnection', [
                 $name,
-                $connectionConfig
+                $connectionConfig,
             ]);
         }
 

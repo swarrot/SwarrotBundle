@@ -31,7 +31,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->expects($this->never())->method('getDefinition');
         $container->expects($this->never())->method('findTaggedServiceIds');
 
-        $compiler = new ProviderCompilerPass;
+        $compiler = new ProviderCompilerPass();
         $compiler->process($container);
     }
 
@@ -57,7 +57,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->expects($this->never())->method('getDefinition');
         $container->expects($this->never())->method('findTaggedServiceIds');
 
-        $compiler = new ProviderCompilerPass;
+        $compiler = new ProviderCompilerPass();
         $compiler->process($container);
     }
 
@@ -87,8 +87,8 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->with('swarrot.provider_factory')
             ->willReturn([
                 'foo' => [
-                    []
-                ]
+                    [],
+                ],
             ])
         ;
 
@@ -96,7 +96,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container->expects($this->never())->method('setAlias');
         $container->expects($this->never())->method('getDefinition');
 
-        $compiler = new ProviderCompilerPass;
+        $compiler = new ProviderCompilerPass();
         $compiler->process($container);
     }
 
@@ -127,14 +127,14 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->willReturn([
                 'foo' => [
                     [
-                        'alias' => 'foo.bar'
-                    ]
+                        'alias' => 'foo.bar',
+                    ],
                 ],
                 'bar' => [
                     [
-                        'alias' => 'bar'
-                    ]
-                ]
+                        'alias' => 'bar',
+                    ],
+                ],
             ])
         ;
         $container
@@ -143,14 +143,14 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->with('swarrot.provider_config')
             ->willReturn([
                 'foo',
-                []
+                [],
             ])
         ;
 
         $container->expects($this->never())->method('setAlias');
         $container->expects($this->never())->method('getDefinition');
 
-        $compiler = new ProviderCompilerPass;
+        $compiler = new ProviderCompilerPass();
         $compiler->process($container);
     }
 
@@ -196,14 +196,14 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->willReturn([
                 'foo' => [
                     [
-                        'alias' => 'foo.bar'
-                    ]
+                        'alias' => 'foo.bar',
+                    ],
                 ],
                 'bar' => [
                     [
-                        'alias' => 'bar'
-                    ]
-                ]
+                        'alias' => 'bar',
+                    ],
+                ],
             ])
         ;
         $container
@@ -212,7 +212,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->with('swarrot.provider_config')
             ->willReturn([
                 'foo.bar',
-                []
+                [],
             ])
         ;
         $container
@@ -224,7 +224,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
         $container->expects($this->never())->method('setAlias');
 
-        $compiler = new ProviderCompilerPass;
+        $compiler = new ProviderCompilerPass();
         $compiler->process($container);
     }
 
@@ -269,14 +269,14 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->willReturn([
                 'foo' => [
                     [
-                        'alias' => 'foo.bar'
-                    ]
+                        'alias' => 'foo.bar',
+                    ],
                 ],
                 'bar' => [
                     [
-                        'alias' => 'bar'
-                    ]
-                ]
+                        'alias' => 'bar',
+                    ],
+                ],
             ])
         ;
         $container
@@ -286,8 +286,8 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->willReturn([
                 'foo.bar',
                 [
-                    'foo' => []
-                ]
+                    'foo' => [],
+                ],
             ])
         ;
         $container
@@ -302,8 +302,8 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
             ->with('swarrot.factory.default', 'foo')
         ;
 
-        $compiler = new ProviderCompilerPass;
-        $compiler->process($container);;
+        $compiler = new ProviderCompilerPass();
+        $compiler->process($container);
     }
 
     private function getContainer()

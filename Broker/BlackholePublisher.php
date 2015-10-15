@@ -2,7 +2,6 @@
 
 namespace Swarrot\SwarrotBundle\Broker;
 
-use Swarrot\SwarrotBundle\Broker\Publisher;
 use Swarrot\Broker\Message;
 
 class BlackholePublisher extends Publisher

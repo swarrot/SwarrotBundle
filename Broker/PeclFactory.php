@@ -7,12 +7,12 @@ use Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher;
 
 class PeclFactory implements FactoryInterface
 {
-    protected $connections       = array();
-    protected $messageProviders  = array();
+    protected $connections = array();
+    protected $messageProviders = array();
     protected $messagePublishers = array();
-    protected $queues            = array();
-    protected $exchanges         = array();
-    protected $amqpConnections   = array();
+    protected $queues = array();
+    protected $exchanges = array();
+    protected $amqpConnections = array();
 
     /**
      * {@inheritDoc}
@@ -59,7 +59,7 @@ class PeclFactory implements FactoryInterface
     }
 
     /**
-     * getQueue
+     * getQueue.
      *
      * @param string $name
      * @param string $connection
@@ -85,7 +85,7 @@ class PeclFactory implements FactoryInterface
     }
 
     /**
-     * getExchange
+     * getExchange.
      *
      * @param string $name
      * @param string $connection
@@ -111,7 +111,7 @@ class PeclFactory implements FactoryInterface
     }
 
     /**
-     * getChannel
+     * getChannel.
      *
      * @param string $connection
      *

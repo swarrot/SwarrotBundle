@@ -17,25 +17,23 @@ class SwarrotDataCollector extends DataCollector
     }
 
     /**
-     * onMessagePublished
+     * onMessagePublished.
      *
      * @param MessagePublishedEvent $event
-     *
-     * @return void
      */
     public function onMessagePublished(MessagePublishedEvent $event)
     {
         $this->data[] = array(
             'message_type' => $event->getMessageType(),
-            'message'      => $event->getMessage(),
-            'connection'   => $event->getConnection(),
-            'exchange'     => $event->getExchange(),
-            'routing_key'  => $event->getRoutingKey(),
+            'message' => $event->getMessage(),
+            'connection' => $event->getConnection(),
+            'exchange' => $event->getExchange(),
+            'routing_key' => $event->getRoutingKey(),
         );
     }
 
     /**
-     * getMessages
+     * getMessages.
      *
      * @return array
      */
@@ -45,7 +43,7 @@ class SwarrotDataCollector extends DataCollector
     }
 
     /**
-     * getNbMessages
+     * getNbMessages.
      *
      * @return int
      */
