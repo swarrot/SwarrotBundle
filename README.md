@@ -169,6 +169,38 @@ You can also use options of the commande line:
 
 Default values will be override by your `config.yml` and use of options will override defaut|config values.
 
+## Implementing your own Provider
+If you want to implement your own provider (like Redis). First, you have to implements the `Swarrot\SwarrotBundle\Broker\FactoryInterface`.
+Then, you can register it with along the others services and tag it with `swarrot.provider_factory`. 
+
+```yaml
+services:
+    app.swarrot.custom_provider_factory:
+        class: AppBundle\Provider\CustomFactory
+        tags:
+            - {name: swarrot.provider_factory}
+    app.swarrot.redis_provider_factory:
+        class: AppBundle\Provider\RedisFactory
+        tags:
+            - {name: swarrot.provider_factory, alias: redis}
+```
+
+Now you can tell to swarrot to use it in the `config.yml` file.
+
+```yaml
+swarrot:
+  provider: app.swarrot.custom_provider_factory
+  ...
+```
+
+or with the alias
+
+```yaml
+swarrot:
+  provider: redis
+  ...
+```
+
 ## Running your tests without publishing
 If you use Swarrot you may not want to realy publish  messages like in test environment for example. You can use the `BlackholePublisher` to achieve this.
 

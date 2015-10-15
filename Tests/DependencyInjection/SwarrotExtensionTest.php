@@ -7,14 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function test_it_rejects_invalid_providers()
-    {
-        $this->loadConfig($this->createContainer(), array('provider' => 'invalid'));
-    }
-
     public function test_it_uses_the_default_connection_for_message_types()
     {
         $container = $this->createContainer();
