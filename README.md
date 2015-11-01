@@ -210,7 +210,7 @@ Update `config_test.yml` for example:
 
 ```yaml
 parameters:
-    swarrot.publisher.class: SP\Utils\Swarrot\PublisherBlackhole
+    swarrot.publisher.class: Swarrot\SwarrotBundle\Broker\BlackholePublisher
 ```
 
 ## License
