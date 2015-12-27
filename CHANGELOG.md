@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.3] - 2015-12-27
+
 ### Added
 
 - Inject logger into `PeclPackageMessagePublisher`.
@@ -44,6 +46,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.0.1] - 2014-07-18
 
 [Unreleased]: https://github.com/swarrot/swarrot/compare/v1.3.2...HEAD
+[1.3.3]: https://github.com/swarrot/swarrot/compare/v1.3.2...v1.3.3
 [1.3.2]: https://github.com/swarrot/swarrot/compare/v1.3.1...v1.3.2
 [1.3.1]: https://github.com/swarrot/swarrot/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/swarrot/swarrot/compare/v1.2.2...v1.3.0
