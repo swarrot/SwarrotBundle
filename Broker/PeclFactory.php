@@ -4,15 +4,29 @@ namespace Swarrot\SwarrotBundle\Broker;
 
 use Swarrot\Broker\MessageProvider\PeclPackageMessageProvider;
 use Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 class PeclFactory implements FactoryInterface
 {
+    protected $logger;
+
     protected $connections = array();
     protected $messageProviders = array();
     protected $messagePublishers = array();
     protected $queues = array();
     protected $exchanges = array();
     protected $amqpConnections = array();
+
+    /**
+     * __construct.
+     *
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger = null)
+    {
+        $this->logger = $logger ?: new NullLogger();
+    }
 
     /**
      * {@inheritDoc}
@@ -52,7 +66,7 @@ class PeclFactory implements FactoryInterface
 
             $exchange = $this->getExchange($name, $connection);
 
-            $this->messagePublishers[$connection][$name] = new PeclPackageMessagePublisher($exchange);
+            $this->messagePublishers[$connection][$name] = new PeclPackageMessagePublisher($exchange, AMQP_NOPARAM, $this->logger);
         }
 
         return $this->messagePublishers[$connection][$name];

@@ -11,6 +11,7 @@
 
     <services>
         <service id="swarrot.factory.pecl" class="%swarrot.factory.pecl.class%">
+            <argument type="service" id="swarrot.logger" />
             <tag name="swarrot.provider_factory" alias="pecl"/>
         </service>
         <service id="swarrot.factory.amqp_lib" class="%swarrot.factory.amqp_lib.class%">
