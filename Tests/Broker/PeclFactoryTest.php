@@ -6,6 +6,13 @@ use Swarrot\SwarrotBundle\Broker\PeclFactory;
 
 class PeclFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    protected function setUp()
+    {
+        if (!class_exists('AMQPConnection')) {
+            $this->markTestSkipped('The AMQP extension is not available');
+        }
+    }
+
     public function test_it_is_initializable()
     {
         $factory = new PeclFactory();
@@ -26,10 +33,6 @@ class PeclFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function test_get_publisher_with_known_connection()
     {
-        if (!class_exists('AMQPConnection')) {
-            $this->markTestSkipped('The AMQP extension is not available');
-        }
-
         $logger = $this->prophesize('Psr\Log\LoggerInterface');
         $factory = new PeclFactory($logger->reveal());
         $factory->addConnection('connection', ['vhost' => 'swarrot']);
