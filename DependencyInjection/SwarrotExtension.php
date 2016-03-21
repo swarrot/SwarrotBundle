@@ -29,7 +29,7 @@ class SwarrotExtension extends Extension
             $config['default_connection'] = key($config['connections']);
         }
 
-        $container->setAlias('swarrot.logger', $config['publisher_logger']);
+        $container->setAlias('swarrot.logger', $config['logger']);
 
         $container->setParameter('swarrot.provider_config', [$config['provider'], $config['connections']]);
 
