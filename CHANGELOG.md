@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - Inject logger into `PeclPackageMessagePublisher`.
 - Improve tests.
+- Make the swarrot logger configurable.
 
 ### Fixed
 
