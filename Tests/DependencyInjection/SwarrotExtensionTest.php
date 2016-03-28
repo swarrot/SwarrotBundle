@@ -90,6 +90,33 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertHasService($container, 'swarrot.data_collector');
     }
 
+    /**
+     * @group legacy
+     */
+    public function test_it_use_the_asked_logger_with_deprecated_key()
+    {
+        $container = $this->createContainer(false);
+
+        $this->loadConfig($container, array('publisher_logger' => 'my_awesome_logger'));
+
+        $this->assertHasService($container, 'swarrot.logger');
+        $alias = $container->getAlias('swarrot.logger');
+
+        $this->assertEquals('my_awesome_logger', (string) $alias);
+    }
+
+    public function test_it_use_the_asked_logger_with_new_key()
+    {
+        $container = $this->createContainer(false);
+
+        $this->loadConfig($container, array('logger' => 'my_awesome_logger'));
+
+        $this->assertHasService($container, 'swarrot.logger');
+        $alias = $container->getAlias('swarrot.logger');
+
+        $this->assertEquals('my_awesome_logger', (string) $alias);
+    }
+
     private function assertHasService(ContainerBuilder $container, $id)
     {
         $this->assertTrue($container->hasDefinition($id) || $container->hasAlias($id), sprintf('The service %s should be defined.', $id));

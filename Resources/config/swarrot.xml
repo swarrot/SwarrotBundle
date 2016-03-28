@@ -24,7 +24,7 @@
             <argument /> <!-- processor -->
             <argument /> <!-- processor stack -->
             <argument /> <!-- extra -->
-            <argument type="service" id="logger" />
+            <argument type="service" id="swarrot.logger" />
             <argument /> <!-- queue -->
             <call method="setContainer">
                 <argument type="service" id="service_container" />
@@ -37,7 +37,5 @@
             <argument>%swarrot.messages_types%</argument>
             <argument type="service" id="swarrot.logger" />
         </service>
-
-        <service id="swarrot.logger.null" class="Psr\Log\NullLogger" public="false" />
     </services>
 </container>

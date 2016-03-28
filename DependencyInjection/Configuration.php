@@ -35,6 +35,17 @@ class Configuration implements ConfigurationInterface
         $knownProcessors = $this->knownProcessors;
 
         $rootNode
+            ->beforeNormalization()
+                ->always()
+                ->then(function ($v) {
+                    // Deal with old logger config
+                    if (isset($v['publisher_logger']) && !isset($v['logger'])) {
+                        $v['logger'] = $v['publisher_logger'];
+                    }
+
+                    return $v;
+                })
+            ->end()
             ->fixXmlConfig('connection')
             ->fixXmlConfig('consumer')
             ->fixXmlConfig('messages_type')
@@ -46,7 +57,15 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
                 ->scalarNode('default_command')->defaultValue('swarrot.command.base')->cannotBeEmpty()->end()
-                ->scalarNode('publisher_logger')->defaultValue('swarrot.logger.null')->cannotBeEmpty()->end()
+                ->scalarNode('publisher_logger')
+                    ->validate()
+                    ->always()
+                        ->then(function ($v) {
+                            @trigger_error('The publisher_logger key is deprecated and should not be used anymore. Use `logger` instead.', E_USER_DEPRECATED);
+                        })
+                    ->end()
+                ->end()
+                ->scalarNode('logger')->defaultValue('logger')->cannotBeEmpty()->end()
                 ->arrayNode('connections')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
