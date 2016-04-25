@@ -11,7 +11,7 @@ interface FactoryInterface
      * addConnection.
      *
      * @param string $name       A name for the connection
-     * @param array  $connection An array containing connection informations
+     * @param array  $connection An array containing connection information
      *
      * @return FactoryInterface
      */

@@ -151,7 +151,7 @@ swarrot:
                 retry_routing_key_pattern: 'retry_%%attempt%%'
 ```
  
-You can also use options of the commande line:
+You can also use options of the command line:
 
 * **--poll-interval** [default: 500000]: Change the polling interval when no
   message found in broker
@@ -201,7 +201,7 @@ swarrot:
 ```
 
 ## Running your tests without publishing
-If you use Swarrot you may not want to realy publish  messages like in test environment for example. You can use the `BlackholePublisher` to achieve this.
+If you use Swarrot you may not want to really publish  messages like in test environment for example. You can use the `BlackholePublisher` to achieve this.
 
 Simply override the `swarrot.publisher.class` parameter in the DIC with the `Swarrot\SwarrotBundle\Broker\PublisherBlackhole` class.
 
