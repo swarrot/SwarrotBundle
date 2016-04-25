@@ -42,7 +42,7 @@ public function registerBundles()
 
 ## Configuration reference
 
-```
+```yaml
 swarrot:
     provider: pecl # pecl or amqp_lib
     default_connection: rabbitmq
@@ -74,7 +74,6 @@ swarrot:
             connection: rabbitmq # use the default connection by default
             exchange: my_exchange
             routing_key: my_routing_key
-
 ```
 
 ## Publish a message
@@ -137,7 +136,7 @@ here is the default order:
 All this processors are configurable.
 You can add `extras` key on each consumer definition in your `config.yml`
 
-```
+```yaml
 swarrot:
     ...
     consumers:
