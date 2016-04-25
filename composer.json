@@ -21,7 +21,7 @@
         "symfony/phpunit-bridge": "~2.8|~3.0"
     },
     "suggest": {
-        "videlalvaro/php-amqplib": "Required if using amqp_lib"
+        "php-amqplib/php-amqplib": "Required if using amqp_lib"
     },
     "config": {
         "bin-dir": "bin"
