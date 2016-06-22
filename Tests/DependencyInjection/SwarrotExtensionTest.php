@@ -39,6 +39,11 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
             'consumers' => array(
                 'testing' => array(
                     'processor' => 'app.swarrot_processor',
+                    'middleware_stack' => array(
+                        array(
+                            'configurator' => 'swarrot.processor.ack'
+                        )
+                    ),
                 ),
             ),
         );

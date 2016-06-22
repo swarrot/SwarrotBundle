@@ -99,31 +99,10 @@ class SwarrotExtension extends Extension
      */
     public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig, array $processorStack)
     {
-        // Keep BC by converting $processorStack into processorConfigurators
-        $map = [
-            'ack' => 'swarrot.processor.ack',
-            'max_execution_time' => 'swarrot.processor.max_execution_time',
-            'max_messages' => 'swarrot.processor.max_messages',
-            'exception_catcher' => 'swarrot.processor.exception_catcher',
-            'object_manager' => 'swarrot.processor.object_manager',
-            'retry' => 'swarrot.processor.retry',
-            'signal_handler' => 'swarrot.processor.signal_handler',
-        ];
-        foreach ($map as $stackKey => $configurator) {
-            if (array_key_exists($stackKey, $processorStack)) {
-                // Replace the className (only for BC purpose)
-                $container->findDefinition($configurator)->replaceArgument(0, $processorStack[$stackKey]);
-                // Inject the whole extra in each processorConfigurators because in legacy alle extras was mixed
-                $consumerConfig['middleware_stack'][$configurator] = [
-//                    'extras' => $consumerConfig['extras'],
-                ];
-            }
-        }
-
         $processorConfigurators = [];
-        foreach ($consumerConfig['middleware_stack'] as $processorConfig) {
+        foreach ($consumerConfig['middleware_stack'] as $middlewareStackConfig) {
             $processorConfigurators[] = new Reference(
-                $this->buildCommandProcessorConfigurator($container, $name, $processorConfig)
+                $this->buildCommandProcessorConfigurator($container, $name, $middlewareStackConfig)
             );
         }
 
@@ -144,21 +123,26 @@ class SwarrotExtension extends Extension
     /**
      * @param ContainerBuilder $container
      * @param string           $commandName
-     * @param array            $processorConfig
+     * @param array            $middlewareStackConfig
      *
      * @return string
      */
     private function buildCommandProcessorConfigurator(
         ContainerBuilder $container,
         $commandName,
-        array $processorConfig
+        array $middlewareStackConfig
     ) {
         $id = 'swarrot_extra.command.generated.'.$commandName.'.'.uniqid();
 
-        $container->setDefinition($id, new DefinitionDecorator($processorConfig['configurator']));
-        $container
-            ->getDefinition($id)
-            ->addMethodCall('setExtras', [$processorConfig['extras']]);
+        $defintion = $container->setDefinition($id, new DefinitionDecorator($middlewareStackConfig['configurator']))
+            ->addMethodCall('setExtras', [$middlewareStackConfig['extras']]);
+
+        if (!empty($middlewareStackConfig['class'])) {
+            $defintion->replaceArgument(
+                0,
+                $middlewareStackConfig['class']
+            );
+        }
 
         return $id;
     }

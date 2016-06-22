@@ -94,7 +94,6 @@ class SwarrotCommand extends ContainerAwareCommand
 
         $consumer = new Consumer($messageProvider, $processor, $optionsResolver);
 
-        dump($options);die;
         $consumer->consume($options);
     }
 
@@ -108,10 +107,10 @@ class SwarrotCommand extends ContainerAwareCommand
     protected function getOptions(InputInterface $input)
     {
         $options = $this->extras + [
-                'queue' => $input->getArgument('queue'),
-                'connection' => $input->getArgument('connection'),
-                'poll_interval' => (int) $input->getOption('poll-interval'),
-            ];
+            'queue' => $input->getArgument('queue'),
+            'connection' => $input->getArgument('connection'),
+            'poll_interval' => (int) $input->getOption('poll-interval'),
+        ];
 
         /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
