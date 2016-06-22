@@ -137,10 +137,10 @@ class SwarrotExtension extends Extension
         $defintion = $container->setDefinition($id, new DefinitionDecorator($middlewareStackConfig['configurator']))
             ->addMethodCall('setExtras', [$middlewareStackConfig['extras']]);
 
-        if (!empty($middlewareStackConfig['class'])) {
+        if (!empty($middlewareStackConfig['first_arg_class'])) {
             $defintion->replaceArgument(
                 0,
-                $middlewareStackConfig['class']
+                $middlewareStackConfig['first_arg_class']
             );
         }
 

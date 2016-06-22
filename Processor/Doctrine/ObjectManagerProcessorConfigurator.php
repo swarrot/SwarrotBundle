@@ -2,6 +2,7 @@
 
 namespace Swarrot\SwarrotBundle\Processor\Doctrine;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
@@ -18,10 +19,10 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
     private $managerRegistry;
 
     /**
-     * @param string $processorClass
-     * @param mixed  $managerRegistry
+     * @param string          $processorClass
+     * @param ManagerRegistry $managerRegistry
      */
-    public function __construct($processorClass, $managerRegistry)
+    public function __construct($processorClass, ManagerRegistry $managerRegistry)
     {
         $this->processorClass = $processorClass;
         $this->managerRegistry = $managerRegistry;

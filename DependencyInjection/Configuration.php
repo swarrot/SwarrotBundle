@@ -71,7 +71,7 @@ class Configuration implements ConfigurationInterface
                                 }
                                 $consumerConfig['middleware_stack'][] = [
                                     'configurator' => $serviceName,
-                                    'class' => $v['processors_stack'][$key],
+                                    'first_arg_class' => $v['processors_stack'][$key],
                                     'extras' => $consumerConfig['extras'],
                                 ];
                             }
@@ -144,7 +144,7 @@ class Configuration implements ConfigurationInterface
                                     ->fixXmlConfig('extra')
                                     ->children()
                                         ->scalarNode('configurator')->isRequired()->end()
-                                        ->scalarNode('class')->defaultValue(null)->end()
+                                        ->scalarNode('first_arg_class')->defaultValue(null)->end()
                                         ->arrayNode('extras')
                                             ->prototype('scalar')->end()
                                         ->end()

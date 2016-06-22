@@ -10,11 +10,11 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
     public function test_it_uses_the_default_connection_for_message_types()
     {
         $container = $this->createContainer();
-        $config = array(
-            'messages_types' => array(
-                'test' => array('exchange' => 'test'),
-            ),
-        );
+        $config = [
+            'messages_types' => [
+                'test' => ['exchange' => 'test'],
+            ],
+        ];
 
         $this->loadConfig($container, $config);
 
@@ -23,30 +23,33 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $messagesTypes = $container->getParameter('swarrot.messages_types');
 
         $this->assertArrayHasKey('test', $messagesTypes);
-        $expectedMessageType = array(
+        $expectedMessageType = [
             'connection' => 'default',
             'exchange' => 'test',
             'routing_key' => null,
-            'extras' => array(),
-        );
+            'extras' => [],
+        ];
         $this->assertEquals($expectedMessageType, $messagesTypes['test']);
     }
 
     public function test_it_registers_commands()
     {
         $container = $this->createContainer();
-        $config = array(
-            'consumers' => array(
-                'testing' => array(
+        $config = [
+            'consumers' => [
+                'testing' => [
                     'processor' => 'app.swarrot_processor',
-                    'middleware_stack' => array(
-                        array(
-                            'configurator' => 'swarrot.processor.ack'
-                        )
-                    ),
-                ),
-            ),
-        );
+                    'middleware_stack' => [
+                        [
+                            'configurator' => 'swarrot.processor.ack',
+                            'extras' => [
+                                'foo' => 'bar',
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ];
 
         $this->loadConfig($container, $config);
 
@@ -57,6 +60,48 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $commands = $container->getParameter('swarrot.commands');
         $this->assertArrayHasKey('testing', $commands);
         $this->assertSame('swarrot.command.generated.testing', $commands['testing']);
+
+        $configurators = $container->getDefinition('swarrot.command.generated.testing')->getArgument(3);
+        $this->assertInternalType('array', $configurators);
+        $this->assertCount(1, $configurators);
+
+        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
+        $configuratorDefintion = $container->getDefinition((string) $configurators[0]);
+
+        $this->assertCount(1, $configuratorDefintion->getMethodCalls());
+        $method = $configuratorDefintion->getMethodCalls()[0];
+        $this->assertEquals('setExtras', $method[0]);
+        $this->assertEquals(['foo' => 'bar'], $method[1][0]);
+    }
+
+    /**
+     * @group legacy
+     */
+    public function test_legacy_config_is_kept()
+    {
+        $container = $this->createContainer();
+        $config = [
+            'processors_stack' => [
+                'ack' => 'AppBundle\\MyAckProcessor',
+            ],
+            'consumers' => [
+                'testing' => [
+                    'processor' => 'app.swarrot_processor',
+                ],
+            ],
+        ];
+
+        $this->loadConfig($container, $config);
+
+        $this->assertHasService($container, 'swarrot.command.generated.testing');
+
+        $configurators = $container->getDefinition('swarrot.command.generated.testing')->getArgument(3);
+        $this->assertInternalType('array', $configurators);
+        $this->assertCount(1, $configurators);
+
+        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
+        $configuratorDefintion = $container->getDefinition((string) $configurators[0]);
+        $this->assertEquals('AppBundle\\MyAckProcessor', $configuratorDefintion->getArgument(0));
     }
 
     public function test_it_registers_the_collector_by_default_in_debug_mode()
@@ -81,7 +126,7 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->createContainer();
 
-        $this->loadConfig($container, array('enable_collector' => false));
+        $this->loadConfig($container, ['enable_collector' => false]);
 
         $this->assertNotHasService($container, 'swarrot.data_collector');
     }
@@ -90,7 +135,7 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->createContainer(false);
 
-        $this->loadConfig($container, array('enable_collector' => true));
+        $this->loadConfig($container, ['enable_collector' => true]);
 
         $this->assertHasService($container, 'swarrot.data_collector');
     }
@@ -102,7 +147,7 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->createContainer(false);
 
-        $this->loadConfig($container, array('publisher_logger' => 'my_awesome_logger'));
+        $this->loadConfig($container, ['publisher_logger' => 'my_awesome_logger']);
 
         $this->assertHasService($container, 'swarrot.logger');
         $alias = $container->getAlias('swarrot.logger');
@@ -114,7 +159,7 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->createContainer(false);
 
-        $this->loadConfig($container, array('logger' => 'my_awesome_logger'));
+        $this->loadConfig($container, ['logger' => 'my_awesome_logger']);
 
         $this->assertHasService($container, 'swarrot.logger');
         $alias = $container->getAlias('swarrot.logger');
@@ -124,24 +169,30 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
 
     private function assertHasService(ContainerBuilder $container, $id)
     {
-        $this->assertTrue($container->hasDefinition($id) || $container->hasAlias($id), sprintf('The service %s should be defined.', $id));
+        $this->assertTrue(
+            $container->hasDefinition($id) || $container->hasAlias($id),
+            sprintf('The service %s should be defined.', $id)
+        );
     }
 
     private function assertNotHasService(ContainerBuilder $container, $id)
     {
-        $this->assertFalse($container->hasDefinition($id) || $container->hasAlias($id), sprintf('The service %s should not be defined.', $id));
+        $this->assertFalse(
+            $container->hasDefinition($id) || $container->hasAlias($id),
+            sprintf('The service %s should not be defined.', $id)
+        );
     }
 
-    private function loadConfig(ContainerBuilder $container, array $config = array())
+    private function loadConfig(ContainerBuilder $container, array $config = [])
     {
         // Minimal config required by the Configuration class
-        $defaultConfig = array(
-            'connections' => array('default' => null),
-        );
+        $defaultConfig = [
+            'connections' => ['default' => null],
+        ];
 
         $extension = new SwarrotExtension();
 
-        $extension->load(array($defaultConfig, $config), $container);
+        $extension->load([$defaultConfig, $config], $container);
     }
 
     private function createContainer($debug = true)
