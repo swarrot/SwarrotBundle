@@ -42,7 +42,13 @@ class SwarrotExtension extends Extension
                 $consumerConfig['connection'] = $config['default_connection'];
             }
 
-            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig, $config['processors_stack']);
+            if (true === $consumerConfig['exclusive_processor_stack']) {
+                $processorsStack = $consumerConfig['stacked_processors'];
+            } else {
+                $processorsStack = array_merge($config['stacked_processors'], $consumerConfig['stacked_processors']);
+            }
+
+            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig, $processorsStack);
         }
 
         $container->setParameter('swarrot.commands', $commands);

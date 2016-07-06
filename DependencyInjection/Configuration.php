@@ -32,8 +32,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('swarrot');
 
-        $knownProcessors = $this->knownProcessors;
-
         $rootNode
             ->beforeNormalization()
                 ->always()
@@ -49,7 +47,7 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('connection')
             ->fixXmlConfig('consumer')
             ->fixXmlConfig('messages_type')
-            ->fixXmlConfig('processor', 'processors_stack')
+            ->fixXmlConfig('stacked_processor', 'stacked_processors')
             ->children()
                 ->scalarNode('provider')
                     ->defaultValue('pecl')
@@ -94,11 +92,14 @@ class Configuration implements ConfigurationInterface
                     ->normalizeKeys(false)
                     ->prototype('array')
                         ->fixXmlConfig('extra')
+                        ->fixXmlConfig('stacked_processor', 'stacked_processors')
                         ->children()
                             ->scalarNode('processor')->isRequired()->end()
                             ->scalarNode('command')->defaultValue(null)->end()
                             ->scalarNode('connection')->defaultValue(null)->end()
                             ->scalarNode('queue')->defaultValue(null)->end()
+                            ->booleanNode('exclusive_processor_stack')->defaultValue(false)->end()
+                            ->append($this->addProcessorStack())
                             ->arrayNode('extras')
                                 ->prototype('scalar')->end()
                             ->end()
@@ -120,31 +121,47 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('processors_stack')
-                    ->beforeNormalization()
-                        ->ifArray()
-                        ->then(function ($v) use ($knownProcessors) {
-                            foreach ($v as $key => $class) {
-                                if (!array_key_exists($key, $knownProcessors)) {
-                                    continue;
-                                }
-
-                                if (!isset($class) || null === $class) {
-                                    $v[$key] = $knownProcessors[$key];
-                                }
-                            }
-
-                            return $v;
-                        })
-                    ->end()
-                    ->useAttributeAsKey('name')
-                    ->normalizeKeys(false)
-                    ->prototype('scalar')->isRequired()->end()
-                ->end()
+                ->append($this->addProcessorStack())
                 ->booleanNode('enable_collector')->defaultValue($this->debug)->end()
             ->end()
         ;
 
         return $treeBuilder;
+    }
+
+    /**
+     * Add processor stack definition
+     *
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition|\Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    private function addProcessorStack()
+    {
+        $knownProcessors = $this->knownProcessors;
+
+        $treeBuilder = new TreeBuilder();
+        $node = $treeBuilder->root('stacked_processors');
+
+        $node->beforeNormalization()
+            ->ifArray()
+            ->then(function ($v) use ($knownProcessors) {
+                foreach ($v as $key => $class) {
+                    if (!array_key_exists($key, $knownProcessors)) {
+                        continue;
+                    }
+
+                    if (!isset($class) || null === $class) {
+                        $v[$key] = $knownProcessors[$key];
+                    }
+                }
+
+                return $v;
+            })
+            ->end()
+            ->useAttributeAsKey('name')
+            ->normalizeKeys(false)
+            ->prototype('scalar')->isRequired()->end()
+            ->end();
+
+        return $node;
     }
 }
