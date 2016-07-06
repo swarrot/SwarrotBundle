@@ -3,7 +3,6 @@
 namespace Swarrot\SwarrotBundle\Processor\MaxExecutionTime;
 
 use Psr\Log\LoggerInterface;
-use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class MaxExecutionTimeProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var string */
     private $processorClass;

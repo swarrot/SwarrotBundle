@@ -5,7 +5,8 @@ namespace Swarrot\SwarrotBundle\Command;
 use Swarrot\Consumer;
 use Swarrot\Processor\ProcessorInterface;
 use Swarrot\Processor\Stack\Builder;
-use Swarrot\SwarrotBundle\Processor\Ack\ProcessorConfiguratorInterface;
+use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
+use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnablableInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -76,7 +77,7 @@ class SwarrotCommand extends ContainerAwareCommand
         $stack = new Builder();
         /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
-            if ($processorConfigurator->isEnabled()) {
+            if (!$processorConfigurator instanceof ProcessorConfiguratorEnablableInterface || $processorConfigurator->isEnabled()) {
                 call_user_func_array([$stack, 'push'], $processorConfigurator->getProcessorArguments($options));
             }
         }

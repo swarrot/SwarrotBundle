@@ -5,7 +5,7 @@ namespace Swarrot\SwarrotBundle\Processor;
 trait ProcessorConfiguratorEnableAware
 {
     /** @var bool */
-    protected $enabled = true;
+    private $enabled = true;
 
     /**
      * @return bool

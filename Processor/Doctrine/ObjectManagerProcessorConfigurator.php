@@ -3,13 +3,14 @@
 namespace Swarrot\SwarrotBundle\Processor\Doctrine;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnablableInterface;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterface
+class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterface, ProcessorConfiguratorEnablableInterface
 {
     use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
 

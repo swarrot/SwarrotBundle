@@ -3,14 +3,13 @@
 namespace Swarrot\SwarrotBundle\Processor\MemoryLimit;
 
 use Psr\Log\LoggerInterface;
-use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
 class MemoryLimitProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var LoggerInterface */
     private $logger;

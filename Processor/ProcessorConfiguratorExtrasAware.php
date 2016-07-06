@@ -5,7 +5,7 @@ namespace Swarrot\SwarrotBundle\Processor;
 trait ProcessorConfiguratorExtrasAware
 {
     /** @var array */
-    protected $extras = [];
+    private $extras = [];
 
     /**
      * @param array $extras

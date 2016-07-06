@@ -7,19 +7,11 @@ use Symfony\Component\Console\Input\InputInterface;
 interface ProcessorConfiguratorInterface
 {
     /**
+     * Define extra parameters to the configurator.
+     *
      * @param array $extras
      */
     public function setExtras(array $extras);
-
-    /**
-     * @return array
-     */
-    public function getExtras();
-
-    /**
-     * @return bool
-     */
-    public function isEnabled();
 
     /**
      * Retrieves the processor's class name and list of constructors arguments.
