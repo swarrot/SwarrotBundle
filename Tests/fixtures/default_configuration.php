@@ -27,6 +27,7 @@ return [
             'connection' => null,
             'queue' => null,
             'extras' => [],
+            'middleware_stack' => [],
         ],
     ],
     'messages_types' => [

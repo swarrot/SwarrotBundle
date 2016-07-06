@@ -43,6 +43,18 @@ class Configuration implements ConfigurationInterface
                         $v['logger'] = $v['publisher_logger'];
                     }
 
+                    if (!isset($v['consumers'])) {
+                        $v['consumers'] = [];
+                    }
+                    foreach ($v['consumers'] as &$consumerConfig) {
+                        if (!isset($consumerConfig['middleware_stack'])) {
+                            $consumerConfig['middleware_stack'] = [];
+                        }
+                        if (!isset($consumerConfig['extras'])) {
+                            $consumerConfig['extras'] = [];
+                        }
+                    }
+
                     // Deal with old processor_stack configuration
                     if (isset($v['processors_stack']) && count($v['processors_stack'])) {
                         @trigger_error('The processors_stack key is deprecated and should not be used anymore. Use consumer\'s `middleware_stack` instead.', E_USER_DEPRECATED);
@@ -63,12 +75,6 @@ class Configuration implements ConfigurationInterface
                             }
 
                             foreach ($v['consumers'] as &$consumerConfig) {
-                                if (!isset($consumerConfig['middleware_stack'])) {
-                                    $consumerConfig['middleware_stack'] = [];
-                                }
-                                if (!isset($consumerConfig['extras'])) {
-                                    $consumerConfig['extras'] = [];
-                                }
                                 $consumerConfig['middleware_stack'][] = [
                                     'configurator' => $serviceName,
                                     'first_arg_class' => $v['processors_stack'][$key],
@@ -139,7 +145,6 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->arrayNode('middleware_stack')
                                 ->isRequired()
-                                ->requiresAtLeastOneElement()
                                 ->prototype('array')
                                     ->fixXmlConfig('extra')
                                     ->children()

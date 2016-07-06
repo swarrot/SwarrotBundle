@@ -16,6 +16,9 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group legacy
+     */
     public function test_with_default_configuration()
     {
         $parser = new Parser();
