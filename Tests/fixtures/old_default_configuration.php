@@ -27,13 +27,7 @@ return [
             'connection' => null,
             'queue' => null,
             'extras' => [],
-            'middleware_stack' => [
-                'name' => [
-                    'configurator' => null,
-                    'extras' => [],
-                    'first_arg_class' => null,
-                ]
-            ],
+            'middleware_stack' => [],
         ],
     ],
     'messages_types' => [
@@ -44,7 +38,8 @@ return [
             'extras' => [],
         ],
     ],
-    'enable_collector' => true,
     'processors_stack' => [
+        'name' => null,
     ],
+    'enable_collector' => true,
 ];
