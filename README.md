@@ -54,21 +54,55 @@ swarrot:
             login: "%rabbitmq_login%"
             password: "%rabbitmq_password%"
             vhost: '/'
-    processors_stack:
-        signal_handler: 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor'
-        ack: 'Swarrot\Processor\Ack\AckProcessor'
-        max_messages: 'Swarrot\Processor\MaxMessages\MaxMessagesProcessor'
-        retry: 'Swarrot\Processor\Retry\RetryProcessor'
-        exception_catcher: 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor'
-        max_execution_time: 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor'
     consumers:
         my_consumer:
             processor: my_consumer.processor.service
+            middleware_stack: # order matter
+                 - configurator: swarrot.processor.signal_handler
+                   # extras:
+                   #     signal_handler_signals:
+                   #         - SIGTERM
+                   #         - SIGINT
+                   #         - SIGQUIT
+                 # - configurator: swarrot.processor.insomniac
+                 - configurator: swarrot.processor.max_messages
+                   # extras:
+                   #     max_messages: 100
+                 - configurator: swarrot.processor.max_execution_time
+                   # extras:
+                   #     max_execution_time: 300
+                 - configurator: swarrot.processor.memory_limit
+                   # extras:
+                   #     memory_limit: null
+                 - configurator: swarrot.processor.doctrine_connection
+                   # extras:
+                   #     doctrine_ping: true
+                   #     doctrine_close_master: true
+                 - configurator: swarrot.processor.doctrine_object_manager
+                 - configurator: swarrot.processor.exception_catcher
+
+                 - configurator: swarrot.processor.ack
+                   # extras:
+                   #     requeue_on_error: false
+                 - configurator: swarrot.processor.retry
+                   # extras:
+                   #     retry_exchange: retry
+                   #     retry_attempts: 3
+                   #     retry_routing_key_pattern: 'retry_%%attempt%%'
+                 # - configurator: swarrot.processor.new_relic
+                 #   extras:
+                 #       new_relic_app_name: ~
+                 #       new_relic_license: ~
+                 #       new_relic_transaction_name: ~
+
+                 # - configurator: swarrot.processor.rpc_server
+                 #   extras:
+                 #       rpc_exchange: rpc
+                 # - configurator: swarrot.processor.rpc_client
+                 #   extras:
+                 #       rpc_client_correlation_id: ~
             extras:
                 poll_interval: 500000
-                retry_exchange: my_consumer_exchange
-                retry_attempts: 3
-                retry_routing_key_pattern: 'retry_%%attempt%%'
     messages_types:
         my_publisher:
             connection: rabbitmq # use the default connection by default

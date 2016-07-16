@@ -37,10 +37,51 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->beforeNormalization()
                 ->always()
-                ->then(function ($v) {
+                ->then(function ($v) use ($knownProcessors)  {
                     // Deal with old logger config
                     if (isset($v['publisher_logger']) && !isset($v['logger'])) {
                         $v['logger'] = $v['publisher_logger'];
+                    }
+
+                    if (!isset($v['consumers'])) {
+                        $v['consumers'] = [];
+                    }
+                    foreach ($v['consumers'] as &$consumerConfig) {
+                        if (!isset($consumerConfig['middleware_stack'])) {
+                            $consumerConfig['middleware_stack'] = [];
+                        }
+                        if (!isset($consumerConfig['extras'])) {
+                            $consumerConfig['extras'] = [];
+                        }
+                    }
+
+                    // Deal with old processor_stack configuration
+                    if (isset($v['processors_stack']) && count($v['processors_stack'])) {
+                        @trigger_error('The processors_stack key is deprecated and should not be used anymore. Use consumer\'s `middleware_stack` instead.', E_USER_DEPRECATED);
+
+                        $map = [ // Order matters
+                            'ack' => 'swarrot.processor.ack',
+                            'max_execution_time' => 'swarrot.processor.max_execution_time',
+                            'max_messages' => 'swarrot.processor.max_messages',
+                            'exception_catcher' => 'swarrot.processor.exception_catcher',
+                            'object_manager' => 'swarrot.processor.object_manager',
+                            'retry' => 'swarrot.processor.retry',
+                            'signal_handler' => 'swarrot.processor.signal_handler',
+                        ];
+
+                        foreach ($map as $key => $serviceName) {
+                            if (!array_key_exists($key, $v['processors_stack'])) {
+                                continue;
+                            }
+
+                            foreach ($v['consumers'] as &$consumerConfig) {
+                                $consumerConfig['middleware_stack'][] = [
+                                    'configurator' => $serviceName,
+                                    'first_arg_class' => $v['processors_stack'][$key],
+                                    'extras' => $consumerConfig['extras'],
+                                ];
+                            }
+                        }
                     }
 
                     return $v;
@@ -101,6 +142,19 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('queue')->defaultValue(null)->end()
                             ->arrayNode('extras')
                                 ->prototype('scalar')->end()
+                            ->end()
+                            ->arrayNode('middleware_stack')
+                                ->isRequired()
+                                ->prototype('array')
+                                    ->fixXmlConfig('extra')
+                                    ->children()
+                                        ->scalarNode('configurator')->isRequired()->end()
+                                        ->scalarNode('first_arg_class')->defaultValue(null)->end()
+                                        ->arrayNode('extras')
+                                            ->prototype('scalar')->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
                             ->end()
                         ->end()
                     ->end()

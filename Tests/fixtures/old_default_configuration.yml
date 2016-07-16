@@ -27,12 +27,6 @@ swarrot:
             connection:           null
             queue:                null
             extras:               []
-            middleware_stack:
-
-                # Prototype
-                name:
-                    configurator:    ~
-                    extras:          []
 
     messages_types:
 
@@ -42,6 +36,7 @@ swarrot:
             exchange:             ~ # Required
             routing_key:          null
             extras:               []
+    processors_stack:
 
         # Prototype
         name:                 ~
