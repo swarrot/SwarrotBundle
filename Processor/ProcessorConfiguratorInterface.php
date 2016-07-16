@@ -37,4 +37,9 @@ interface ProcessorConfiguratorInterface
      * @return array
      */
     public function resolveOptions(InputInterface $input);
+
+    /**
+     * @return bool
+     */
+    public function isEnabled();
 }

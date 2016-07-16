@@ -3,12 +3,13 @@
 namespace Swarrot\SwarrotBundle\Processor\Doctrine;
 
 use Symfony\Component\Console\Input\InputInterface;
+use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 
 class ConnectionProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
 
     /** @var string */
     private $processorClass;

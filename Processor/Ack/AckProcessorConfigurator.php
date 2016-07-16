@@ -4,14 +4,13 @@ namespace Swarrot\SwarrotBundle\Processor\Ack;
 
 use Psr\Log\LoggerInterface;
 use Swarrot\SwarrotBundle\Broker\FactoryInterface;
-use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnablableInterface;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
-class AckProcessorConfigurator implements ProcessorConfiguratorInterface, ProcessorConfiguratorEnablableInterface
+class AckProcessorConfigurator implements ProcessorConfiguratorInterface
 {
     use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
 
