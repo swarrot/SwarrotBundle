@@ -2,13 +2,14 @@
 
 namespace Swarrot\SwarrotBundle\Processor\NewRelic;
 
+use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
 class NewRelicProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
 
     /**
      * {@inheritdoc}

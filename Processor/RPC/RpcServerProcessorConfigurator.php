@@ -4,13 +4,14 @@ namespace Swarrot\SwarrotBundle\Processor\RPC;
 
 use Psr\Log\LoggerInterface;
 use Swarrot\SwarrotBundle\Broker\FactoryInterface;
+use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\InputInterface;
 
 class RpcServerProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
 
     /** @var FactoryInterface */
     private $factory;
