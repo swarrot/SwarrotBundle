@@ -10,21 +10,11 @@ A bundle to use swarrot inside your Symfony2 application
 
 ## Installation
 
-The recommended way to install this bundle is through
-[Composer](http://getcomposer.org/). Require the `swarrot/swarrot-bundle`
-package into your `composer.json` file:
+The recommended way to install this bundle is through [Composer](http://getcomposer.org/). Just run:
 
-```json
-{
-    "require": {
-        "swarrot/swarrot-bundle": "@stable"
-    }
-}
+```bash
+composer require swarrot/swarrot-bundle
 ```
-
-**Protip:** you should browse the
-[`swarrot/swarrot-bundle`](https://packagist.org/packages/swarrot/swarrot-bundle)
-page to choose a stable version to use, avoid the `@stable` meta constraint.
 
 Update `app/AppKernel.php`:
 
@@ -118,25 +108,21 @@ First step is to retrieve the swarrot publisher service from your controller.
 $messagePublisher = $this->get('swarrot.publisher');
 ```
 
-After you need to prepare your message with the
-[Message](https://github.com/swarrot/swarrot/blob/master/src/Swarrot/Broker/Message.php)
-class.
+After you need to prepare your message with the [Message](https://github.com/swarrot/swarrot/blob/master/src/Swarrot/Broker/Message.php) class.
 
 ```php
 use Swarrot\Broker\Message;
 
-$message = new Message('"My first message with the awesome Swarrot lib :)"');
+$message = new Message('"My first message with the awesome swarrot lib :)"');
 ```
 
-Then you can publish a new message into a predefined configuration (connection,
-exchange, routing_key, etc.) from your `message_types`.
+Then you can publish a new message into a predefined configuration (connection, exchange, routing_key, etc.) from your `message_types`.
 
 ```php
 $messagePublisher->publish('webhook.send', $message);
 ```
 
-When publishing a message you can override the `message_types` configuration by
-passing a third argument:
+When publishing a message you can override the `message_types` configuration by passing a third argument:
 
 ```php
 $messagePublisher->publish('webhook.send', $message, array(
@@ -149,62 +135,34 @@ $messagePublisher->publish('webhook.send', $message, array(
 ## Consume a message
 
 Swarrot will automatically create new commands according to your configuration.
-This command need the queue name to consume as first argument. You can also use
-a named connection as second argument if you don't want to use the default one.
+This command need the queue name to consume as first argument. You can also use a named connection as second argument if you don't want to use the default one.
 
 ```bash
 app/console swarrot:consume:my_consumer_name queue_name [connection_name]
 ```
 
-Your processor will automatically be decorated by all processors named in the
-`processors_stack` section. No matter the order you list your processors,
-here is the default order:
-
-* SignalHandler
-* ExceptionCatcher
-* MaxMessages
-* MaxExecutionTime
-* Ack
-* Retry
+Your processor will automatically be decorated by all processors named in the `middleware_stack` section. The order matter.
 
 All this processors are configurable.
-You can add `extras` key on each consumer definition in your `config.yml`
+You can add `extras` key on each configurator definition in your `config.yml`. Take a look at configuration reference to see available extras for existing Configurators.
 
-```yaml
-swarrot:
-    ...
-    consumers:
-        my_consumer:
-            processor: my_consumer.processor.service
-            extras:
-                poll_interval: 500000
-                requeue_on_error: 1
-                max_messages: 10
-                retry_exchange: my_consumer_exchange
-                retry_attempts: 3
-                retry_routing_key_pattern: 'retry_%%attempt%%'
-```
- 
 You can also use options of the command line:
 
-* **--poll-interval** [default: 500000]: Change the polling interval when no
-  message found in broker
-* **--requeue-on-error (-r)**: Re-queue the message in the same queue if an error
-  occurred.
-* **--no-catch (-C)**: Disable the ExceptionCatcher processor (available only if
-  the processor is in the stack)
-* **--max-execution-time (-t)** [default: 300]: Configure the MaxExecutionTime
-  processor (available only if the processor is in the stack)
-* **--max-messages (-m)** [default: 300]: Configure the MaxMessages processor
-  (available only if the processor is in the stack)
-* **--no-retry (-R)**: Disable the Retry processor (available only if the processor
-  is in the stack)
+* **--poll-interval** [default: 500000]: Change the polling interval when no message found in broker
+* **--requeue-on-error (-r)**: Re-queue the message in the same queue if an error occurred.
+* **--no-catch (-C)**: Disable the ExceptionCatcher processor (available only if the processor is in the stack)
+* **--max-execution-time (-t)** [default: 300]: Configure the MaxExecutionTime processor (available only if the processor is in the stack)
+* **--max-messages (-m)** [default: 300]: Configure the MaxMessages processor (available only if the processor is in the stack)
+* **--no-retry (-R)**: Disable the Retry processor (available only if the processor is in the stack)
 
-Default values will be override by your `config.yml` and use of options will override defaut|config values.
+Default values will be override by your `config.yml` and use of options will override defaut config values.
+
+Run your command with `-h̀` to have the full list of options.
 
 ## Implementing your own Provider
+
 If you want to implement your own provider (like Redis). First, you have to implements the `Swarrot\SwarrotBundle\Broker\FactoryInterface`.
-Then, you can register it with along the others services and tag it with `swarrot.provider_factory`. 
+Then, you can register it with along the others services and tag it with `swarrot.provider_factory`.
 
 ```yaml
 services:
@@ -223,7 +181,6 @@ Now you can tell to swarrot to use it in the `config.yml` file.
 ```yaml
 swarrot:
   provider: app.swarrot.custom_provider_factory
-  ...
 ```
 
 or with the alias
@@ -231,10 +188,24 @@ or with the alias
 ```yaml
 swarrot:
   provider: redis
-  ...
 ```
 
+## How to use a custom processor
+
+If you want to use a custom processor, you need two things. The Processor itself and a ProcessorConfigurator.
+For the Processor, you can refer to the [`swarrot/swarrot` documentation](https://github.com/swarrot/swarrot/#create-your-own-processor).
+For the ConfigurationProcessor, you need to implement the `ProcessorConfiguratorInterface` and to register it as a service. Once down, just add it to the middleware stack of your consumer:
+
+```yaml
+middleware_stack:
+  - configurator: swarrot.processor.signal_handler
+  - configurator: my_own_processor_configurator_service_id
+```
+
+As usual, take care of the order of your middleware_stack.
+
 ## Running your tests without publishing
+
 If you use Swarrot you may not want to really publish  messages like in test environment for example. You can use the `BlackholePublisher` to achieve this.
 
 Simply override the `swarrot.publisher.class` parameter in the DIC with the `Swarrot\SwarrotBundle\Broker\PublisherBlackhole` class.
@@ -248,5 +219,4 @@ parameters:
 
 ## License
 
-This bundle is released under the MIT License. See the bundled LICENSE file for
-details.
+This bundle is released under the MIT License. See the bundled LICENSE file for details.
