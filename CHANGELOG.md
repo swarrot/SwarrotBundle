@@ -5,11 +5,15 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.0] - 2016-07-18
+
 ### Added
 
 - Inject logger into `PeclPackageMessagePublisher`.
 - Improve tests.
 - Make the swarrot logger configurable.
+- Can now register a `middleware_stack` per consumer.
+- Add more tests to ensure BC on Configuration class.
 
 ### Fixed
 
