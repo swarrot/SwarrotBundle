@@ -20,10 +20,13 @@
         "phpunit/phpunit": "~4.5",
         "symfony/phpunit-bridge": "~2.8|~3.0",
         "doctrine/dbal": "~2.2",
-        "doctrine/Common": "~2.2"
+        "doctrine/Common": "~2.2",
+        "aws/aws-sdk-php": "2.*",
+        "phake/phake": "^2.3"
     },
     "suggest": {
-        "php-amqplib/php-amqplib": "Required if using amqp_lib"
+        "php-amqplib/php-amqplib": "Required if using amqp_lib",
+        "aws/aws-sdk-php": "Required to use the aws sqs provider"
     },
     "config": {
         "bin-dir": "bin"
