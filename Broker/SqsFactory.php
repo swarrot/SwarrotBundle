@@ -40,7 +40,7 @@ class SqsFactory implements FactoryInterface
 
             $channel = $this->getChannel($connection);
 
-            $this->messageProviders[$connection][$name] = new SqsMessageProvider($channel, $this->connections[$connection]['vhost'] . $name);
+            $this->messageProviders[$connection][$name] = new SqsMessageProvider($channel, $this->connections[$connection]['host'] . $name);
         }
 
         return $this->messageProviders[$connection][$name];
@@ -79,7 +79,7 @@ class SqsFactory implements FactoryInterface
         return SqsClient::factory([
             'key' => $this->connections[$connection]['login'],
             'secret' => $this->connections[$connection]['password'],
-            'region' => $this->connections[$connection]['host'],
+            'region' => $this->connections[$connection]['region'],
         ]);
     }
 }

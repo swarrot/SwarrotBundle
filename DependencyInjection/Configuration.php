@@ -119,6 +119,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('login')->defaultValue('guest')->cannotBeEmpty()->end()
                             ->scalarNode('password')->defaultValue('guest')->end()
                             ->scalarNode('vhost')->defaultValue('/')->cannotBeEmpty()->end()
+                            ->scalarNode('region')->defaultNull()->end()
                             ->booleanNode('ssl')->defaultValue(false)->end()
                             ->arrayNode('ssl_options')
                                 ->children()
@@ -196,6 +197,22 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')->isRequired()->end()
                 ->end()
                 ->booleanNode('enable_collector')->defaultValue($this->debug)->end()
+            ->end()
+            ->validate()
+                ->ifTrue(function($v) {
+                    if ('sqs' !== $v['provider']) {
+                        return false;
+                    }
+
+                    foreach ($v['connections'] as $connection) {
+                        if (null === $connection['region']) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                })
+                ->thenInvalid('If you are using the sqs provider, you need to complete the region parameter')
             ->end()
         ;
 
