@@ -56,7 +56,7 @@ class SqsFactory implements FactoryInterface
      */
     public function getMessagePublisher($name, $connection)
     {
-        throw new \Exception('Implement method getMessagePublisher');
+        throw new \BadMethodCallException('Publishing messages to SQS is not implemented yet');
     }
 
     /**
