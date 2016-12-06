@@ -13,9 +13,9 @@ use Swarrot\SwarrotBundle\Broker\FactoryInterface;
  */
 class SqsFactory implements FactoryInterface
 {
-    protected $connections = array();
-    protected $messageProviders = array();
-    protected $messagePublishers = array();
+    private $connections = array();
+    private $messageProviders = array();
+    private $messagePublishers = array();
 
     /**
      * {@inheritDoc}
@@ -26,8 +26,6 @@ class SqsFactory implements FactoryInterface
     }
 
     /**
-     * getMessageProvider.
-     *
      * @param string $name       The name of the queue where the MessageProviderInterface will found messages
      * @param string $connection The name of the connection to use
      *
@@ -68,8 +66,16 @@ class SqsFactory implements FactoryInterface
      *
      * @return SqsClient
      */
-    protected function getChannel($connection)
+    private function getChannel($connection)
     {
+        if (!isset($this->connections[$connection])) {
+            throw new \InvalidArgumentException(sprintf(
+                'Unknown connection "%s". Available: [%s]',
+                $connection,
+                implode(', ', array_keys($this->connections))
+            ));
+        }
+
         return SqsClient::factory([
             'key' => $this->connections[$connection]['login'],
             'secret' => $this->connections[$connection]['password'],

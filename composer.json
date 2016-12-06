@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "swarrot/swarrot": "dev-master",
+        "swarrot/swarrot": "^2.1.1",
         "psr/log": "~1.0",
         "symfony/framework-bundle": "~2.4|~3.0",
         "symfony/console": "~2.4|~3.0"
@@ -21,8 +21,7 @@
         "symfony/phpunit-bridge": "~2.8|~3.0",
         "doctrine/dbal": "~2.2",
         "doctrine/Common": "~2.2",
-        "aws/aws-sdk-php": "2.*",
-        "phake/phake": "^2.3"
+        "aws/aws-sdk-php": "2.*"
     },
     "suggest": {
         "php-amqplib/php-amqplib": "Required if using amqp_lib",

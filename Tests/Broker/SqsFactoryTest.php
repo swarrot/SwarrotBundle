@@ -3,7 +3,6 @@
 namespace Swarrot\SwarrotBundle\Tests\Broker;
 
 use Swarrot\SwarrotBundle\Broker\SqsFactory;
-use Phake;
 use Swarrot\Broker\MessageProvider\MessageProviderInterface;
 use Swarrot\SwarrotBundle\Broker\FactoryInterface;
 
@@ -20,7 +19,7 @@ class SqsFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Set up the test
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->factory = new SqsFactory();
     }
