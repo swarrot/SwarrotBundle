@@ -40,8 +40,8 @@ class SqsFactoryTest extends \PHPUnit_Framework_TestCase
         $this->factory->addConnection('sqs', [
             'login' => 'key',
             'password' => 'secret',
-            'host' => 'eu-west-1',
-            'vhost' => 'localhost/',
+            'region' => 'eu-west-1',
+            'host' => 'localhost/',
         ]);
 
         $messageProvider = $this->factory->getMessageProvider('workers-test', 'sqs');
