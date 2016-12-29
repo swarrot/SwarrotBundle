@@ -86,8 +86,6 @@ swarrot:
                  #       new_relic_transaction_name: ~
 
                  # - configurator: swarrot.processor.rpc_server
-                 #   extras:
-                 #       rpc_exchange: rpc
                  # - configurator: swarrot.processor.rpc_client
                  #   extras:
                  #       rpc_client_correlation_id: ~

@@ -16,13 +16,13 @@ class RpcServerProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Processor\RPC\RpcServerProcessorConfigurator', $configurator);
     }
 
-    public function test_it_resolves_options()
+    public function test_it_resolves_no_options()
     {
         $configurator = new RpcServerProcessorConfigurator(
             $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface')->reveal(),
             $this->prophesize('Psr\Log\LoggerInterface')->reveal()
         );
-        $configurator->setExtras([]);
+        $configurator->setExtras(['rpc_exchange' => 'exchange']);
         $input = $this->getUserInput([], $configurator);
 
         $this->assertSame([], $configurator->resolveOptions($input));
@@ -36,7 +36,7 @@ class RpcServerProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $dummyQueue = uniqid();
         $dummyConnection = uniqid();
 
-        $mockFactory->getMessagePublisher('retry', $dummyConnection)
+        $mockFactory->getMessagePublisher('', $dummyConnection)
             ->shouldBeCalled()
             ->willReturn($stubMessagePublisher);
 
