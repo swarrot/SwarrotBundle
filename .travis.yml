@@ -37,4 +37,4 @@ before_script:
   - sh -c "sudo ./Tests/bin/prepare_rabbit.sh"
 
 # Due to not yet solved issue with phpdocumentor & php 5.5 https://github.com/phpDocumentor/ReflectionDocBlock/issues/80
-script: vendor/phpunit/phpunit/phpunit
+script: bin/phpunit
