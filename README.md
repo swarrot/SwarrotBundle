@@ -86,6 +86,10 @@ swarrot:
                  #       new_relic_transaction_name: ~
 
                  # - configurator: swarrot.processor.rpc_server
+                 #   extras:
+                 #       # Exchange on which rpc response will be published with `reply_to` as routing_key. 
+                 #       # If not configured will publish on default exchange where routing_key is used to define receiving queue.
+                 #       rpc_exchange: rpc 
                  # - configurator: swarrot.processor.rpc_client
                  #   extras:
                  #       rpc_client_correlation_id: ~
