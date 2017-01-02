@@ -32,7 +32,7 @@ class RpcServerProcessorConfigurator implements ProcessorConfiguratorInterface
      */
     public function getProcessorArguments(array $options)
     {
-        $exchange = $this->getExtra('rpc_exchange', 'retry');
+        $exchange = $this->getExtra('rpc_exchange', '');
 
         return [
             'Swarrot\Processor\RPC\RpcServerProcessor',
@@ -54,6 +54,6 @@ class RpcServerProcessorConfigurator implements ProcessorConfiguratorInterface
      */
     public function resolveOptions(InputInterface $input)
     {
-        return $this->getExtras();
+        return [];
     }
 }

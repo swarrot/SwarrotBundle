@@ -43,7 +43,5 @@ swarrot:
             routing_key:          null
             extras:               []
 
-        # Prototype
-        name:                 ~
     enable_collector:     true
 
