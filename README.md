@@ -159,7 +159,7 @@ You can also use options of the command line:
 
 Default values will be override by your `config.yml` and use of options will override defaut config values.
 
-Run your command with `-h̀` to have the full list of options.
+Run your command with `-h` to have the full list of options.
 
 ## Implementing your own Provider
 
