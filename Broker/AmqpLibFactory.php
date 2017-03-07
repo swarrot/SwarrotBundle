@@ -60,13 +60,13 @@ class AmqpLibFactory implements FactoryInterface
     }
 
     /**
-     * getChannel.
+     * Return the AMQPChannel of the given connection.
      *
      * @param string $connection
      *
      * @return AMQPChannel
      */
-    protected function getChannel($connection)
+    public function getChannel($connection)
     {
         if (isset($this->channels[$connection])) {
             return $this->channels[$connection];
