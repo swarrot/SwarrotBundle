@@ -16,9 +16,10 @@ The recommended way to install this bundle is through [Composer](http://getcompo
 composer require swarrot/swarrot-bundle
 ```
 
-Update `app/AppKernel.php`:
+Register the bundle in the kernel of your application:
 
 ```php
+// app/AppKernel.php
 public function registerBundles()
 {
     $bundles = array(
