@@ -36,9 +36,10 @@ public function registerBundles()
 
 ```yaml
 swarrot:
-    provider: pecl # pecl or amqp_lib
+    provider: pecl # pecl or amqp_lib (require php-amqplib/php-amqplib)
     default_connection: rabbitmq
     default_command: swarrot.command.base # Swarrot\SwarrotBundle\Command\SwarrotCommand
+    logger: logger # logger or channel logger like monolog.logger.[my_channel]
     connections:
         rabbitmq:
             host: "%rabbitmq_host%"
@@ -48,8 +49,8 @@ swarrot:
             vhost: '/'
     consumers:
         my_consumer:
-            processor: my_consumer.processor.service
-            middleware_stack: # order matter
+            processor: my_consumer.processor.service # Symfony service id implementing Swarrot\Processor\ProcessorInterface
+            middleware_stack: # order matters
                  - configurator: swarrot.processor.signal_handler
                    # extras:
                    #     signal_handler_signals:
@@ -126,14 +127,14 @@ Then you can publish a new message into a predefined configuration
 (`connection`, `exchange`, `routing_key`, etc.) from your `message_types`.
 
 ```php
-$messagePublisher->publish('webhook.send', $message);
+$messagePublisher->publish('my_publisher', $message);
 ```
 
 When publishing a message, you can override the `message_types` configuration
 by passing a third argument:
 
 ```php
-$messagePublisher->publish('webhook.send', $message, array(
+$messagePublisher->publish('my_publisher', $message, array(
     'exchange'    => 'my_new_echange',
     'connection'  => 'my_second_connection',
     'routing_key' => 'my_new_routing_key'
@@ -148,10 +149,24 @@ You can also use a named connection as second argument if you don't want to use
 the default one.
 
 ```bash
-app/console swarrot:consume:my_consumer_name queue_name [connection_name]
+app/console swarrot:consume:my_consumer queue_name [connection_name]
 ```
 
-Your processor will automatically be decorated by all processors listed in the
+Your consumer (```my_consumer.processor.service```) must implements ```Swarrot\Processor\ProcessorInterface```
+
+```php
+use Swarrot\Processor\ProcessorInterface;
+
+class MyProcessor implements ProcessorInterface
+{
+    public function process(Message $message, array $options)
+    {
+        var_dump($message->getBody()); // "My first message with the awesome swarrot lib :)"
+    }
+}
+```
+
+Your processor will also be decorated automatically by all processors listed in the
 `middleware_stack` section. The order matters.
 
 All these processors are configurable.
