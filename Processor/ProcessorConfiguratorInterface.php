@@ -15,6 +15,7 @@ interface ProcessorConfiguratorInterface
 
     /**
      * Retrieves the processor's class name and list of constructors arguments.
+     * The class name should be first, and is mandatory.
      *
      * @param array $options
      *
