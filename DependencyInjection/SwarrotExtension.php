@@ -4,6 +4,7 @@ namespace Swarrot\SwarrotBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
@@ -107,7 +108,12 @@ class SwarrotExtension extends Extension
         }
 
         $id = 'swarrot.command.generated.'.$name;
-        $container->setDefinition($id, new DefinitionDecorator($consumerConfig['command']));
+        // Test to remove once symfony <3.0 is not supported anymore
+        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
+            $container->setDefinition($id, new ChildDefinition($consumerConfig['command']));
+        } else {
+            $container->setDefinition($id, new DefinitionDecorator($consumerConfig['command']));
+        }
         $container
             ->getDefinition($id)
             ->replaceArgument(0, $name)
@@ -134,11 +140,16 @@ class SwarrotExtension extends Extension
     ) {
         $id = 'swarrot_extra.command.generated.'.$commandName.'.'.uniqid();
 
-        $defintion = $container->setDefinition($id, new DefinitionDecorator($middlewareStackConfig['configurator']))
-            ->addMethodCall('setExtras', [$middlewareStackConfig['extras']]);
+        // Test to remove once symfony <3.0 is not supported anymore
+        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
+            $definition = $container->setDefinition($id, new ChildDefinition($middlewareStackConfig['configurator']));
+        } else {
+            $definition = $container->setDefinition($id, new DefinitionDecorator($middlewareStackConfig['configurator']));
+        }
 
+        $definition->addMethodCall('setExtras', [$middlewareStackConfig['extras']]);
         if (!empty($middlewareStackConfig['first_arg_class'])) {
-            $defintion->replaceArgument(
+            $definition->replaceArgument(
                 0,
                 $middlewareStackConfig['first_arg_class']
             );
