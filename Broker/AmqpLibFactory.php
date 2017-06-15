@@ -115,7 +115,6 @@ class AmqpLibFactory implements FactoryInterface
                 $this->connections[$connection]['vhost']
             );
         }
-        //$conn->connect();
 
         $this->channels[$connection] = $conn->channel();
 
