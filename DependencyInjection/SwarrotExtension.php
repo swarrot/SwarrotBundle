@@ -108,7 +108,7 @@ class SwarrotExtension extends Extension
         }
 
         $id = 'swarrot.command.generated.'.$name;
-        // Test to remove once symfony <3.0 is not supported anymore
+        // Test to remove once symfony <3.3 is not supported anymore
         if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
             $container->setDefinition($id, new ChildDefinition($consumerConfig['command']));
         } else {
@@ -140,7 +140,7 @@ class SwarrotExtension extends Extension
     ) {
         $id = 'swarrot_extra.command.generated.'.$commandName.'.'.uniqid();
 
-        // Test to remove once symfony <3.0 is not supported anymore
+        // Test to remove once symfony <3.3 is not supported anymore
         if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
             $definition = $container->setDefinition($id, new ChildDefinition($middlewareStackConfig['configurator']));
         } else {
