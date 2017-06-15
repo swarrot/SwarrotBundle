@@ -66,10 +66,10 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $configurators);
 
         $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
-        $configuratorDefintion = $container->getDefinition((string) $configurators[0]);
+        $configuratorDefinition = $container->getDefinition((string) $configurators[0]);
 
-        $this->assertCount(1, $configuratorDefintion->getMethodCalls());
-        $method = $configuratorDefintion->getMethodCalls()[0];
+        $this->assertCount(1, $configuratorDefinition->getMethodCalls());
+        $method = $configuratorDefinition->getMethodCalls()[0];
         $this->assertEquals('setExtras', $method[0]);
         $this->assertEquals(['foo' => 'bar'], $method[1][0]);
     }
@@ -100,8 +100,8 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $configurators);
 
         $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
-        $configuratorDefintion = $container->getDefinition((string) $configurators[0]);
-        $this->assertEquals('AppBundle\\MyAckProcessor', $configuratorDefintion->getArgument(0));
+        $configuratorDefinition = $container->getDefinition((string) $configurators[0]);
+        $this->assertEquals('AppBundle\\MyAckProcessor', $configuratorDefinition->getArgument(0));
     }
 
     public function test_it_registers_the_collector_by_default_in_debug_mode()

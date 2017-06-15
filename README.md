@@ -228,8 +228,15 @@ itself and a `ProcessorConfigurator`.
 For the `Processor`, you can refer to the [`swarrot/swarrot`
 documentation](https://github.com/swarrot/swarrot/#create-your-own-processor).
 For the `ConfigurationProcessor`, you need to implement the
-`ProcessorConfiguratorInterface` and to register it as a service. Once done,
-just add it to the middleware stack of your consumer:
+`ProcessorConfiguratorInterface` and to register it as an abstract service,
+like this:
+```
+services:
+  my_own_processor_configurator_service_id:
+    abstract: true
+    class: MyProject\MyOwnProcessorConfigurator
+```
+Once done, just add it to the middleware stack of your consumer:
 
 ```yaml
 middleware_stack:
