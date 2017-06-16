@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->beforeNormalization()
                 ->always()
-                ->then(function ($v) use ($knownProcessors)  {
+                ->then(function ($v) {
                     // Deal with old logger config
                     if (isset($v['publisher_logger']) && !isset($v['logger'])) {
                         $v['logger'] = $v['publisher_logger'];
