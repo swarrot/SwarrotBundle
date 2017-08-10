@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://poser.pugx.org/swarrot/swarrot-bundle/v/stable.png)](https://packagist.org/packages/swarrot/swarrot-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/swarrot/swarrot-bundle/v/unstable.svg)](https://packagist.org/packages/swarrot/swarrot-bundle)
 
-A bundle to use Swarrot inside your Symfony2 application
+A bundle to use Swarrot inside your Symfony2 application.
 
 ## Installation
 
@@ -259,6 +259,15 @@ Simply override the `swarrot.publisher.class` parameter in the DIC with the
 parameters:
     swarrot.publisher.class: Swarrot\SwarrotBundle\Broker\BlackholePublisher
 ```
+
+## Broker configuration
+
+This bundle goal is to deal with message consuming, not to deal with your
+broker configuration. We don't want to mix the infrastructure logic with the
+consuming one.
+
+If you're looking for a tool to configure your broker, take a look at
+[odolbeau/rabbit-mq-admin-toolkit](https://github.com/odolbeau/rabbit-mq-admin-toolkit).
 
 ## License
 
