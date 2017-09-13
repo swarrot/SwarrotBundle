@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "swarrot/swarrot": "^2.1.1",
+        "swarrot/swarrot": "^2.1.1|^3.0",
         "psr/log": "~1.0",
         "symfony/framework-bundle": "~2.4|~3.0",
         "symfony/console": "~2.4|~3.0",
