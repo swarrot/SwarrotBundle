@@ -151,7 +151,7 @@ class Configuration implements ConfigurationInterface
                                         ->scalarNode('configurator')->isRequired()->end()
                                         ->scalarNode('first_arg_class')->defaultValue(null)->end()
                                         ->arrayNode('extras')
-                                            ->prototype('scalar')->end()
+                                            ->prototype('variable')->end()
                                         ->end()
                                     ->end()
                                 ->end()

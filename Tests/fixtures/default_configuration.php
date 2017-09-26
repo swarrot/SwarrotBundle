@@ -28,9 +28,14 @@ return [
             'queue' => null,
             'extras' => [],
             'middleware_stack' => [
-                'name' => [
+                [
                     'configurator' => null,
-                    'extras' => [],
+                    'extras' => [
+                        'foo' => 'bar',
+                        'baz' => [
+                            'bar'
+                        ]
+                    ],
                     'first_arg_class' => null,
                 ]
             ],
