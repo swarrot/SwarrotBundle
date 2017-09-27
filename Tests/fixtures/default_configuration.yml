@@ -30,10 +30,11 @@ swarrot:
             middleware_stack:
 
                 # Prototype
-                name:
-                    configurator:    ~
-                    extras:          []
-
+                - configurator:    ~
+                  extras:
+                      foo: bar
+                      baz:
+                          - bar
     messages_types:
 
         # Prototype
