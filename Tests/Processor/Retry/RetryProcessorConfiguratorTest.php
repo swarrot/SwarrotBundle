@@ -24,11 +24,23 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
             $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface')->reveal(),
             $this->prophesize('Psr\Log\LoggerInterface')->reveal()
         );
-        $configurator->setExtras(['retry_routing_key_pattern' => 'my_queue', 'retry_attempts' => 4]);
+        $configurator->setExtras(
+            [
+                'retry_routing_key_pattern' => 'my_queue',
+                'retry_attempts' => 4,
+                'retry_log_levels_map' => array('\Exception' => 'error'),
+                'retry_fail_log_levels_map' => array('\Exception' => 'error'),
+            ]
+        );
         $input = $this->getUserInput([], $configurator);
 
         $this->assertSame(
-            ['retry_key_pattern' => 'my_queue', 'retry_attempts' => 4],
+            [
+                'retry_key_pattern' => 'my_queue',
+                'retry_attempts' => 4,
+                'retry_log_levels_map' => ['\Exception' => 'error'],
+                'retry_fail_log_levels_map' => ['\Exception' => 'error'],
+            ],
             $configurator->resolveOptions($input)
         );
     }
@@ -45,7 +57,12 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $input = $this->getUserInput(['--retry-attempts' => 5], $configurator);
 
         $this->assertSame(
-            ['retry_key_pattern' => 'retry_%attempt%s', 'retry_attempts' => 5],
+            [
+                'retry_key_pattern' => 'retry_%attempt%s',
+                'retry_attempts' => 5,
+                'retry_log_levels_map' => [],
+                'retry_fail_log_levels_map' => [],
+            ],
             $configurator->resolveOptions($input)
         );
     }
@@ -62,7 +79,12 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $input = $this->getUserInput([], $configurator);
 
         $this->assertSame(
-            ['retry_key_pattern' => 'retry_%attempt%s', 'retry_attempts' => 3],
+            [
+                'retry_key_pattern' => 'retry_%attempt%s',
+                'retry_attempts' => 3,
+                'retry_log_levels_map' => [],
+                'retry_fail_log_levels_map' => [],
+            ],
             $configurator->resolveOptions($input)
         );
     }

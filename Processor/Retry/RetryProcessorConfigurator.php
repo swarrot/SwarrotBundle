@@ -76,6 +76,8 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
         return [
             'retry_key_pattern' => str_replace('%queue%', $input->getArgument('queue'), $key),
             'retry_attempts' => (int) $input->getOption('retry-attempts'),
+            'retry_log_levels_map' => $this->getExtra('retry_log_levels_map', []),
+            'retry_fail_log_levels_map' => $this->getExtra('retry_fail_log_levels_map', []),
         ];
     }
 }
