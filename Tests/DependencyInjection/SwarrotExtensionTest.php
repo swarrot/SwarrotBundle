@@ -61,9 +61,11 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('testing', $commands);
         $this->assertSame('swarrot.command.generated.testing', $commands['testing']);
 
-        $configurators = $container->getDefinition('swarrot.command.generated.testing')->getArgument(3);
+        $testingCommandDefinition = $container->getDefinition('swarrot.command.generated.testing');
+        $configurators = $testingCommandDefinition->getArgument(3);
         $this->assertInternalType('array', $configurators);
         $this->assertCount(1, $configurators);
+        $this->assertTrue($testingCommandDefinition->isPublic());
 
         $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
         $configuratorDefinition = $container->getDefinition((string) $configurators[0]);
