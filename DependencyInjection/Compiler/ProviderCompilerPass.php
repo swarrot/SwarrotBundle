@@ -2,6 +2,7 @@
 
 namespace Swarrot\SwarrotBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -52,7 +53,7 @@ class ProviderCompilerPass implements CompilerPassInterface
             ]);
         }
 
-        $container->setAlias('swarrot.factory.default', $id);
+        $container->setAlias('swarrot.factory.default', new Alias($id, true));
         $container->getParameterBag()->remove('swarrot.provider_config');
     }
 }
