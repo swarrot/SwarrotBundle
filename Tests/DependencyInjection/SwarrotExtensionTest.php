@@ -167,6 +167,14 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('my_awesome_logger', (string) $alias);
     }
 
+    public function test_it_exposes_the_publisher_service()
+    {
+        $container = $this->createContainer(false);
+        $this->loadConfig($container);
+
+        $this->assertTrue($container->getDefinition('swarrot.publisher')->isPublic());
+    }
+
     private function assertHasService(ContainerBuilder $container, $id)
     {
         $this->assertTrue(
