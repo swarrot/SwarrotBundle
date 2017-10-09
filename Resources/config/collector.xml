@@ -8,7 +8,7 @@
 
     <services>
         <service id="swarrot.data_collector" class="%swarrot.data_collector.class%">
-            <tag name="data_collector" template="SwarrotBundle:Collector:collector.html.twig" id="swarrot" />
+            <tag name="data_collector" template="@Swarrot/Collector/collector.html.twig" id="swarrot" />
             <tag name="kernel.event_listener" event="swarrot.message_published" method="onMessagePublished" />
         </service>
     </services>
