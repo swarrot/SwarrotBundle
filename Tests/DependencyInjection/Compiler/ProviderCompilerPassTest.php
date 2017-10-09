@@ -3,6 +3,7 @@
 namespace Swarrot\SwarrotBundle\Tests\DependencyInjection\Compiler;
 
 use Swarrot\SwarrotBundle\DependencyInjection\Compiler\ProviderCompilerPass;
+use Symfony\Component\DependencyInjection\Alias;
 
 class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 {
@@ -299,7 +300,7 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
         $container
             ->expects($this->once())
             ->method('setAlias')
-            ->with('swarrot.factory.default', 'foo')
+            ->with('swarrot.factory.default', new Alias('foo', true))
         ;
 
         $compiler = new ProviderCompilerPass();

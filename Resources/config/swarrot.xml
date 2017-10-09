@@ -30,7 +30,7 @@
             </call>
         </service>
 
-        <service id="swarrot.publisher" class="%swarrot.publisher.class%">
+        <service id="swarrot.publisher" class="%swarrot.publisher.class%" public="true">
             <argument type="service" id="swarrot.factory.default" />
             <argument type="service" id="event_dispatcher" />
             <argument>%swarrot.messages_types%</argument>

@@ -61,9 +61,11 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('testing', $commands);
         $this->assertSame('swarrot.command.generated.testing', $commands['testing']);
 
-        $configurators = $container->getDefinition('swarrot.command.generated.testing')->getArgument(3);
+        $testingCommandDefinition = $container->getDefinition('swarrot.command.generated.testing');
+        $configurators = $testingCommandDefinition->getArgument(3);
         $this->assertInternalType('array', $configurators);
         $this->assertCount(1, $configurators);
+        $this->assertTrue($testingCommandDefinition->isPublic());
 
         $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
         $configuratorDefinition = $container->getDefinition((string) $configurators[0]);
@@ -165,6 +167,14 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $alias = $container->getAlias('swarrot.logger');
 
         $this->assertEquals('my_awesome_logger', (string) $alias);
+    }
+
+    public function test_it_exposes_the_publisher_service()
+    {
+        $container = $this->createContainer(false);
+        $this->loadConfig($container);
+
+        $this->assertTrue($container->getDefinition('swarrot.publisher')->isPublic());
     }
 
     private function assertHasService(ContainerBuilder $container, $id)

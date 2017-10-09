@@ -121,7 +121,9 @@ class SwarrotExtension extends Extension
             ->replaceArgument(2, new Reference($consumerConfig['processor']))
             ->replaceArgument(3, $processorConfigurators)
             ->replaceArgument(4, $consumerConfig['extras'])
-            ->replaceArgument(5, $consumerConfig['queue']);
+            ->replaceArgument(5, $consumerConfig['queue'])
+            ->setPublic(true)
+        ;
 
         return $id;
     }
