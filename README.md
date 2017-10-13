@@ -252,7 +252,7 @@ If you use Swarrot, you may not want to actually publish messages when in test
 environment for example. You can use the `BlackholePublisher` to achieve this.
 
 Simply override the `swarrot.publisher.class` parameter in the DIC with the
-`Swarrot\SwarrotBundle\Broker\PublisherBlackhole` class, by updating
+`Swarrot\SwarrotBundle\Broker\BlackholePublisher` class, by updating
 `config_test.yml` for instance:
 
 ```yaml
