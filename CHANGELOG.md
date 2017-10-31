@@ -5,6 +5,20 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.5.0] - 2017-10-31
+
+### Fixed
+- Deal with deprecated DefinitionDecorator
+- README & Doc Improvements
+- SL Insight fixes
+- Fix extras consumers option configuration type
+
+### Added
+- Last swarrot/swarrot version support
+- Explicitly exposes the public services
+- SF 4 compatibility
+- RetryProcessor - Support `retry_log_levels_map` and `retry_fail_log_levels_map` configuration in extras
+
 ## [1.4.2] - 2017-03-20
 
 ### Fixed
