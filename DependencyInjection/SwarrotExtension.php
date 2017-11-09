@@ -102,9 +102,8 @@ class SwarrotExtension extends Extension
     {
         $processorConfigurators = [];
         foreach ($consumerConfig['middleware_stack'] as $middlewareStackConfig) {
-            $processorConfigurators[] = new Reference(
-                $this->buildCommandProcessorConfigurator($container, $name, $middlewareStackConfig)
-            );
+            $configuratorId = $this->buildCommandProcessorConfigurator($container, $name, $middlewareStackConfig);
+            $processorConfigurators[$configuratorId] = new Reference($configuratorId);
         }
 
         $id = 'swarrot.command.generated.'.$name;

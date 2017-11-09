@@ -67,8 +67,8 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(1, $configurators);
         $this->assertTrue($testingCommandDefinition->isPublic());
 
-        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
-        $configuratorDefinition = $container->getDefinition((string) $configurators[0]);
+        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', array_values($configurators)[0]);
+        $configuratorDefinition = $container->getDefinition((string) array_values($configurators)[0]);
 
         $this->assertCount(1, $configuratorDefinition->getMethodCalls());
         $method = $configuratorDefinition->getMethodCalls()[0];
@@ -101,8 +101,8 @@ class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('array', $configurators);
         $this->assertCount(1, $configurators);
 
-        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', $configurators[0]);
-        $configuratorDefinition = $container->getDefinition((string) $configurators[0]);
+        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', array_values($configurators)[0]);
+        $configuratorDefinition = $container->getDefinition((string) array_values($configurators)[0]);
         $this->assertEquals('AppBundle\\MyAckProcessor', $configuratorDefinition->getArgument(0));
     }
 
