@@ -6,8 +6,9 @@ use Prophecy\Argument;
 use Swarrot\SwarrotBundle\Broker\Publisher;
 use Swarrot\Broker\Message;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
+use PHPUnit\Framework\TestCase;
 
-class PublisherTest extends \PHPUnit_Framework_TestCase
+class PublisherTest extends TestCase
 {
     public function test_it_is_initializable()
     {
@@ -19,6 +20,10 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Broker\Publisher', $publisher);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Unknown message type "message_type". Available are [].
+     */
     public function test_publish_with_unknown_message_type()
     {
         $publisher = new Publisher(
@@ -26,7 +31,6 @@ class PublisherTest extends \PHPUnit_Framework_TestCase
             $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcherInterface')->reveal()
         );
 
-        $this->setExpectedException('\InvalidArgumentException');
         $message = new Message();
         $publisher->publish('message_type', $message);
     }

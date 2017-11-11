@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
+use PHPUnit\Framework\TestCase;
 
-class ProcessorConfiguratorTestCase extends \PHPUnit_Framework_TestCase
+class ProcessorConfiguratorTestCase extends TestCase
 {
     protected function createProcessor(ProcessorConfiguratorInterface $configurator, array $options = [])
     {

@@ -3,8 +3,9 @@
 namespace Swarrot\SwarrotBundle\Tests\Command;
 
 use Swarrot\SwarrotBundle\Command\SwarrotCommand;
+use PHPUnit\Framework\TestCase;
 
-class SwarrotCommandTest extends \PHPUnit_Framework_TestCase
+class SwarrotCommandTest extends TestCase
 {
     public function test_it_is_initializable()
     {

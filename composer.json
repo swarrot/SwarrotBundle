@@ -18,7 +18,7 @@
         "symfony/yaml": "~2.4|~3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.5",
+        "phpunit/phpunit": "~6.4",
         "symfony/phpunit-bridge": "~2.8|~3.0",
         "doctrine/dbal": "~2.2",
         "doctrine/Common": "~2.2"
