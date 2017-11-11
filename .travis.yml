@@ -5,7 +5,6 @@ sudo: false
 services: [rabbitmq]
 
 php:
-  - 7.0
   - 7.1
   - 7.2
   - nightly
@@ -22,7 +21,7 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 7.0
+    - php: 7.1
       env: COMPOSER_FLAGS="--prefer-lowest" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
     - php: 7.2
       env: LIBRABBITMQ_VERSION="master"
