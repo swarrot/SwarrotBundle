@@ -9,7 +9,6 @@ php:
   - 7.1
   - 7.2
   - nightly
-  - hhvm
 
 cache:
   directories:
@@ -24,7 +23,7 @@ matrix:
   fast_finish: true
   include:
     - php: 7.0
-      env: COMPOSER_FLAGS="--prefer-lowest"
+      env: COMPOSER_FLAGS="--prefer-lowest" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
     - php: 7.2
       env: LIBRABBITMQ_VERSION="master"
     - php: 7.2
@@ -33,11 +32,10 @@ matrix:
       env: DEPENDENCIES=dev SYMFONY_VERSION="3.0.x-dev" COMPOSER_FLAGS="--prefer-stable"
   allow_failures:
     - php: nightly
-    - php: hhvm
 
 before_install:
   - sudo ./Tests/bin/install_rabbitmq-c.sh
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then ./Tests/bin/install_php-amqp.sh; fi;'
+  - ./Tests/bin/install_php-amqp.sh
   - composer self-update
   - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require --no-update symfony/framework-bundle:"$SYMFONY_VERSION" symfony/console:"$SYMFONY_VERSION"; fi
@@ -48,4 +46,4 @@ install:
 before_script:
   - sh -c "sudo ./Tests/bin/prepare_rabbit.sh"
 
-script: vendor/bin/simple-phpunit
+script: vendor/bin/phpunit $PHPUNIT_FLAGS
