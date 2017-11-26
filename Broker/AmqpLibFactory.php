@@ -20,7 +20,32 @@ class AmqpLibFactory implements FactoryInterface
      */
     public function addConnection($name, array $connection)
     {
+        if (!empty($connection['url'])) {
+            $params = $this->parseUrl($connection['url']);
+            $connection = array_merge($connection, $params);
+        }
+
         $this->connections[$name] = $connection;
+    }
+
+    /**
+     * Parse a RabbitMQ URI into its components.
+     *
+     * @param string $url
+     *
+     * @return array
+     */
+    private function parseUrl($url)
+    {
+        $parts = parse_url($url);
+
+        return [
+            'login' => $parts['user'],
+            'password' => $parts['pass'],
+            'host' => $parts['host'],
+            'port' => isset($parts['port']) ? $parts['port'] : 5672,
+            'vhost' => empty($parts['path']) || $parts['path'] === '/' ? '/' : substr($parts['path'], 1),
+        ];
     }
 
     /**
