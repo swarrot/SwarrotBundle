@@ -3,9 +3,11 @@
 namespace Swarrot\SwarrotBundle\Tests\DependencyInjection\Compiler;
 
 use Swarrot\SwarrotBundle\DependencyInjection\Compiler\ProviderCompilerPass;
+use Swarrot\SwarrotBundle\Broker\FactoryInterface;
 use Symfony\Component\DependencyInjection\Alias;
+use PHPUnit\Framework\TestCase;
 
-class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
+class ProviderCompilerPassTest extends TestCase
 {
     public function test_it_is_initializable()
     {
@@ -17,49 +19,33 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
 
     public function test_should_not_run_if_already_declared()
     {
-        $container = $this->getContainer();
+        $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
-        $container
-            ->expects($this->once())
-            ->method('has')
-            ->with('swarrot.factory.default')
-            ->willReturn(true)
-        ;
-
-        $container->expects($this->never())->method('setAlias');
-        $container->expects($this->never())->method('hasParameter');
-        $container->expects($this->never())->method('getParameter');
-        $container->expects($this->never())->method('getDefinition');
-        $container->expects($this->never())->method('findTaggedServiceIds');
+        $container->has('swarrot.factory.default')->willReturn(true);
+        $container->setAlias()->shouldNotBeCalled();
+        $container->hasParameter()->shouldNotBeCalled();
+        $container->getParameter()->shouldNotBeCalled();
+        $container->getDefinition()->shouldNotBeCalled();
+        $container->findTaggedServiceIds()->shouldNotBeCalled();
 
         $compiler = new ProviderCompilerPass();
-        $compiler->process($container);
+        $compiler->process($container->reveal());
     }
 
     public function test_should_not_run_if_not_configured()
     {
-        $container = $this->getContainer();
+        $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
-        $container
-            ->expects($this->once())
-            ->method('has')
-            ->with('swarrot.factory.default')
-            ->willReturn(false)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('hasParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn(false)
-        ;
+        $container->has('swarrot.factory.default')->willReturn(false);
+        $container->hasParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn(false);
 
-        $container->expects($this->never())->method('setAlias');
-        $container->expects($this->never())->method('getParameter');
-        $container->expects($this->never())->method('getDefinition');
-        $container->expects($this->never())->method('findTaggedServiceIds');
+        $container->setAlias()->shouldNotBeCalled();
+        $container->getParameter()->shouldNotBeCalled();
+        $container->getDefinition()->shouldNotBeCalled();
+        $container->findTaggedServiceIds()->shouldNotBeCalled();
 
         $compiler = new ProviderCompilerPass();
-        $compiler->process($container);
+        $compiler->process($container->reveal());
     }
 
     /**
@@ -68,37 +54,22 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function test_missing_alias()
     {
-        $container = $this->getContainer();
+        $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
-        $container
-            ->expects($this->once())
-            ->method('has')
-            ->with('swarrot.factory.default')
-            ->willReturn(false)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('hasParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn(true)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with('swarrot.provider_factory')
-            ->willReturn([
-                'foo' => [
-                    [],
-                ],
-            ])
-        ;
+        $container->has('swarrot.factory.default')->willReturn(false);
+        $container->hasParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn(true);
+        $container->findTaggedServiceIds('swarrot.provider_factory')->shouldBeCalledTimes(1)->willReturn([
+            'foo' => [
+                [],
+            ],
+        ]);
 
-        $container->expects($this->never())->method('getParameter');
-        $container->expects($this->never())->method('setAlias');
-        $container->expects($this->never())->method('getDefinition');
+        $container->setAlias()->shouldNotBeCalled();
+        $container->getParameter()->shouldNotBeCalled();
+        $container->getDefinition()->shouldNotBeCalled();
 
         $compiler = new ProviderCompilerPass();
-        $compiler->process($container);
+        $compiler->process($container->reveal());
     }
 
     /**
@@ -107,52 +78,32 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function test_unexistant_provider()
     {
-        $container = $this->getContainer();
+        $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
-        $container
-            ->expects($this->once())
-            ->method('has')
-            ->with('swarrot.factory.default')
-            ->willReturn(false)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('hasParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn(true)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with('swarrot.provider_factory')
-            ->willReturn([
-                'foo' => [
-                    [
-                        'alias' => 'foo.bar',
-                    ],
+        $container->has('swarrot.factory.default')->willReturn(false);
+        $container->hasParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn(true);
+        $container->findTaggedServiceIds('swarrot.provider_factory')->shouldBeCalledTimes(1)->willReturn([
+            'foo' => [
+                [
+                    'alias' => 'foo.bar',
                 ],
-                'bar' => [
-                    [
-                        'alias' => 'bar',
-                    ],
+            ],
+            'bar' => [
+                [
+                    'alias' => 'bar',
                 ],
-            ])
-        ;
-        $container
-            ->expects($this->once())
-            ->method('getParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn([
-                'foo',
-                [],
-            ])
-        ;
+            ],
+        ]);
+        $container->getParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn([
+            'foo',
+            [],
+        ]);
 
-        $container->expects($this->never())->method('setAlias');
-        $container->expects($this->never())->method('getDefinition');
+        $container->setAlias()->shouldNotBeCalled();
+        $container->getDefinition()->shouldNotBeCalled();
 
         $compiler = new ProviderCompilerPass();
-        $compiler->process($container);
+        $compiler->process($container->reveal());
     }
 
     /**
@@ -161,171 +112,83 @@ class ProviderCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     public function test_invalid_provider()
     {
-        $container = $this->getContainer();
-        $definition = $this->getMock('Symfony\\Component\\DependencyInjection\\Definition');
+        $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $definition = $this->prophesize('Symfony\\Component\\DependencyInjection\\Definition');
 
-        $definition->expects($this->once())
-                   ->method('getClass')
-                   ->with()
-                   ->willReturn('stdClass')
-        ;
-        $definition->expects($this->never())->method('addMethodCall');
+        $stdClass = new \stdClass;
 
-        $container->getParameterBag()
-                  ->expects($this->once())
-                  ->method('resolveValue')
-                  ->with('stdClass')
-                  ->willReturn('stdClass')
-        ;
+        $definition->getClass()->willReturn($stdClass);
+        $definition->addMethodCall()->shouldNotBeCalled();
 
-        $container
-            ->expects($this->once())
-            ->method('has')
-            ->with('swarrot.factory.default')
-            ->willReturn(false)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('hasParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn(true)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with('swarrot.provider_factory')
-            ->willReturn([
-                'foo' => [
-                    [
-                        'alias' => 'foo.bar',
-                    ],
+        $parameterBag = $this->prophesize('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
+        $parameterBag->resolveValue($stdClass)->willReturn(new \stdClass)->shouldBeCalledTimes(1);
+        $container->getParameterBag()->willReturn($parameterBag->reveal());
+
+        $container->has('swarrot.factory.default')->willReturn(false);
+        $container->hasParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn(true);
+        $container->findTaggedServiceIds('swarrot.provider_factory')->shouldBeCalledTimes(1)->willReturn([
+            'foo' => [
+                [
+                    'alias' => 'foo.bar',
                 ],
-                'bar' => [
-                    [
-                        'alias' => 'bar',
-                    ],
+            ],
+            'bar' => [
+                [
+                    'alias' => 'bar',
                 ],
-            ])
-        ;
-        $container
-            ->expects($this->once())
-            ->method('getParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn([
-                'foo.bar',
-                [],
-            ])
-        ;
-        $container
-            ->expects($this->once())
-            ->method('getDefinition')
-            ->with('foo')
-            ->willReturn($definition)
-        ;
+            ],
+        ]);
+        $container->getParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn([
+            'foo.bar',
+            [],
+        ]);
 
-        $container->expects($this->never())->method('setAlias');
+
+        $container->getDefinition('foo')->willReturn($definition)->shouldBeCalledTimes(1);
+        $container->setAlias()->shouldNotBeCalled();
 
         $compiler = new ProviderCompilerPass();
-        $compiler->process($container);
+        $compiler->process($container->reveal());
     }
 
     public function test_successful_provider()
     {
-        $container = $this->getContainer();
-        $definition = $this->getMock('Symfony\\Component\\DependencyInjection\\Definition');
+        $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
+        $definition = $this->prophesize('Symfony\\Component\\DependencyInjection\\Definition');
 
-        $definition->expects($this->once())
-                   ->method('getClass')
-                   ->with()
-                   ->willReturn('Swarrot\\SwarrotBundle\\Broker\\FactoryInterface')
-        ;
-        $definition->expects($this->once())
-                   ->method('addMethodCall')
-                   ->with('addConnection', ['foo', []])
-        ;
+        $definition->getClass()->willReturn(FactoryInterface::class)->shouldBeCalledTimes(1);
+        $definition->addMethodCall('addConnection', ['foo', []])->shouldBeCalledTimes(1);
 
-        $container->getParameterBag()
-                  ->expects($this->once())
-                  ->method('resolveValue')
-                  ->with('Swarrot\\SwarrotBundle\\Broker\\FactoryInterface')
-                  ->willReturn('Swarrot\\SwarrotBundle\\Broker\\FactoryInterface')
-        ;
+        $parameterBag = $this->prophesize('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
+        $parameterBag->remove('swarrot.provider_config')->shouldBeCalledTimes(1);
+        $parameterBag->resolveValue(FactoryInterface::class)->willReturnArgument(0)->shouldBeCalledTimes(1);
+        $container->getParameterBag()->willReturn($parameterBag->reveal());
 
-        $container
-            ->expects($this->once())
-            ->method('has')
-            ->with('swarrot.factory.default')
-            ->willReturn(false)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('hasParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn(true)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('findTaggedServiceIds')
-            ->with('swarrot.provider_factory')
-            ->willReturn([
-                'foo' => [
-                    [
-                        'alias' => 'foo.bar',
-                    ],
-                ],
-                'bar' => [
-                    [
-                        'alias' => 'bar',
-                    ],
-                ],
-            ])
-        ;
-        $container
-            ->expects($this->once())
-            ->method('getParameter')
-            ->with('swarrot.provider_config')
-            ->willReturn([
-                'foo.bar',
+        $container->has('swarrot.factory.default')->willReturn(false);
+        $container->hasParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn(true);
+        $container->findTaggedServiceIds('swarrot.provider_factory')->shouldBeCalledTimes(1)->willReturn([
+            'foo' => [
                 [
-                    'foo' => [],
+                    'alias' => 'foo.bar',
                 ],
-            ])
-        ;
-        $container
-            ->expects($this->once())
-            ->method('getDefinition')
-            ->with('foo')
-            ->willReturn($definition)
-        ;
-        $container
-            ->expects($this->once())
-            ->method('setAlias')
-            ->with('swarrot.factory.default', new Alias('foo', true))
-        ;
+            ],
+            'bar' => [
+                [
+                    'alias' => 'bar',
+                ],
+            ],
+        ]);
+        $container->getParameter('swarrot.provider_config')->shouldBeCalledTimes(1)->willReturn([
+            'foo.bar',
+            [
+                'foo' => [],
+            ],
+        ]);
+
+        $container->getDefinition('foo')->willReturn($definition)->shouldBeCalledTimes(1);
+        $container->setAlias('swarrot.factory.default', new Alias('foo', true))->shouldBeCalledTimes(1);
 
         $compiler = new ProviderCompilerPass();
-        $compiler->process($container);
-    }
-
-    private function getContainer()
-    {
-        $container = $this->getMock('Symfony\\Component\\DependencyInjection\\ContainerBuilder', [
-            'has',
-            'setAlias',
-            'hasParameter',
-            'getParameter',
-            'getDefinition',
-            'getParameterBag',
-            'findTaggedServiceIds',
-        ]);
-        $parameterBag = $this->getMock('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
-
-        $container
-            ->expects($this->any())
-            ->method('getParameterBag')
-            ->willReturn($parameterBag)
-        ;
-
-        return $container;
+        $compiler->process($container->reveal());
     }
 }

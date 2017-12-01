@@ -5,8 +5,9 @@ namespace Swarrot\SwarrotBundle\Tests\DependencyInjection;
 use Swarrot\SwarrotBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Parser;
+use PHPUnit\Framework\TestCase;
 
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
     public function test_it_is_initializable()
     {

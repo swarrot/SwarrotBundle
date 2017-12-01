@@ -3,8 +3,9 @@
 namespace Swarrot\SwarrotBundle\Tests\Broker;
 
 use Swarrot\SwarrotBundle\Broker\PeclFactory;
+use PHPUnit\Framework\TestCase;
 
-class PeclFactoryTest extends \PHPUnit_Framework_TestCase
+class PeclFactoryTest extends TestCase
 {
     protected function setUp()
     {

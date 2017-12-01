@@ -4,8 +4,9 @@ namespace Swarrot\SwarrotBundle\Tests\DependencyInjection;
 
 use Swarrot\SwarrotBundle\DependencyInjection\SwarrotExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPUnit\Framework\TestCase;
 
-class SwarrotExtensionTest extends \PHPUnit_Framework_TestCase
+class SwarrotExtensionTest extends TestCase
 {
     public function test_it_uses_the_default_connection_for_message_types()
     {
