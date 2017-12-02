@@ -59,4 +59,9 @@ class SwarrotDataCollector extends DataCollector
     {
         return 'swarrot';
     }
+
+    public function reset()
+    {
+        $this->data = [];
+    }
 }
