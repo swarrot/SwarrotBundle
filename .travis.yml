@@ -13,6 +13,11 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+addons:
+  apt:
+    packages:
+    - cmake
+
 env:
     global:
         - LIBRABBITMQ_VERSION=v0.8.0
