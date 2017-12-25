@@ -5,15 +5,28 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.5.1] - 2017-12-25
+
+### Added
+
+- Support for Symfony 4.
+- It's now possible to retrieve all middleware services ids.
+
+### Removed
+
+- Support of PHP < 7.1
+
 ## [1.5.0] - 2017-10-31
 
 ### Fixed
+
 - Deal with deprecated DefinitionDecorator
 - README & Doc Improvements
 - SL Insight fixes
 - Fix extras consumers option configuration type
 
 ### Added
+
 - Last swarrot/swarrot version support
 - Explicitly exposes the public services
 - SF 4 compatibility
@@ -79,7 +92,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] - 2014-07-18
 
-[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.1...HEAD
+[1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.0...v1.5.1
+[1.5.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.3.2...v1.4.0
