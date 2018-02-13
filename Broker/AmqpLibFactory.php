@@ -104,7 +104,11 @@ class AmqpLibFactory implements FactoryInterface
                 $this->connections[$connection]['login'],
                 $this->connections[$connection]['password'],
                 $this->connections[$connection]['vhost'],
-                $ssl_opts
+                $ssl_opts,
+                [
+                    'keepalive' => true,
+                    'heartbeat' => 1,
+                ]
             );
         } else {
             $conn = new AMQPConnection(
@@ -112,7 +116,16 @@ class AmqpLibFactory implements FactoryInterface
                 $this->connections[$connection]['port'],
                 $this->connections[$connection]['login'],
                 $this->connections[$connection]['password'],
-                $this->connections[$connection]['vhost']
+                $this->connections[$connection]['vhost'],
+                false,
+                'AMQPLAIN',
+                null,
+                'en_US',
+                3.0,
+                3.0,
+                null,
+                true,
+                1
             );
         }
 
