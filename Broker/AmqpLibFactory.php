@@ -31,19 +31,21 @@ class AmqpLibFactory implements FactoryInterface
     /**
      * Parse a RabbitMQ URI into its components.
      *
-     * @param string $url
-     *
-     * @return array
+     * @throws \InvalidArgumentException if the URL can not be parsed.
      */
-    private function parseUrl($url)
+    private function parseUrl(string $url): array
     {
         $parts = parse_url($url);
 
+        if ($parts === false || !isset($parts['host'])) {
+            throw new \InvalidArgumentException(sprintf('Invalid connection URL given: "%s"', $url));
+        }
+
         return [
-            'login' => $parts['user'],
-            'password' => $parts['pass'],
+            'login' => $parts['user'] ?? '',
+            'password' => $parts['pass'] ?? '',
             'host' => $parts['host'],
-            'port' => isset($parts['port']) ? $parts['port'] : 5672,
+            'port' => (int) ($parts['port'] ?? 5672),
             'vhost' => empty($parts['path']) || $parts['path'] === '/' ? '/' : substr($parts['path'], 1),
         ];
     }
