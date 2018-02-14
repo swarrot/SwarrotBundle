@@ -41,4 +41,30 @@ class PeclFactoryTest extends TestCase
         $publisher = $factory->getMessagePublisher('exchange', 'connection');
         $this->assertInstanceOf('Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher', $publisher);
     }
+
+
+    public function test_get_publisher_with_connection_build_from_url()
+    {
+        $url = 'amqp://localhost:5672/swarrot';
+
+        $logger = $this->prophesize('Psr\Log\LoggerInterface');
+        $factory = new PeclFactory($logger->reveal());
+
+        $factory->addConnection('connection', ['url' => $url]);
+
+        $publisher = $factory->getMessagePublisher('exchange', 'connection');
+        $this->assertInstanceOf('Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher', $publisher);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid connection URL given: "bloup"
+     */
+    public function test_it_throws_an_exception_if_the_url_is_invalid()
+    {
+        $logger = $this->prophesize('Psr\Log\LoggerInterface');
+        $factory = new PeclFactory($logger->reveal());
+
+        $factory->addConnection('connection', ['url' => 'bloup']);
+    }
 }

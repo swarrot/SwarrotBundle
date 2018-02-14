@@ -9,6 +9,8 @@ use Psr\Log\NullLogger;
 
 class PeclFactory implements FactoryInterface
 {
+    use UrlParserTrait;
+
     protected $logger;
 
     protected $connections = array();
@@ -33,6 +35,11 @@ class PeclFactory implements FactoryInterface
      */
     public function addConnection($name, array $connection)
     {
+        if (!empty($connection['url'])) {
+            $params = $this->parseUrl($connection['url']);
+            $connection = array_merge($connection, $params);
+        }
+
         $this->connections[$name] = $connection;
     }
 

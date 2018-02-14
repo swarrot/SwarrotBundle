@@ -10,6 +10,8 @@ use Swarrot\Broker\MessagePublisher\PhpAmqpLibMessagePublisher;
 
 class AmqpLibFactory implements FactoryInterface
 {
+    use UrlParserTrait;
+
     protected $connections = array();
     protected $channels = array();
     protected $messageProviders = array();
@@ -26,28 +28,6 @@ class AmqpLibFactory implements FactoryInterface
         }
 
         $this->connections[$name] = $connection;
-    }
-
-    /**
-     * Parse a RabbitMQ URI into its components.
-     *
-     * @throws \InvalidArgumentException if the URL can not be parsed.
-     */
-    private function parseUrl(string $url): array
-    {
-        $parts = parse_url($url);
-
-        if ($parts === false || !isset($parts['host'])) {
-            throw new \InvalidArgumentException(sprintf('Invalid connection URL given: "%s"', $url));
-        }
-
-        return [
-            'login' => $parts['user'] ?? '',
-            'password' => $parts['pass'] ?? '',
-            'host' => $parts['host'],
-            'port' => (int) ($parts['port'] ?? 5672),
-            'vhost' => empty($parts['path']) || $parts['path'] === '/' ? '/' : substr($parts['path'], 1),
-        ];
     }
 
     /**
