@@ -10,6 +10,8 @@ use Swarrot\Broker\MessagePublisher\PhpAmqpLibMessagePublisher;
 
 class AmqpLibFactory implements FactoryInterface
 {
+    use UrlParserTrait;
+
     protected $connections = array();
     protected $channels = array();
     protected $messageProviders = array();
@@ -20,6 +22,11 @@ class AmqpLibFactory implements FactoryInterface
      */
     public function addConnection($name, array $connection)
     {
+        if (!empty($connection['url'])) {
+            $params = $this->parseUrl($connection['url']);
+            $connection = array_merge($connection, $params);
+        }
+
         $this->connections[$name] = $connection;
     }
 

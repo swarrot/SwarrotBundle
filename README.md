@@ -42,11 +42,7 @@ swarrot:
     logger: logger # logger or channel logger like monolog.logger.[my_channel]
     connections:
         rabbitmq:
-            host: "%rabbitmq_host%"
-            port: "%rabbitmq_port%"
-            login: "%rabbitmq_login%"
-            password: "%rabbitmq_password%"
-            vhost: '/'
+            url: "amqp://%rabbitmq_login%:%rabbitmq_password%@%rabbitmq_host%:%rabbitmq_port%/%rabbitmq_vhost%"
     consumers:
         my_consumer:
             processor: my_consumer.processor.service # Symfony service id implementing Swarrot\Processor\ProcessorInterface
