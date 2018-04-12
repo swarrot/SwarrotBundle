@@ -105,5 +105,10 @@
             <argument type="service" id="swarrot.factory.default"/>
             <argument type="service" id="swarrot.logger"/>
         </service>
+        <service id="swarrot.processor.sentry"
+                 class="Swarrot\SwarrotBundle\Processor\Sentry\SentryProcessorConfigurator">
+            <argument>Swarrot\Processor\Sentry\SentryProcessor</argument>
+            <argument type="service" id="sentry.client" on-invalid="ignore"/>
+        </service>
     </services>
 </container>
