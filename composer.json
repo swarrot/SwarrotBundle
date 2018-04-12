@@ -22,7 +22,8 @@
         "phpunit/phpunit": "~6.5",
         "symfony/phpunit-bridge": "~4.0",
         "doctrine/dbal": "~2.2",
-        "doctrine/Common": "~2.2"
+        "doctrine/Common": "~2.2",
+        "sentry/sentry-symfony": ">=0.1.0"
     },
     "suggest": {
         "php-amqplib/php-amqplib": "Required if using amqp_lib"
