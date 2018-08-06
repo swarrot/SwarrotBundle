@@ -12,10 +12,6 @@ return [
             'login' => 'guest',
             'password' => 'guest',
             'vhost' => '/',
-            'heartbeat' => 0,
-            'read_timeout' => 0,
-            'write_timeout' => 0,
-            'connect_timeout' => 0,
             'ssl' => false,
             'ssl_options' => [
                 'verify_peer' => true,

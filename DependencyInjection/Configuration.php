@@ -120,10 +120,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('login')->defaultValue('guest')->end()
                             ->scalarNode('password')->defaultValue('guest')->end()
                             ->scalarNode('vhost')->defaultValue('/')->end()
-                            ->integerNode('heartbeat')->defaultValue(0)->end()
-                            ->floatNode('read_timeout')->defaultValue(0)->end()
-                            ->floatNode('write_timeout')->defaultValue(0)->end()
-                            ->floatNode('connect_timeout')->defaultValue(0)->end()
+
                             ->booleanNode('ssl')->defaultValue(false)->end()
                             ->arrayNode('ssl_options')
                                 ->children()
