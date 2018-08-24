@@ -17,12 +17,16 @@ trait UrlParserTrait
             throw new \InvalidArgumentException(sprintf('Invalid connection URL given: "%s"', $url));
         }
 
-        return [
+        $params = [
             'login' => $parts['user'] ?? '',
             'password' => $parts['pass'] ?? '',
             'host' => $parts['host'],
             'port' => (int) ($parts['port'] ?? 5672),
             'vhost' => empty($parts['path']) || $parts['path'] === '/' ? '/' : substr($parts['path'], 1),
         ];
+
+        parse_str($parts['query'] ?? '', $queryParams);
+
+        return $params + $queryParams;
     }
 }
