@@ -1,6 +1,6 @@
 # Default configuration for extension with alias: "swarrot"
 swarrot:
-    provider:             pecl
+    provider:             sqs
     default_connection:   null
     default_command:      swarrot.command.base
     logger:               logger
@@ -14,6 +14,7 @@ swarrot:
             password:             guest
             vhost:                /
             ssl:                  false
+            region:               eu-west-1
             ssl_options:
                 verify_peer:          ~
                 cafile:               ~
@@ -33,8 +34,7 @@ swarrot:
                 - configurator:    ~
                   extras:
                       foo: bar
-                      baz:
-                          - bar
+                      baz: bar
     messages_types:
 
         # Prototype

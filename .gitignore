@@ -1,4 +1,4 @@
 vendor/
 bin/phpunit
 composer.lock
-bin/doctrine-dbal
+bin/

@@ -1,39 +1,36 @@
 {
-    "name": "swarrot/swarrot-bundle",
+    "name": "tillersystems/SwarrotBundle",
     "description": "SwarrotBundle",
-    "type": "symfony-bundle",
     "keywords": ["swarrot","bundle"],
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Olivier Dolbeau",
-            "homepage": "http://odolbeau.fr/"
-        }
-    ],
     "require": {
-        "php": ">=7.1",
-        "swarrot/swarrot": "^2.1.1|^3.0",
+        "php": ">=5.4",
+        "swarrot/swarrot": "^3.2",
         "psr/log": "~1.0",
-        "symfony/framework-bundle": "~2.4|~3.0|~4.0",
-        "symfony/console": "~2.4|~3.0|~4.0",
-        "symfony/yaml": "~2.4|~3.0|~4.0"
+        "symfony/framework-bundle": "~2.4|~3.0",
+        "symfony/console": "~2.4|~3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~6.5",
-        "symfony/phpunit-bridge": "~4.0",
+        "sentry/sentry": "^1.9",
+        "phpunit/phpunit": "~4.5",
+        "symfony/phpunit-bridge": "~2.8|~3.0",
         "doctrine/dbal": "~2.2",
         "doctrine/Common": "~2.2",
-        "sentry/sentry-symfony": ">=0.1.0"
+        "aws/aws-sdk-php": "2.*"
     },
     "suggest": {
-        "php-amqplib/php-amqplib": "Required if using amqp_lib"
+        "php-amqplib/php-amqplib": "Required if using amqp_lib",
+        "aws/aws-sdk-php": "Required to use the aws sqs provider"
+    },
+    "config": {
+        "bin-dir": "bin"
     },
     "autoload": {
         "psr-4": { "Swarrot\\SwarrotBundle\\": "" }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.6-dev"
+            "dev-master": "1.5-dev"
         }
     }
 }
