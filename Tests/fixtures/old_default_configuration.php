@@ -13,6 +13,7 @@ return [
             'password' => 'guest',
             'vhost' => '/',
             'ssl' => false,
+            'region' => null,
             'ssl_options' => [
                 'verify_peer' => true,
                 'cafile' => null,

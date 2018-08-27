@@ -7,7 +7,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    protected $knownProcessors = array(
+    protected $knownProcessors = [
         'ack' => 'Swarrot\Processor\Ack\AckProcessor',
         'exception_catcher' => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
         'max_execution_time' => 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
         'retry' => 'Swarrot\Processor\Retry\RetryProcessor',
         'signal_handler' => 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor',
         'object_manager' => 'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
-    );
+    ];
 
     private $debug;
 
@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->beforeNormalization()
                 ->always()
-                ->then(function ($v) {
+                ->then(function ($v) use ($knownProcessors) {
                     // Deal with old logger config
                     if (isset($v['publisher_logger']) && !isset($v['logger'])) {
                         $v['logger'] = $v['publisher_logger'];
@@ -114,13 +114,12 @@ class Configuration implements ConfigurationInterface
                     ->normalizeKeys(false)
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('url')->info('A URL with connection information; any parameter value parsed from this string will override explicitly set parameters')->end()
-                            ->scalarNode('host')->defaultValue('127.0.0.1')->end()
+                            ->scalarNode('host')->defaultValue('127.0.0.1')->cannotBeEmpty()->end()
                             ->integerNode('port')->defaultValue(5672)->end()
-                            ->scalarNode('login')->defaultValue('guest')->end()
+                            ->scalarNode('login')->defaultValue('guest')->cannotBeEmpty()->end()
                             ->scalarNode('password')->defaultValue('guest')->end()
-                            ->scalarNode('vhost')->defaultValue('/')->end()
-
+                            ->scalarNode('vhost')->defaultValue('/')->cannotBeEmpty()->end()
+                            ->scalarNode('region')->defaultNull()->end()
                             ->booleanNode('ssl')->defaultValue(false)->end()
                             ->arrayNode('ssl_options')
                                 ->children()
@@ -153,7 +152,7 @@ class Configuration implements ConfigurationInterface
                                         ->scalarNode('configurator')->isRequired()->end()
                                         ->scalarNode('first_arg_class')->defaultValue(null)->end()
                                         ->arrayNode('extras')
-                                            ->prototype('variable')->end()
+                                            ->prototype('scalar')->end()
                                         ->end()
                                     ->end()
                                 ->end()
@@ -198,6 +197,22 @@ class Configuration implements ConfigurationInterface
                     ->prototype('scalar')->isRequired()->end()
                 ->end()
                 ->booleanNode('enable_collector')->defaultValue($this->debug)->end()
+            ->end()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    if ('sqs' !== $v['provider']) {
+                        return false;
+                    }
+
+                    foreach ($v['connections'] as $connection) {
+                        if (null === $connection['region']) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                })
+                ->thenInvalid('If you are using the sqs provider, you need to complete the region parameter')
             ->end()
         ;
 

@@ -5,6 +5,7 @@
     <parameters>
         <parameter key="swarrot.factory.pecl.class">Swarrot\SwarrotBundle\Broker\PeclFactory</parameter>
         <parameter key="swarrot.factory.amqp_lib.class">Swarrot\SwarrotBundle\Broker\AmqpLibFactory</parameter>
+        <parameter key="swarrot.factory.sqs.class">Swarrot\SwarrotBundle\Broker\SqsFactory</parameter>
         <parameter key="swarrot.command.base.class">Swarrot\SwarrotBundle\Command\SwarrotCommand</parameter>
         <parameter key="swarrot.publisher.class">Swarrot\SwarrotBundle\Broker\Publisher</parameter>
     </parameters>
@@ -16,6 +17,9 @@
         </service>
         <service id="swarrot.factory.amqp_lib" class="%swarrot.factory.amqp_lib.class%">
             <tag name="swarrot.provider_factory" alias="amqp_lib"/>
+        </service>
+        <service id="swarrot.factory.sqs" class="%swarrot.factory.sqs.class%">
+            <tag name="swarrot.provider_factory" alias="sqs"/>
         </service>
 
         <service id="swarrot.command.base" class="%swarrot.command.base.class%" abstract="true">
@@ -30,7 +34,7 @@
             </call>
         </service>
 
-        <service id="swarrot.publisher" class="%swarrot.publisher.class%" public="true">
+        <service id="swarrot.publisher" class="%swarrot.publisher.class%">
             <argument type="service" id="swarrot.factory.default" />
             <argument type="service" id="event_dispatcher" />
             <argument>%swarrot.messages_types%</argument>
@@ -104,11 +108,6 @@
                  class="Swarrot\SwarrotBundle\Processor\RPC\RpcServerProcessorConfigurator">
             <argument type="service" id="swarrot.factory.default"/>
             <argument type="service" id="swarrot.logger"/>
-        </service>
-        <service id="swarrot.processor.sentry"
-                 class="Swarrot\SwarrotBundle\Processor\Sentry\SentryProcessorConfigurator">
-            <argument>Swarrot\Processor\Sentry\SentryProcessor</argument>
-            <argument type="service" id="sentry.client" on-invalid="ignore"/>
         </service>
     </services>
 </container>

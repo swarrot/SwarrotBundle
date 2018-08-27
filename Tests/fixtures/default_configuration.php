@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'provider' => 'pecl',
+    'provider' => 'sqs',
     'default_connection' => null,
     'default_command' => 'swarrot.command.base',
     'logger' => 'logger',
@@ -13,6 +13,7 @@ return [
             'password' => 'guest',
             'vhost' => '/',
             'ssl' => false,
+            'region' => 'eu-west-1',
             'ssl_options' => [
                 'verify_peer' => true,
                 'cafile' => null,
@@ -32,12 +33,10 @@ return [
                     'configurator' => null,
                     'extras' => [
                         'foo' => 'bar',
-                        'baz' => [
-                            'bar'
-                        ]
+                        'baz' => 'bar',
                     ],
                     'first_arg_class' => null,
-                ]
+                ],
             ],
         ],
     ],
