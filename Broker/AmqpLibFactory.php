@@ -99,32 +99,66 @@ class AmqpLibFactory implements FactoryInterface
             } else {
                 $ssl_opts = array();
                 foreach ($this->connections[$connection]['ssl_options'] as $key => $value) {
-                    if (!empty($value)) {
+                    if (isset($value)) {
                         $ssl_opts[$key] = $value;
                     }
                 }
             }
 
-            $conn = new AMQPSSLConnection(
-                $this->connections[$connection]['host'],
-                $this->connections[$connection]['port'],
-                $this->connections[$connection]['login'],
-                $this->connections[$connection]['password'],
-                $this->connections[$connection]['vhost'],
-                $ssl_opts
-            );
+            if (isset($this->connections[$connection]['link'])) {
+                $conn = AMQPSSLConnection::create_connection(
+                    $this->mapMultiConnectionsParam($this->connections[$connection]['link']),
+                    ['ssl_options' => $ssl_opts]
+                );
+            } else {
+                $conn = new AMQPSSLConnection(
+                    $this->connections[$connection]['host'],
+                    $this->connections[$connection]['port'],
+                    $this->connections[$connection]['login'],
+                    $this->connections[$connection]['password'],
+                    $this->connections[$connection]['vhost'],
+                    $ssl_opts
+                );
+            }
         } else {
-            $conn = new AMQPConnection(
-                $this->connections[$connection]['host'],
-                $this->connections[$connection]['port'],
-                $this->connections[$connection]['login'],
-                $this->connections[$connection]['password'],
-                $this->connections[$connection]['vhost']
-            );
+            if (isset($this->connections[$connection]['link'])) {
+                $conn = AMQPConnection::create_connection(
+                    $this->mapMultiConnectionsParam($this->connections[$connection]['link'])
+                );
+            } else {
+                $conn = new AMQPConnection(
+                    $this->connections[$connection]['host'],
+                    $this->connections[$connection]['port'],
+                    $this->connections[$connection]['login'],
+                    $this->connections[$connection]['password'],
+                    $this->connections[$connection]['vhost']
+                );
+            }
         }
 
         $this->channels[$connection] = $conn->channel();
 
         return $this->channels[$connection];
+    }
+
+    /**
+     * @param array $connections
+     *
+     * @return array
+     */
+    private function mapMultiConnectionsParam(array $connections)
+    {
+        return array_map(
+            function ($param) {
+                return [
+                    'host' => $param['host'],
+                    'port' => $param['port'],
+                    'user' => $param['login'],
+                    'password' => $param['password'],
+                    'vhost' => $param['vhost'],
+                ];
+            },
+            $connections
+        );
     }
 }

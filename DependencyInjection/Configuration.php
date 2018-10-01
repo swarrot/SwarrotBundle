@@ -7,6 +7,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    private const PECL_PROVIDER = 'pecl';
+
     protected $knownProcessors = array(
         'ack' => 'Swarrot\Processor\Ack\AckProcessor',
         'exception_catcher' => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
@@ -41,6 +43,16 @@ class Configuration implements ConfigurationInterface
                     // Deal with old logger config
                     if (isset($v['publisher_logger']) && !isset($v['logger'])) {
                         $v['logger'] = $v['publisher_logger'];
+                    }
+
+                    if (self::PECL_PROVIDER === $v['provider']) {
+                        foreach ($v['connections'] as $connection) {
+                            if (array_key_exists('link', $connection)) {
+                                throw  new \UnexpectedValueException(
+                                    'Selected provider does not support parameter "link"'
+                                );
+                            }
+                        }
                     }
 
                     if (!isset($v['consumers'])) {
@@ -93,7 +105,7 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('processor', 'processors_stack')
             ->children()
                 ->scalarNode('provider')
-                    ->defaultValue('pecl')
+                    ->defaultValue(self::PECL_PROVIDER)
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
@@ -127,6 +139,18 @@ class Configuration implements ConfigurationInterface
                                     ->booleanNode('verify_peer')->end()
                                     ->scalarNode('cafile')->end()
                                     ->scalarNode('local_cert')->end()
+                                ->end()
+                            ->end()
+
+                            ->arrayNode('link')
+                                ->arrayPrototype()
+                                    ->children()
+                                        ->scalarNode('host')->defaultValue('127.0.0.1')->end()
+                                        ->integerNode('port')->defaultValue(5672)->end()
+                                        ->scalarNode('login')->defaultValue('guest')->end()
+                                        ->scalarNode('password')->defaultValue('guest')->end()
+                                        ->scalarNode('vhost')->defaultValue('/')->end()
+                                    ->end()
                                 ->end()
                             ->end()
                         ->end()
