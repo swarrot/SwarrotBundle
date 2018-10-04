@@ -45,7 +45,7 @@ class Configuration implements ConfigurationInterface
                         $v['logger'] = $v['publisher_logger'];
                     }
 
-                    if (!array_key_exists('provider', $v)) {
+                    if (!isset($v['provider'])) {
                         $v['provider'] = self::PECL_PROVIDER;
                     }
 
