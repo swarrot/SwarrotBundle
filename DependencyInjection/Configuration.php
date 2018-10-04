@@ -7,6 +7,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    private const PECL_PROVIDER = 'pecl';
+
     protected $knownProcessors = array(
         'ack' => 'Swarrot\Processor\Ack\AckProcessor',
         'exception_catcher' => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
@@ -43,7 +45,11 @@ class Configuration implements ConfigurationInterface
                         $v['logger'] = $v['publisher_logger'];
                     }
 
-                    if ('pecl' === $v['provider']) {
+                    if (!array_key_exists('provider', $v)) {
+                        $v['provider'] = self::PECL_PROVIDER;
+                    }
+
+                    if (self::PECL_PROVIDER === $v['provider']) {
                         foreach ($v['connections'] as $connection) {
                             if (array_key_exists('link', $connection)) {
                                 throw  new \UnexpectedValueException(
@@ -103,7 +109,7 @@ class Configuration implements ConfigurationInterface
             ->fixXmlConfig('processor', 'processors_stack')
             ->children()
                 ->scalarNode('provider')
-                    ->defaultValue('pecl')
+                    ->defaultValue(self::PECL_PROVIDER)
                     ->cannotBeEmpty()
                 ->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
