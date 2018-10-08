@@ -49,9 +49,9 @@ class Configuration implements ConfigurationInterface
                         $v['provider'] = self::PECL_PROVIDER;
                     }
 
-                    if (self::PECL_PROVIDER === $v['provider']) {
+                    if (self::PECL_PROVIDER === $v['provider'] && isset($v['connections'])) {
                         foreach ($v['connections'] as $connection) {
-                            if (array_key_exists('link', $connection)) {
+                            if (!empty($connection['link'])) {
                                 throw  new \UnexpectedValueException(
                                     'Selected provider does not support parameter "link"'
                                 );

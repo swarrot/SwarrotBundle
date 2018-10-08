@@ -18,6 +18,7 @@ return [
                 'cafile' => null,
                 'local_cert' => null,
             ],
+            'link' => []
         ],
     ],
     'consumers' => [

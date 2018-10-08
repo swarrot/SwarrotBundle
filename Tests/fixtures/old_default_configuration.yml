@@ -18,6 +18,7 @@ swarrot:
                 verify_peer:          ~
                 cafile:               ~
                 local_cert:           ~
+            link:                 []
     consumers:
 
         # Prototype
