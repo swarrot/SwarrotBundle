@@ -5,6 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.6.0] - 2018-10-17
+
+### Added
+
+- Allow the connection details to be given as a URL
+- Sentry processor configurator
+
 ## [1.5.1] - 2017-12-25
 
 ### Added
