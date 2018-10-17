@@ -116,7 +116,15 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('url')->info('A URL with connection information; any parameter value parsed from this string will override explicitly set parameters')->end()
                             ->scalarNode('host')->defaultValue('127.0.0.1')->end()
-                            ->integerNode('port')->defaultValue(5672)->end()
+                            ->integerNode('port')
+                                ->beforeNormalization()
+                                    ->ifString()
+                                    ->then(function(string $port): int {
+                                        return (int) $port;
+                                    })
+                                ->end()
+                                ->defaultValue(5672)
+                            ->end()
                             ->scalarNode('login')->defaultValue('guest')->end()
                             ->scalarNode('password')->defaultValue('guest')->end()
                             ->scalarNode('vhost')->defaultValue('/')->end()
