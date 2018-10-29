@@ -105,7 +105,7 @@ class AmqpLibFactory implements FactoryInterface
                 }
             }
 
-            if (isset($this->connections[$connection]['link'])) {
+            if (!empty($this->connections[$connection]['link'])) {
                 $conn = AMQPSSLConnection::create_connection(
                     $this->mapMultiConnectionsParam($this->connections[$connection]['link']),
                     ['ssl_options' => $ssl_opts]
@@ -121,7 +121,7 @@ class AmqpLibFactory implements FactoryInterface
                 );
             }
         } else {
-            if (isset($this->connections[$connection]['link'])) {
+            if (!empty($this->connections[$connection]['link'])) {
                 $conn = AMQPConnection::create_connection(
                     $this->mapMultiConnectionsParam($this->connections[$connection]['link'])
                 );
