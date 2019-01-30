@@ -29,7 +29,10 @@
         "php-amqplib/php-amqplib": "Required if using amqp_lib"
     },
     "autoload": {
-        "psr-4": { "Swarrot\\SwarrotBundle\\": "" }
+        "psr-4": { "Swarrot\\SwarrotBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "extra": {
         "branch-alias": {
