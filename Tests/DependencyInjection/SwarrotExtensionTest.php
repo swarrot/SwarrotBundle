@@ -63,7 +63,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertSame('swarrot.command.generated.testing', $commands['testing']);
 
         $testingCommandDefinition = $container->getDefinition('swarrot.command.generated.testing');
-        $configurators = $testingCommandDefinition->getArgument(3);
+        $configurators = $testingCommandDefinition->getArgument(4);
         $this->assertInternalType('array', $configurators);
         $this->assertCount(1, $configurators);
         $this->assertTrue($testingCommandDefinition->isPublic());
@@ -98,7 +98,7 @@ class SwarrotExtensionTest extends TestCase
 
         $this->assertHasService($container, 'swarrot.command.generated.testing');
 
-        $configurators = $container->getDefinition('swarrot.command.generated.testing')->getArgument(3);
+        $configurators = $container->getDefinition('swarrot.command.generated.testing')->getArgument(4);
         $this->assertInternalType('array', $configurators);
         $this->assertCount(1, $configurators);
 

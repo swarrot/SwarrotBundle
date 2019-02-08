@@ -20,6 +20,7 @@ class SwarrotCommandTest extends TestCase
     public function test_it_add_options_from_processor_configurators()
     {
         $processor = $this->prophesize('Swarrot\Processor\ProcessorInterface');
+        $factory = $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface');
 
         $processorConfigurator1 = $this->prophesize('Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface');
         $processorConfigurator1->getCommandOptions()->willReturn([['option1'], ['option2']]);
@@ -27,7 +28,7 @@ class SwarrotCommandTest extends TestCase
         $processorConfigurator2->getCommandOptions()->willReturn([['option3']]);
         $processorConfigurators = array($processorConfigurator1->reveal(), $processorConfigurator2->reveal());
 
-        $command = new SwarrotCommand('foobar', 'foobar', $processor->reveal(), $processorConfigurators, array());
+        $command = new SwarrotCommand($factory->reveal(), 'foobar', 'foobar', $processor->reveal(), $processorConfigurators, array());
 
         $this->assertTrue($command->getDefinition()->hasOption('option1'));
         $this->assertTrue($command->getDefinition()->hasOption('option2'));
@@ -39,11 +40,9 @@ class SwarrotCommandTest extends TestCase
      */
     public function test_it_merges_arguments_from_config_and_command_line($commandOptions, $extras, $expectedResolvedOptions)
     {
-        $container = $this->prophesize('Symfony\Component\DependencyInjection\ContainerInterface');
         $factory = $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface');
         $messageProvider = $this->prophesize('Swarrot\Broker\MessageProvider\MessageProviderInterface');
 
-        $container->get('swarrot.factory.default')->willReturn($factory->reveal());
         $messageProvider->getQueueName()->willReturn('queue name');
         $factory->getMessageProvider('queue name', 'connection name')->willReturn($messageProvider->reveal());
         $messageProvider->get()->willReturn(new Message());
@@ -52,8 +51,7 @@ class SwarrotCommandTest extends TestCase
         $processorConfigurator = new TestProcessorConfigurator();
         $processorConfigurator->setExtras($extras);
 
-        $command = new SwarrotCommand('foobar', 'foobar', $processor, [$processorConfigurator], $extras);
-        $command->setContainer($container->reveal());
+        $command = new SwarrotCommand($factory->reveal(), 'foobar', 'foobar', $processor, [$processorConfigurator], $extras);
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(['queue' => 'queue name', 'connection' => 'connection name'] + $commandOptions);

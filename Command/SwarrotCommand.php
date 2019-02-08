@@ -5,16 +5,18 @@ namespace Swarrot\SwarrotBundle\Command;
 use Swarrot\Consumer;
 use Swarrot\Processor\ProcessorInterface;
 use Swarrot\Processor\Stack\Builder;
+use Swarrot\SwarrotBundle\Broker\FactoryInterface;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SwarrotCommand extends ContainerAwareCommand
+class SwarrotCommand extends Command
 {
+    protected $swarrotFactory;
     protected $name;
     protected $connectionName;
     protected $processor;
@@ -23,6 +25,7 @@ class SwarrotCommand extends ContainerAwareCommand
     protected $queue;
 
     public function __construct(
+        FactoryInterface $swarrotFactory,
         $name,
         $connectionName,
         ProcessorInterface $processor,
@@ -30,6 +33,7 @@ class SwarrotCommand extends ContainerAwareCommand
         array $extras,
         $queue = null
     ) {
+        $this->swarrotFactory = $swarrotFactory;
         $this->name = $name;
         $this->connectionName = $connectionName;
         $this->processor = $processor;
@@ -89,8 +93,7 @@ class SwarrotCommand extends ContainerAwareCommand
             $optionsResolver->setOptional(['queue', 'connection']);
         }
 
-        $factory = $this->getContainer()->get('swarrot.factory.default');
-        $messageProvider = $factory->getMessageProvider($options['queue'], $options['connection']);
+        $messageProvider = $this->swarrotFactory->getMessageProvider($options['queue'], $options['connection']);
 
         $consumer = new Consumer($messageProvider, $processor, $optionsResolver);
 
