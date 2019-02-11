@@ -5,6 +5,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.6.1] - 2019-02-11
+
+### Fixed
+
+- Fixed deprecation when using sf4.2
+
+### Added
+
+- Update composer config to ignore tests in classmap
+
 ## [1.6.0] - 2018-10-17
 
 ### Added
