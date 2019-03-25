@@ -6,7 +6,7 @@
 [![Latest Stable Version](https://poser.pugx.org/swarrot/swarrot-bundle/v/stable.png)](https://packagist.org/packages/swarrot/swarrot-bundle)
 [![Latest Unstable Version](https://poser.pugx.org/swarrot/swarrot-bundle/v/unstable.svg)](https://packagist.org/packages/swarrot/swarrot-bundle)
 
-A bundle to use Swarrot inside your Symfony2 application.
+A bundle to use Swarrot inside your Symfony application.
 
 ## Installation
 
