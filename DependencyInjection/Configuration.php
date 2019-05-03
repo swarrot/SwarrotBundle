@@ -113,6 +113,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->scalarNode('logger')->defaultValue('logger')->cannotBeEmpty()->end()
+                ->scalarNode('enable_publisher_confirm')->defaultValue(false)->end()
+                ->scalarNode('publisher_confirm_timeout')->defaultValue(0)->end()
                 ->arrayNode('connections')
                     ->isRequired()
                     ->requiresAtLeastOneElement()
