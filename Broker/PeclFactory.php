@@ -12,6 +12,8 @@ class PeclFactory implements FactoryInterface
     use UrlParserTrait;
 
     protected $logger;
+    protected $publisherConfirms;
+    protected $timeout;
 
     protected $connections = array();
     protected $messageProviders = array();
@@ -24,10 +26,14 @@ class PeclFactory implements FactoryInterface
      * __construct.
      *
      * @param LoggerInterface $logger
+     * @param bool $publisherConfirms
+     * @param float $timeout
      */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(LoggerInterface $logger = null, bool $publisherConfirms = false, float $timeout = 0.0)
     {
         $this->logger = $logger ?: new NullLogger();
+        $this->publisherConfirms = $publisherConfirms;
+        $this->timeout = $timeout;
     }
 
     /**
@@ -73,7 +79,7 @@ class PeclFactory implements FactoryInterface
 
             $exchange = $this->getExchange($name, $connection);
 
-            $this->messagePublishers[$connection][$name] = new PeclPackageMessagePublisher($exchange, AMQP_NOPARAM, $this->logger);
+            $this->messagePublishers[$connection][$name] = new PeclPackageMessagePublisher($exchange, AMQP_NOPARAM, $this->logger, $this->publisherConfirms, $this->timeout);
         }
 
         return $this->messagePublishers[$connection][$name];

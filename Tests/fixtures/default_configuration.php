@@ -5,6 +5,8 @@ return [
     'default_connection' => null,
     'default_command' => 'swarrot.command.base',
     'logger' => 'logger',
+    'publisher_confirm_enable' => false,
+    'publisher_confirm_timeout' => 0,
     'connections' => [
         'name' => [
             'host' => '127.0.0.1',

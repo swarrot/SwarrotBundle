@@ -34,6 +34,9 @@ class SwarrotExtension extends Extension
 
         $container->setParameter('swarrot.provider_config', [$config['provider'], $config['connections']]);
 
+        $container->setParameter('swarrot.publisher_confirm_enable', $config['publisher_confirm_enable']);
+        $container->setParameter('swarrot.publisher_confirm_timeout', $config['publisher_confirm_timeout']);
+
         $commands = [];
         foreach ($config['consumers'] as $name => $consumerConfig) {
             if (null === $consumerConfig['command']) {
