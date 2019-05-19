@@ -20,16 +20,14 @@
             <tag name="swarrot.provider_factory" alias="amqp_lib"/>
         </service>
 
-        <service id="swarrot.command.base" class="%swarrot.command.base.class%" abstract="true">
+        <service id="swarrot.command.base" class="%swarrot.command.base.class%" abstract="true" public="true">
+            <argument type="service" id="swarrot.factory.default" />
             <argument /> <!-- name -->
             <argument /> <!-- connection name -->
             <argument /> <!-- processor -->
             <argument /> <!-- middleware stack -->
             <argument /> <!-- extra -->
             <argument /> <!-- queue -->
-            <call method="setContainer">
-                <argument type="service" id="service_container" />
-            </call>
         </service>
 
         <service id="swarrot.publisher" class="%swarrot.publisher.class%" public="true">
