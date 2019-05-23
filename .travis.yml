@@ -4,11 +4,6 @@ sudo: false
 
 services: [rabbitmq]
 
-php:
-  - 7.1
-  - 7.2
-  - nightly
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -21,34 +16,26 @@ addons:
 env:
     global:
         - LIBRABBITMQ_VERSION=v0.8.0
-        - PHPAMQP_VERSION=v1.9.3
-        - COMPOSER_MEMORY_LIMIT=-1
 
 matrix:
   fast_finish: true
   include:
+    - php: 7.2
+    - php: 7.3
     - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
-    - php: 7.2
+      env: COMPOSER_FLAGS="--prefer-lowest --prefer-stable" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
+    - php: 7.3
       env: LIBRABBITMQ_VERSION="master"
-    - php: 7.2
-      env: DEPENDENCIES=dev SYMFONY_VERSION="2.8.x-dev" COMPOSER_FLAGS="--prefer-stable"
-    - php: 7.2
-      env: DEPENDENCIES=dev SYMFONY_VERSION="3.0.x-dev" COMPOSER_FLAGS="--prefer-stable"
-    - php: 7.2
-      env: DEPENDENCIES=dev SYMFONY_VERSION="4.0.x-dev" COMPOSER_FLAGS="--prefer-stable"
-  allow_failures:
-    - php: nightly
+    - php: 7.3
+      env: DEPENDENCIES=dev COMPOSER_FLAGS="--prefer-stable"
 
 before_install:
   - sudo ./Tests/bin/install_rabbitmq-c.sh
   - ./Tests/bin/install_php-amqp.sh
-  - composer self-update
   - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
-  - if [ "$SYMFONY_VERSION" != "" ]; then composer require --no-update symfony/framework-bundle:"$SYMFONY_VERSION" symfony/console:"$SYMFONY_VERSION"; fi
 
 install:
-  - composer update $COMPOSER_FLAGS
+  - composer update --prefer-dist --no-progress --no-suggest $COMPOSER_FLAGS --ansi
 
 before_script:
   - sh -c "sudo ./Tests/bin/prepare_rabbit.sh"
