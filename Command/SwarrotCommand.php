@@ -49,9 +49,11 @@ class SwarrotCommand extends Command
      */
     protected function configure()
     {
+        $defaultPollInterval = isset($this->extras['poll_interval']) ? $this->extras['poll_interval'] : 500000;
+
         $this
             ->setName('swarrot:consume:'.$this->name)
-            ->setDescription(sprintf('Consume message of type "%s" from a given queue', $this->name))
+            ->setDescription('Consume messages from a given queue')
             ->addArgument('queue', InputArgument::OPTIONAL, 'Queue to consume', $this->queue)
             ->addArgument('connection', InputArgument::OPTIONAL, 'Connection to use', $this->connectionName)
             ->addOption(
@@ -59,7 +61,19 @@ class SwarrotCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Poll interval (in micro-seconds)',
-                (isset($this->extras['poll_interval'])) ? $this->extras['poll_interval'] : 500000
+                $defaultPollInterval
+            )
+            ->setHelp(<<<EOT
+The <info>%command.name%</info> command will consume messages from the queue you gave in argument.
+
+    <info>php %command.full_name%</info>
+
+You can use <info>name</info> & <info>connection</info> arguments to consume any queue on any RabbitMQ cluster.
+
+You can also optionally specify the poll interval to use:
+
+    <info>php %command.full_name% --poll-interval=$defaultPollInterval</info>
+EOT
             );
 
         /** @var ProcessorConfiguratorInterface $processorConfigurator */
