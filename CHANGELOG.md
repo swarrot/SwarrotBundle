@@ -5,6 +5,22 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.6.2] - 2019-07-28
+
+### Added
+
+- Supports publisher confirms
+
+### Fixed
+
+- Remove deprecated ContainerAwareCommand
+
+## [1.6.1] - 2019-02-11
+
+### Fixed
+
+- Remove deprecated notice when using symfony/config > 4.2
+
 ## [1.6.0] - 2018-10-17
 
 ### Added
@@ -99,7 +115,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] - 2014-07-18
 
-[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.1...HEAD
+[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.2...HEAD
+[1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.1...v1.6.2
+[1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.0...v1.6.1
+[1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.1...v1.4.2
