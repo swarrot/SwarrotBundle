@@ -7,6 +7,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 class Publisher
 {
@@ -26,7 +27,7 @@ class Publisher
     public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = array(), LoggerInterface $logger = null)
     {
         $this->factory = $factory;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($eventDispatcher);
         $this->messageTypes = $messageTypes;
         $this->logger = $logger ?: new NullLogger();
     }
@@ -64,8 +65,8 @@ class Publisher
         $messagePublisher->publish($message, $routingKey);
 
         $this->eventDispatcher->dispatch(
-            MessagePublishedEvent::NAME,
-            new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey)
+            new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey),
+            MessagePublishedEvent::NAME
         );
     }
 

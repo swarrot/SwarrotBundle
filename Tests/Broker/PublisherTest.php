@@ -42,8 +42,8 @@ class PublisherTest extends TestCase
         $eventDispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $eventDispatcher
             ->dispatch(
-                Argument::exact('swarrot.message_published'),
-                Argument::exact(new MessagePublishedEvent('message_type', $message, 'connection', 'exchange', 'routing_key'))
+                Argument::exact(new MessagePublishedEvent('message_type', $message, 'connection', 'exchange', 'routing_key')),
+                Argument::exact('swarrot.message_published')
             )
             ->shouldBeCalledTimes(1)
         ;

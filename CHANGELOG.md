@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Remove deprecated notice when using symfony/event-dispatcher > 4.2
+
 ## [1.6.2] - 2019-07-28
 
 ### Added
