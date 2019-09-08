@@ -4,6 +4,7 @@ namespace Swarrot\SwarrotBundle\Broker;
 
 use Swarrot\Broker\Message;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -29,6 +30,10 @@ class Publisher
         $this->eventDispatcher = $eventDispatcher;
         $this->messageTypes = $messageTypes;
         $this->logger = $logger ?: new NullLogger();
+
+        if (class_exists(LegacyEventDispatcherProxy::class)) {
+            $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($this->eventDispatcher);
+        }
     }
 
     /**
@@ -63,10 +68,18 @@ class Publisher
 
         $messagePublisher->publish($message, $routingKey);
 
-        $this->eventDispatcher->dispatch(
-            MessagePublishedEvent::NAME,
-            new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey)
-        );
+        if (class_exists(LegacyEventDispatcherProxy::class)) {
+            $this->eventDispatcher->dispatch(
+                new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey),
+                MessagePublishedEvent::NAME
+            );
+        } else {
+            // Dispatch the old way as we are using Event Dispatcher < 4.3
+            $this->eventDispatcher->dispatch(
+                MessagePublishedEvent::NAME,
+                new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey)
+            );
+        }
     }
 
     /**

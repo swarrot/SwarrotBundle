@@ -2,10 +2,9 @@
 
 namespace Swarrot\SwarrotBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Swarrot\Broker\Message;
 
-class MessagePublishedEvent extends Event
+class MessagePublishedEvent extends SymfonyEvent
 {
     const NAME = 'swarrot.message_published';
 
