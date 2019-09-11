@@ -5,7 +5,7 @@ namespace Swarrot\SwarrotBundle\Event;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\Event as DeprecatedEvent;
 
-if (interface_exists(Event::class)) {
+if (class_exists(Event::class)) {
     abstract class SymfonyEvent extends Event
     {
 
