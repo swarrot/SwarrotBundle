@@ -9,7 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class SentryProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var string */
     private $processorClass;
@@ -20,8 +21,7 @@ class SentryProcessorConfigurator implements ProcessorConfiguratorInterface
     private $client;
 
     /**
-     * @param string             $processorClass
-     * @param \Raven_Client|null $client
+     * @param string $processorClass
      */
     public function __construct($processorClass, \Raven_Client $client = null)
     {

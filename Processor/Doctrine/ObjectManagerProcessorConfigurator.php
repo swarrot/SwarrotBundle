@@ -11,7 +11,8 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var string */
     private $processorClass;
@@ -19,8 +20,7 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
     private $managerRegistry;
 
     /**
-     * @param string          $processorClass
-     * @param ManagerRegistry $managerRegistry
+     * @param string $processorClass
      */
     public function __construct($processorClass, ManagerRegistry $managerRegistry)
     {

@@ -11,7 +11,8 @@ use Symfony\Component\Console\Input\InputOption;
 
 class MaxExecutionTimeProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var string */
     private $processorClass;
@@ -19,8 +20,7 @@ class MaxExecutionTimeProcessorConfigurator implements ProcessorConfiguratorInte
     private $logger;
 
     /**
-     * @param string          $processorClass
-     * @param LoggerInterface $logger
+     * @param string $processorClass
      */
     public function __construct($processorClass, LoggerInterface $logger)
     {

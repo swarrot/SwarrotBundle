@@ -17,11 +17,10 @@ class MessagePublishedEvent extends SymfonyEvent
     /**
      * __construct.
      *
-     * @param string  $messageType
-     * @param Message $message
-     * @param string  $connection
-     * @param string  $exchange
-     * @param string  $routingKey
+     * @param string $messageType
+     * @param string $connection
+     * @param string $exchange
+     * @param string $routingKey
      */
     public function __construct($messageType, Message $message, $connection, $exchange, $routingKey)
     {

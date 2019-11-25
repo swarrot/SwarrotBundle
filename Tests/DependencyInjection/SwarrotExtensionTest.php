@@ -2,9 +2,9 @@
 
 namespace Swarrot\SwarrotBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Swarrot\SwarrotBundle\DependencyInjection\SwarrotExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use PHPUnit\Framework\TestCase;
 
 class SwarrotExtensionTest extends TestCase
 {

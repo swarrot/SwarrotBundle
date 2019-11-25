@@ -11,16 +11,14 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class RpcServerProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var FactoryInterface */
     private $factory;
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param LoggerInterface $logger
-     */
     public function __construct(FactoryInterface $factory, LoggerInterface $logger)
     {
         $this->factory = $factory;

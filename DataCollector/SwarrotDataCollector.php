@@ -2,15 +2,15 @@
 
 namespace Swarrot\SwarrotBundle\DataCollector;
 
-use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
+use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class SwarrotDataCollector extends DataCollector
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
@@ -18,18 +18,16 @@ class SwarrotDataCollector extends DataCollector
 
     /**
      * onMessagePublished.
-     *
-     * @param MessagePublishedEvent $event
      */
     public function onMessagePublished(MessagePublishedEvent $event)
     {
-        $this->data[] = array(
+        $this->data[] = [
             'message_type' => $event->getMessageType(),
             'message' => $event->getMessage(),
             'connection' => $event->getConnection(),
             'exchange' => $event->getExchange(),
             'routing_key' => $event->getRoutingKey(),
-        );
+        ];
     }
 
     /**
@@ -53,7 +51,7 @@ class SwarrotDataCollector extends DataCollector
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

@@ -35,11 +35,11 @@ return [
                     'extras' => [
                         'foo' => 'bar',
                         'baz' => [
-                            'bar'
-                        ]
+                            'bar',
+                        ],
                     ],
                     'first_arg_class' => null,
-                ]
+                ],
             ],
         ],
     ],

@@ -2,11 +2,11 @@
 
 namespace Swarrot\SwarrotBundle\Tests\Command;
 
+use PHPUnit\Framework\TestCase;
 use Swarrot\Broker\Message;
 use Swarrot\Processor\ConfigurableInterface;
 use Swarrot\Processor\ProcessorInterface;
 use Swarrot\SwarrotBundle\Command\SwarrotCommand;
-use PHPUnit\Framework\TestCase;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
@@ -26,9 +26,9 @@ class SwarrotCommandTest extends TestCase
         $processorConfigurator1->getCommandOptions()->willReturn([['option1'], ['option2']]);
         $processorConfigurator2 = $this->prophesize('Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface');
         $processorConfigurator2->getCommandOptions()->willReturn([['option3']]);
-        $processorConfigurators = array($processorConfigurator1->reveal(), $processorConfigurator2->reveal());
+        $processorConfigurators = [$processorConfigurator1->reveal(), $processorConfigurator2->reveal()];
 
-        $command = new SwarrotCommand($factory->reveal(), 'foobar', 'foobar', $processor->reveal(), $processorConfigurators, array());
+        $command = new SwarrotCommand($factory->reveal(), 'foobar', 'foobar', $processor->reveal(), $processorConfigurators, []);
 
         $this->assertTrue($command->getDefinition()->hasOption('option1'));
         $this->assertTrue($command->getDefinition()->hasOption('option2'));
@@ -81,7 +81,8 @@ class SwarrotCommandTest extends TestCase
 
 class TestProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     public function getCommandOptions()
     {
@@ -107,7 +108,7 @@ class TestProcessorConfigurator implements ProcessorConfiguratorInterface
 
 class TestProcessor implements ConfigurableInterface
 {
-    /**@var ProcessorInterface */
+    /** @var ProcessorInterface */
     protected $processor;
 
     public function __construct(ProcessorInterface $processor)

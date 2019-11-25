@@ -28,8 +28,8 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
             [
                 'retry_routing_key_pattern' => 'my_queue',
                 'retry_attempts' => 4,
-                'retry_log_levels_map' => array('\Exception' => 'error'),
-                'retry_fail_log_levels_map' => array('\Exception' => 'error'),
+                'retry_log_levels_map' => ['\Exception' => 'error'],
+                'retry_fail_log_levels_map' => ['\Exception' => 'error'],
             ]
         );
         $input = $this->getUserInput([], $configurator);

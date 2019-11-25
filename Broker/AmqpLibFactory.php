@@ -12,13 +12,13 @@ class AmqpLibFactory implements FactoryInterface
 {
     use UrlParserTrait;
 
-    protected $connections = array();
-    protected $channels = array();
-    protected $messageProviders = array();
-    protected $messagePublishers = array();
+    protected $connections = [];
+    protected $channels = [];
+    protected $messageProviders = [];
+    protected $messagePublishers = [];
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addConnection($name, array $connection)
     {
@@ -31,13 +31,13 @@ class AmqpLibFactory implements FactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getMessageProvider($name, $connection)
     {
         if (!isset($this->messageProviders[$connection][$name])) {
             if (!isset($this->messageProviders[$connection])) {
-                $this->messageProviders[$connection] = array();
+                $this->messageProviders[$connection] = [];
             }
 
             $channel = $this->getChannel($connection);
@@ -49,13 +49,13 @@ class AmqpLibFactory implements FactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getMessagePublisher($name, $connection)
     {
         if (!isset($this->messagePublishers[$connection][$name])) {
             if (!isset($this->messagePublishers[$connection])) {
-                $this->messagePublishers[$connection] = array();
+                $this->messagePublishers[$connection] = [];
             }
 
             $channel = $this->getChannel($connection);
@@ -80,24 +80,20 @@ class AmqpLibFactory implements FactoryInterface
         }
 
         if (!isset($this->connections[$connection])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown connection "%s". Available: [%s]',
-                $connection,
-                implode(', ', array_keys($this->connections))
-            ));
+            throw new \InvalidArgumentException(sprintf('Unknown connection "%s". Available: [%s]', $connection, implode(', ', array_keys($this->connections))));
         }
 
         if (!isset($this->channels[$connection])) {
-            $this->channels[$connection] = array();
+            $this->channels[$connection] = [];
         }
 
         if (isset($this->connections[$connection]['ssl']) && $this->connections[$connection]['ssl']) {
             if (empty($this->connections[$connection]['ssl_options'])) {
-                $ssl_opts = array(
+                $ssl_opts = [
                     'verify_peer' => true,
-                );
+                ];
             } else {
-                $ssl_opts = array();
+                $ssl_opts = [];
                 foreach ($this->connections[$connection]['ssl_options'] as $key => $value) {
                     if (!empty($value)) {
                         $ssl_opts[$key] = $value;

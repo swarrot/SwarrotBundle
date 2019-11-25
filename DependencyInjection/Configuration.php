@@ -7,7 +7,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    protected $knownProcessors = array(
+    protected $knownProcessors = [
         'ack' => 'Swarrot\Processor\Ack\AckProcessor',
         'exception_catcher' => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
         'max_execution_time' => 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
         'retry' => 'Swarrot\Processor\Retry\RetryProcessor',
         'signal_handler' => 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor',
         'object_manager' => 'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
-    );
+    ];
 
     private $debug;
 
@@ -25,7 +25,7 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
@@ -127,7 +127,7 @@ class Configuration implements ConfigurationInterface
                             ->integerNode('port')
                                 ->beforeNormalization()
                                     ->ifString()
-                                    ->then(function(string $port): int {
+                                    ->then(function (string $port): int {
                                         return (int) $port;
                                     })
                                 ->end()

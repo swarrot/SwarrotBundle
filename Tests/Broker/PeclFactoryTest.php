@@ -2,8 +2,8 @@
 
 namespace Swarrot\SwarrotBundle\Tests\Broker;
 
-use Swarrot\SwarrotBundle\Broker\PeclFactory;
 use PHPUnit\Framework\TestCase;
+use Swarrot\SwarrotBundle\Broker\PeclFactory;
 
 class PeclFactoryTest extends TestCase
 {
@@ -40,7 +40,6 @@ class PeclFactoryTest extends TestCase
         $publisher = $factory->getMessagePublisher('exchange', 'connection');
         $this->assertInstanceOf('Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher', $publisher);
     }
-
 
     public function test_get_publisher_with_connection_build_from_url()
     {

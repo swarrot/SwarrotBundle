@@ -2,9 +2,8 @@
 
 namespace Swarrot\SwarrotBundle\Tests\Broker;
 
-use Swarrot\Broker\MessagePublisher\PhpAmqpLibMessagePublisher;
-use Swarrot\SwarrotBundle\Broker\AmqpLibFactory;
 use PHPUnit\Framework\TestCase;
+use Swarrot\SwarrotBundle\Broker\AmqpLibFactory;
 
 class AmqpLibFactoryTest extends TestCase
 {
@@ -16,7 +15,7 @@ class AmqpLibFactoryTest extends TestCase
             $this->markTestSkipped('The php-amqplib/php-amqplib package is not available');
         }
 
-        $this->factory = new class extends AmqpLibFactory {
+        $this->factory = new class() extends AmqpLibFactory {
             public function getConnectionData(string $name): array
             {
                 if (!isset($this->connections[$name])) {

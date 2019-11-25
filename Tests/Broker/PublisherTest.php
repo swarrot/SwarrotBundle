@@ -2,11 +2,11 @@
 
 namespace Swarrot\SwarrotBundle\Tests\Broker;
 
-use Prophecy\Argument;
-use Swarrot\SwarrotBundle\Broker\Publisher;
-use Swarrot\Broker\Message;
-use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Swarrot\Broker\Message;
+use Swarrot\SwarrotBundle\Broker\Publisher;
+use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 
 class PublisherTest extends TestCase
 {

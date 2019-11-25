@@ -2,10 +2,10 @@
 
 namespace Swarrot\SwarrotBundle\Tests\DependencyInjection\Compiler;
 
-use Swarrot\SwarrotBundle\DependencyInjection\Compiler\ProviderCompilerPass;
-use Swarrot\SwarrotBundle\Broker\FactoryInterface;
-use Symfony\Component\DependencyInjection\Alias;
 use PHPUnit\Framework\TestCase;
+use Swarrot\SwarrotBundle\Broker\FactoryInterface;
+use Swarrot\SwarrotBundle\DependencyInjection\Compiler\ProviderCompilerPass;
+use Symfony\Component\DependencyInjection\Alias;
 
 class ProviderCompilerPassTest extends TestCase
 {
@@ -112,13 +112,13 @@ class ProviderCompilerPassTest extends TestCase
         $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
         $definition = $this->prophesize('Symfony\\Component\\DependencyInjection\\Definition');
 
-        $stdClass = new \stdClass;
+        $stdClass = new \stdClass();
 
         $definition->getClass()->willReturn($stdClass);
         $definition->addMethodCall()->shouldNotBeCalled();
 
         $parameterBag = $this->prophesize('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
-        $parameterBag->resolveValue($stdClass)->willReturn(new \stdClass)->shouldBeCalledTimes(1);
+        $parameterBag->resolveValue($stdClass)->willReturn(new \stdClass())->shouldBeCalledTimes(1);
         $container->getParameterBag()->willReturn($parameterBag->reveal());
 
         $container->has('swarrot.factory.default')->willReturn(false);
@@ -139,7 +139,6 @@ class ProviderCompilerPassTest extends TestCase
             'foo.bar',
             [],
         ]);
-
 
         $container->getDefinition('foo')->willReturn($definition)->shouldBeCalledTimes(1);
         $container->setAlias()->shouldNotBeCalled();

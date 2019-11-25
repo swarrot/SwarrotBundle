@@ -2,10 +2,10 @@
 
 namespace Swarrot\SwarrotBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Swarrot\SwarrotBundle\DependencyInjection\Configuration;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Parser;
-use PHPUnit\Framework\TestCase;
 
 class ConfigurationTest extends TestCase
 {

@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 class ProviderCompilerPass implements CompilerPassInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
@@ -22,9 +22,7 @@ class ProviderCompilerPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds('swarrot.provider_factory') as $id => $tags) {
             foreach ($tags as $tag) {
                 if (!isset($tag['alias'])) {
-                    throw new \InvalidArgumentException(
-                        sprintf('The provider\'s alias is no defined for the service "%s"', $id)
-                    );
+                    throw new \InvalidArgumentException(sprintf('The provider\'s alias is no defined for the service "%s"', $id));
                 }
                 $providersIds[$tag['alias']] = $id;
             }
