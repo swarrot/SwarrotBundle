@@ -9,7 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class NewRelicProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /**
      * {@inheritdoc}

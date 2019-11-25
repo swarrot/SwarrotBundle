@@ -8,16 +8,12 @@ interface ProcessorConfiguratorInterface
 {
     /**
      * Define extra parameters to the configurator.
-     *
-     * @param array $extras
      */
     public function setExtras(array $extras);
 
     /**
      * Retrieves the processor's class name and list of constructors arguments.
      * The class name should be first, and is mandatory.
-     *
-     * @param array $options
      *
      * @return array
      */
@@ -32,8 +28,6 @@ interface ProcessorConfiguratorInterface
 
     /**
      * Resolve user input parameters to returns an array of options.
-     *
-     * @param InputInterface $input
      *
      * @return array
      */

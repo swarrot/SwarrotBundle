@@ -10,7 +10,8 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var string */
     private $processorClass;
@@ -18,8 +19,7 @@ class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterfa
     private $logger;
 
     /**
-     * @param string          $processorClass
-     * @param LoggerInterface $logger
+     * @param string $processorClass
      */
     public function __construct($processorClass, LoggerInterface $logger)
     {

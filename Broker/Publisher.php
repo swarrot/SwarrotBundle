@@ -2,12 +2,12 @@
 
 namespace Swarrot\SwarrotBundle\Broker;
 
-use Swarrot\Broker\Message;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
-use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Swarrot\Broker\Message;
+use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 class Publisher
 {
@@ -19,12 +19,9 @@ class Publisher
     /**
      * __construct.
      *
-     * @param FactoryInterface         $factory
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param array                    $messageTypes
-     * @param LoggerInterface          $logger
+     * @param LoggerInterface $logger
      */
-    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = array(), LoggerInterface $logger = null)
+    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = [], LoggerInterface $logger = null)
     {
         $this->factory = $factory;
         $this->eventDispatcher = $eventDispatcher;
@@ -39,17 +36,12 @@ class Publisher
     /**
      * publish.
      *
-     * @param string  $messageType
-     * @param Message $message
+     * @param string $messageType
      */
-    public function publish($messageType, Message $message, array $overridenConfig = array())
+    public function publish($messageType, Message $message, array $overridenConfig = [])
     {
         if (!$this->isKnownMessageType($messageType)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown message type "%s". Available are [%s].',
-                $messageType,
-                implode(',', array_keys($this->messageTypes))
-            ));
+            throw new \InvalidArgumentException(sprintf('Unknown message type "%s". Available are [%s].', $messageType, implode(',', array_keys($this->messageTypes))));
         }
 
         $config = $this->messageTypes[$messageType];
@@ -104,11 +96,7 @@ class Publisher
     public function getConfigForMessageType($messageType)
     {
         if (!$this->isKnownMessageType($messageType)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown message type "%s". Available are [%s].',
-                $messageType,
-                implode(array_keys($this->messageTypes))
-            ));
+            throw new \InvalidArgumentException(sprintf('Unknown message type "%s". Available are [%s].', $messageType, implode(array_keys($this->messageTypes))));
         }
 
         return $this->messageTypes[$messageType];

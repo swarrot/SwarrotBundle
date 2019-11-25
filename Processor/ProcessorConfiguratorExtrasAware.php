@@ -7,9 +7,6 @@ trait ProcessorConfiguratorExtrasAware
     /** @var array */
     private $extras = [];
 
-    /**
-     * @param array $extras
-     */
     public function setExtras(array $extras)
     {
         $this->extras = $extras;

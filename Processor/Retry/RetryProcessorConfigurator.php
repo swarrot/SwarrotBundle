@@ -12,7 +12,8 @@ use Symfony\Component\Console\Input\InputOption;
 
 class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
 {
-    use ProcessorConfiguratorEnableAware, ProcessorConfiguratorExtrasAware;
+    use ProcessorConfiguratorEnableAware;
+    use ProcessorConfiguratorExtrasAware;
 
     /** @var string */
     private $processorClass;
@@ -22,9 +23,7 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
     private $logger;
 
     /**
-     * @param string           $processorClass
-     * @param FactoryInterface $factory
-     * @param LoggerInterface  $logger
+     * @param string $processorClass
      */
     public function __construct($processorClass, FactoryInterface $factory, LoggerInterface $logger)
     {

@@ -7,9 +7,9 @@ use Swarrot\Broker\Message;
 class BlackholePublisher extends Publisher
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function publish($messageType, Message $message, array $overridenConfig = array())
+    public function publish($messageType, Message $message, array $overridenConfig = [])
     {
     }
 }

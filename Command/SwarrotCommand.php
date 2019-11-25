@@ -117,8 +117,6 @@ EOT
     /**
      * getOptions.
      *
-     * @param InputInterface $input
-     *
      * @return array
      */
     protected function getOptions(InputInterface $input)

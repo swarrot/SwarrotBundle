@@ -2,12 +2,12 @@
 
 namespace Swarrot\SwarrotBundle\Tests\Processor;
 
+use PHPUnit\Framework\TestCase;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
-use PHPUnit\Framework\TestCase;
 
 class ProcessorConfiguratorTestCase extends TestCase
 {

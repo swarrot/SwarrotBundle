@@ -3,8 +3,8 @@
 namespace Swarrot\SwarrotBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ChildDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class SwarrotExtension extends Extension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -68,7 +68,7 @@ class SwarrotExtension extends Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getConfiguration(array $configs, ContainerBuilder $container)
     {
@@ -76,7 +76,7 @@ class SwarrotExtension extends Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getXsdValidationBasePath()
     {
@@ -84,7 +84,7 @@ class SwarrotExtension extends Extension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getNamespace()
     {
@@ -94,10 +94,7 @@ class SwarrotExtension extends Extension
     /**
      * buildCommand.
      *
-     * @param ContainerBuilder $container
-     * @param string           $name
-     * @param array            $consumerConfig
-     * @param array            $processorStack
+     * @param string $name
      *
      * @return string
      */
@@ -130,9 +127,7 @@ class SwarrotExtension extends Extension
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $commandName
-     * @param array            $middlewareStackConfig
+     * @param string $commandName
      *
      * @return string
      */
