@@ -8,7 +8,7 @@ use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
 
 class SentryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         if (!class_exists(SentryProcessor::class)) {
             $this->markTestSkipped('The Sentry processor is not available');

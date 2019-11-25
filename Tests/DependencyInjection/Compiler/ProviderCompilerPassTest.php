@@ -48,12 +48,11 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    /**
-     * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage The provider's alias is no defined for the service "foo"
-     */
     public function test_missing_alias()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The provider\'s alias is no defined for the service "foo"');
+
         $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
         $container->has('swarrot.factory.default')->willReturn(false);
@@ -72,12 +71,11 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    /**
-     * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage Invalid provider "foo"
-     */
     public function test_unexistant_provider()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid provider "foo"');
+
         $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
         $container->has('swarrot.factory.default')->willReturn(false);
@@ -106,12 +104,11 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    /**
-     * @expectedException        InvalidArgumentException
-     * @expectedExceptionMessage The provider "foo.bar" is not valid
-     */
     public function test_invalid_provider()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The provider "foo.bar" is not valid');
+
         $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
         $definition = $this->prophesize('Symfony\\Component\\DependencyInjection\\Definition');
 

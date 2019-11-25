@@ -56,7 +56,10 @@ class SwarrotCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $commandTester->execute(['queue' => 'queue name', 'connection' => 'connection name'] + $commandOptions);
 
-        $this->assertArraySubset($expectedResolvedOptions, $processor->processCallOptions);
+        foreach ($expectedResolvedOptions as $key => $value) {
+            $this->assertArrayHasKey($key, $processor->processCallOptions);
+            $this->assertSame($value, $processor->processCallOptions[$key]);
+        }
     }
 
     public function it_merges_arguments_from_config_and_command_line_dataprovider()

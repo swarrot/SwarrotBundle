@@ -21,9 +21,8 @@ env:
 matrix:
   fast_finish: true
   include:
-    - php: 7.2
     - php: 7.3
-    - php: 7.1
+    - php: 7.2
       env: COMPOSER_FLAGS="--prefer-lowest --prefer-stable" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
     - php: 7.3
       env: LIBRABBITMQ_VERSION="master"
