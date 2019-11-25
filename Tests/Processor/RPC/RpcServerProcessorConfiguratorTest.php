@@ -25,7 +25,7 @@ class RpcServerProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
      */
     private $configurator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->factory = $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface');
         $this->logger = $this->prophesize('Psr\Log\LoggerInterface');

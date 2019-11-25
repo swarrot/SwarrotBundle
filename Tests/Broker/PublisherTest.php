@@ -20,12 +20,11 @@ class PublisherTest extends TestCase
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Broker\Publisher', $publisher);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Unknown message type "message_type". Available are [].
-     */
     public function test_publish_with_unknown_message_type()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Unknown message type "message_type". Available are [].');
+
         $publisher = new Publisher(
             $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface')->reveal(),
             $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcherInterface')->reveal()
