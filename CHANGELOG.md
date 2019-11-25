@@ -5,6 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.7.0] - 2019-11-26
+
+- Support Symfony ^5.0
+- Remove support of PHP <7.2
+- Remove support of sf 4.1
+- Fix bad interface_exists check on class
+
 ## [1.6.3] - 2019-09-08
 
 ### Fixed
@@ -121,10 +128,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] - 2014-07-18
 
-[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.2...HEAD
-[1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.1...v1.6.2
-[1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.0...v1.6.1
-[1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.1...v1.6.0
+[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.3...v1.7.0
+[1.6.3]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.2...v1.6.3
+[1.6.2]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.1...v1.6.2
+[1.6.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.0...v1.6.1
+[1.6.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.1...v1.6.0
 [1.5.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.5.0...v1.5.1
 [1.5.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/swarrot/SwarrotBundle/compare/v1.4.1...v1.4.2
