@@ -11,6 +11,11 @@
     bootstrap="vendor/autoload.php"
     >
 
+    <listeners>
+        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    </listeners>
+
+
     <testsuites>
         <testsuite name="SwarrotBundle client test suite">
             <directory>Tests/</directory>

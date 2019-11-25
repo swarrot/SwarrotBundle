@@ -112,6 +112,8 @@ EOT
         $consumer = new Consumer($messageProvider, $processor, $optionsResolver);
 
         $consumer->consume($options);
+
+        return 0;
     }
 
     /**
