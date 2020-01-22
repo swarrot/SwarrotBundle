@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.7.1] - 2020-01-22
+
+- Fix DataCollector
+
 ## [1.7.0] - 2019-11-26
 
 - Support Symfony ^5.0
@@ -128,7 +132,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] - 2014-07-18
 
-[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.7.0...HEAD
+[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.7.1...HEAD
+[1.7.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.7.0...v1.7.1
 [1.7.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.3...v1.7.0
 [1.6.3]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.2...v1.6.3
 [1.6.2]: https://github.com/swarrot/SwarrotBundle/compare/v1.6.1...v1.6.2
