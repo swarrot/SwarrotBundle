@@ -17,6 +17,7 @@ addons:
 env:
     global:
         - LIBRABBITMQ_VERSION=v0.8.0
+        - SYMFONY_DEPRECATIONS_HELPER="weak" # Required as latest swarrot 3.x version will always trigger a deprecation
 
 matrix:
   fast_finish: true
