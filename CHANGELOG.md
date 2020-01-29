@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Add ServicesResetterProcessorConfigurator
+
 ## [1.7.2] - 2020-01-22
 
 - Fix DataCollector to keep compatibility with sf3.x

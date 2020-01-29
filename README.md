@@ -91,6 +91,9 @@ swarrot:
                  # - configurator: swarrot.processor.rpc_client
                  #   extras:
                  #       rpc_client_correlation_id: ~
+
+                 # - configurator: swarrot.processor.services_resetter
+
             extras:
                 poll_interval: 500000
     messages_types:

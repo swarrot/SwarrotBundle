@@ -110,5 +110,10 @@
             <argument>Swarrot\Processor\Sentry\SentryProcessor</argument>
             <argument type="service" id="sentry.client" on-invalid="ignore"/>
         </service>
+        <service id="swarrot.processor.services_resetter"
+                 class="Swarrot\SwarrotBundle\Processor\ServicesResetter\ServicesResetterProcessorConfigurator">
+            <argument>Swarrot\Processor\ServicesResetter\ServicesResetterProcessor</argument>
+            <argument type="service" id="services_resetter" on-invalid="ignore"/>
+        </service>
     </services>
 </container>

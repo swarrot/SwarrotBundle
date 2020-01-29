@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
         'retry' => 'Swarrot\Processor\Retry\RetryProcessor',
         'signal_handler' => 'Swarrot\Processor\SignalHandler\SignalHandlerProcessor',
         'object_manager' => 'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
+        'services_resetter' => 'Swarrot\Processor\ServicesResetter\ServicesResetterProcessor',
     ];
 
     private $debug;
