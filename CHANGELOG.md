@@ -5,8 +5,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.8.0] - 2020-02-05
+
 - Add ServicesResetterProcessorConfigurator
 - Deprecate NewRelic, Sentry & RPC related processor configurators
+- Remove deprecated code
+- Remove outdated xsd config
 
 ## [1.7.2] - 2020-01-22
 
