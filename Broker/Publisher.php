@@ -7,7 +7,7 @@ use Psr\Log\NullLogger;
 use Swarrot\Broker\Message;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface as ContractsEventDispatcherInterface;
 
 class Publisher
 {
@@ -27,10 +27,6 @@ class Publisher
         $this->eventDispatcher = $eventDispatcher;
         $this->messageTypes = $messageTypes;
         $this->logger = $logger ?: new NullLogger();
-
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
-            $this->eventDispatcher = LegacyEventDispatcherProxy::decorate($this->eventDispatcher);
-        }
     }
 
     /**
@@ -60,7 +56,7 @@ class Publisher
 
         $messagePublisher->publish($message, $routingKey);
 
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
+        if ($this->eventDispatcher instanceof ContractsEventDispatcherInterface) {
             $this->eventDispatcher->dispatch(
                 new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey),
                 MessagePublishedEvent::NAME
