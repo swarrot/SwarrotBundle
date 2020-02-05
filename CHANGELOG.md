@@ -5,6 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- Remove deprecated config (`publisher_logger` & `processors_stack`)
+- Remove deprecated processor configurators
+
 ## [1.8.0] - 2020-02-05
 
 - Add ServicesResetterProcessorConfigurator
