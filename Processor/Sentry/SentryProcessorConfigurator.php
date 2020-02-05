@@ -25,6 +25,8 @@ class SentryProcessorConfigurator implements ProcessorConfiguratorInterface
      */
     public function __construct($processorClass, \Raven_Client $client = null)
     {
+        @trigger_error(sprintf('"%s" have been deprecated since SwarrotBundle 1.8', __CLASS__), E_USER_DEPRECATED);
+
         $this->processorClass = $processorClass;
         $this->client = $client;
         $this->enabled = null !== $client;

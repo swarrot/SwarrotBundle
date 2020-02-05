@@ -21,6 +21,8 @@ class RpcServerProcessorConfigurator implements ProcessorConfiguratorInterface
 
     public function __construct(FactoryInterface $factory, LoggerInterface $logger)
     {
+        @trigger_error(sprintf('"%s" have been deprecated since SwarrotBundle 1.8', __CLASS__), E_USER_DEPRECATED);
+
         $this->factory = $factory;
         $this->logger = $logger;
     }
