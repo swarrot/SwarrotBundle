@@ -22,10 +22,7 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param string $processorClass
-     */
-    public function __construct($processorClass, FactoryInterface $factory, LoggerInterface $logger)
+    public function __construct(string $processorClass, FactoryInterface $factory, LoggerInterface $logger)
     {
         $this->processorClass = $processorClass;
         $this->factory = $factory;
@@ -35,7 +32,7 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         $exchange = $this->getExtra('retry_exchange', 'retry');
 
@@ -49,7 +46,7 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [
             ['no-retry', 'R', InputOption::VALUE_NONE, 'Deactivate retry.'],
@@ -66,14 +63,14 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-retry');
 
         $key = $this->getExtra('retry_routing_key_pattern', 'retry_%attempt%s');
 
         return [
-            'retry_key_pattern' => str_replace('%queue%', $input->getArgument('queue'), $key),
+            'retry_key_pattern' => str_replace('%queue%', (string) $input->getArgument('queue'), $key),
             'retry_attempts' => (int) $input->getOption('retry-attempts'),
             'retry_log_levels_map' => $this->getExtra('retry_log_levels_map', []),
             'retry_fail_log_levels_map' => $this->getExtra('retry_fail_log_levels_map', []),

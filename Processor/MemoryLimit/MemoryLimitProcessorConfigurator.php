@@ -24,7 +24,7 @@ class MemoryLimitProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             'Swarrot\Processor\MemoryLimit\MemoryLimitProcessor',
@@ -35,7 +35,7 @@ class MemoryLimitProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [];
     }
@@ -43,7 +43,7 @@ class MemoryLimitProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         return $this->getExtras();
     }

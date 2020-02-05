@@ -18,10 +18,9 @@ class ConnectionProcessorConfigurator implements ProcessorConfiguratorInterface
     private $connections;
 
     /**
-     * @param string $processorClass
-     * @param mixed  $connections
+     * @param mixed $connections
      */
-    public function __construct($processorClass, $connections)
+    public function __construct(string $processorClass, $connections)
     {
         $this->processorClass = $processorClass;
         $this->connections = $connections;
@@ -30,7 +29,7 @@ class ConnectionProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             $this->processorClass,
@@ -41,7 +40,7 @@ class ConnectionProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [];
     }
@@ -49,7 +48,7 @@ class ConnectionProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         return $this->getExtras();
     }

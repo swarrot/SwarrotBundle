@@ -18,10 +18,7 @@ class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param string $processorClass
-     */
-    public function __construct($processorClass, LoggerInterface $logger)
+    public function __construct(string $processorClass, LoggerInterface $logger)
     {
         $this->processorClass = $processorClass;
         $this->logger = $logger;
@@ -30,7 +27,7 @@ class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             $this->processorClass,
@@ -41,7 +38,7 @@ class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [];
     }
@@ -49,7 +46,7 @@ class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         return $this->getExtras();
     }
