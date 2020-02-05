@@ -10,3 +10,12 @@ jobs:
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
           args: --dry-run --diff-format udiff
+
+  phpstan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run PHPStan
+        uses: docker://odolbeau/swarrot-phpqa:latest
+        with:
+          args: phpstan analyze

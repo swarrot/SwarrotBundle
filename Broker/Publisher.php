@@ -11,16 +11,15 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface as ContractsEvent
 
 class Publisher
 {
+    /** @var FactoryInterface */
     protected $factory;
+    /** @var ContractsEventDispatcherInterface|EventDispatcherInterface */
     protected $eventDispatcher;
+    /** @var array */
     protected $messageTypes;
+    /** @var LoggerInterface */
     protected $logger;
 
-    /**
-     * __construct.
-     *
-     * @param LoggerInterface $logger
-     */
     public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = [], LoggerInterface $logger = null)
     {
         $this->factory = $factory;
@@ -29,12 +28,7 @@ class Publisher
         $this->logger = $logger ?: new NullLogger();
     }
 
-    /**
-     * publish.
-     *
-     * @param string $messageType
-     */
-    public function publish($messageType, Message $message, array $overridenConfig = [])
+    public function publish(string $messageType, Message $message, array $overridenConfig = []): void
     {
         if (!$this->isKnownMessageType($messageType)) {
             throw new \InvalidArgumentException(sprintf('Unknown message type "%s". Available are [%s].', $messageType, implode(',', array_keys($this->messageTypes))));
@@ -70,26 +64,12 @@ class Publisher
         }
     }
 
-    /**
-     * isKnownMessageType.
-     *
-     * @param string $messageType
-     *
-     * @return bool
-     */
-    public function isKnownMessageType($messageType)
+    public function isKnownMessageType(string $messageType): bool
     {
         return isset($this->messageTypes[$messageType]);
     }
 
-    /**
-     * getConfigForMessageType.
-     *
-     * @param string $messageType
-     *
-     * @return array
-     */
-    public function getConfigForMessageType($messageType)
+    public function getConfigForMessageType(string $messageType): array
     {
         if (!$this->isKnownMessageType($messageType)) {
             throw new \InvalidArgumentException(sprintf('Unknown message type "%s". Available are [%s].', $messageType, implode(array_keys($this->messageTypes))));

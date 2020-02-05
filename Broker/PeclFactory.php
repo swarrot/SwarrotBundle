@@ -4,29 +4,35 @@ namespace Swarrot\SwarrotBundle\Broker;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Swarrot\Broker\MessageProvider\MessageProviderInterface;
 use Swarrot\Broker\MessageProvider\PeclPackageMessageProvider;
+use Swarrot\Broker\MessagePublisher\MessagePublisherInterface;
 use Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher;
 
 class PeclFactory implements FactoryInterface
 {
     use UrlParserTrait;
 
+    /** @var LoggerInterface */
     protected $logger;
+    /** @var bool */
     protected $publisherConfirms;
+    /** @var float */
     protected $timeout;
 
+    /** @var array */
     protected $connections = [];
+    /** @var array */
     protected $messageProviders = [];
+    /** @var array */
     protected $messagePublishers = [];
+    /** @var array */
     protected $queues = [];
+    /** @var array */
     protected $exchanges = [];
+    /** @var array */
     protected $amqpConnections = [];
 
-    /**
-     * __construct.
-     *
-     * @param LoggerInterface $logger
-     */
     public function __construct(LoggerInterface $logger = null, bool $publisherConfirms = false, float $timeout = 0.0)
     {
         $this->logger = $logger ?: new NullLogger();
@@ -37,7 +43,7 @@ class PeclFactory implements FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function addConnection($name, array $connection)
+    public function addConnection(string $name, array $connection): void
     {
         if (!empty($connection['url'])) {
             $params = $this->parseUrl($connection['url']);
@@ -50,7 +56,7 @@ class PeclFactory implements FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getMessageProvider($name, $connection)
+    public function getMessageProvider(string $name, string $connection): MessageProviderInterface
     {
         if (!isset($this->messageProviders[$connection][$name])) {
             if (!isset($this->messageProviders[$connection])) {
@@ -68,7 +74,7 @@ class PeclFactory implements FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getMessagePublisher($name, $connection)
+    public function getMessagePublisher(string $name, string $connection): MessagePublisherInterface
     {
         if (!isset($this->messagePublishers[$connection][$name])) {
             if (!isset($this->messagePublishers[$connection])) {
@@ -83,15 +89,7 @@ class PeclFactory implements FactoryInterface
         return $this->messagePublishers[$connection][$name];
     }
 
-    /**
-     * getQueue.
-     *
-     * @param string $name
-     * @param string $connection
-     *
-     * @return \AMQPQueue
-     */
-    public function getQueue($name, $connection)
+    public function getQueue(string $name, string $connection): \AMQPQueue
     {
         if (!isset($this->queues[$connection][$name])) {
             if (!isset($this->queues[$connection])) {
@@ -109,15 +107,7 @@ class PeclFactory implements FactoryInterface
         return $this->queues[$connection][$name];
     }
 
-    /**
-     * getExchange.
-     *
-     * @param string $name
-     * @param string $connection
-     *
-     * @return \AMQPExchange
-     */
-    public function getExchange($name, $connection)
+    public function getExchange(string $name, string $connection): \AMQPExchange
     {
         if (!isset($this->exchanges[$connection][$name])) {
             if (!isset($this->exchanges[$connection])) {
@@ -135,16 +125,7 @@ class PeclFactory implements FactoryInterface
         return $this->exchanges[$connection][$name];
     }
 
-    /**
-     * getChannel.
-     *
-     * @param string $connection
-     *
-     * @throws \AMQPConnectionException
-     *
-     * @return \AMQPChannel
-     */
-    protected function getChannel($connection)
+    protected function getChannel(string $connection): \AMQPChannel
     {
         if (!isset($this->connections[$connection])) {
             throw new \InvalidArgumentException(sprintf('Unknown connection "%s". Available: [%s]', $connection, implode(', ', array_keys($this->connections))));

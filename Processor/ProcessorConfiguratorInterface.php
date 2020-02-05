@@ -9,32 +9,23 @@ interface ProcessorConfiguratorInterface
     /**
      * Define extra parameters to the configurator.
      */
-    public function setExtras(array $extras);
+    public function setExtras(array $extras): void;
 
     /**
      * Retrieves the processor's class name and list of constructors arguments.
      * The class name should be first, and is mandatory.
-     *
-     * @return array
      */
-    public function getProcessorArguments(array $options);
+    public function getProcessorArguments(array $options): array;
 
     /**
      * Retrieves the list of additional options to add to the CLI command.
-     *
-     * @return array
      */
-    public function getCommandOptions();
+    public function getCommandOptions(): array;
 
     /**
      * Resolve user input parameters to returns an array of options.
-     *
-     * @return array
      */
-    public function resolveOptions(InputInterface $input);
+    public function resolveOptions(InputInterface $input): array;
 
-    /**
-     * @return bool
-     */
-    public function isEnabled();
+    public function isEnabled(): bool;
 }

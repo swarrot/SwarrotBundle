@@ -85,7 +85,7 @@ class TestProcessorConfigurator implements ProcessorConfiguratorInterface
     use ProcessorConfiguratorEnableAware;
     use ProcessorConfiguratorExtrasAware;
 
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [
             ['option1', 'o1', InputOption::VALUE_REQUIRED, 'descr', $this->getExtra('option1', 'default extra value 1')],
@@ -93,7 +93,7 @@ class TestProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         return [
             'option1' => $input->getOption('option1'),
@@ -101,7 +101,7 @@ class TestProcessorConfigurator implements ProcessorConfiguratorInterface
         ] + $this->getExtras();
     }
 
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return ['Swarrot\SwarrotBundle\Tests\Command\TestProcessor'];
     }
@@ -117,12 +117,12 @@ class TestProcessor implements ConfigurableInterface
         $this->processor = $processor;
     }
 
-    public function process(Message $message, array $options)
+    public function process(Message $message, array $options): bool
     {
         return $this->processor->process($message, $options);
     }
 
-    public function setDefaultOptions(OptionsResolver $resolver)
+    public function setDefaultOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['option1' => 'default value 1', 'option2' => 'default value 2']);
     }
@@ -132,7 +132,7 @@ class TestFinalProcessor implements ProcessorInterface
 {
     public $processCallOptions = [];
 
-    public function process(Message $message, array $options)
+    public function process(Message $message, array $options): bool
     {
         $this->processCallOptions = $options;
         // return false to stop the consumer.

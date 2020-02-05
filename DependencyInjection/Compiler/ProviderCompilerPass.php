@@ -11,7 +11,7 @@ class ProviderCompilerPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if ($container->has('swarrot.factory.default') || !$container->hasParameter('swarrot.provider_config')) {
             return;
@@ -24,7 +24,7 @@ class ProviderCompilerPass implements CompilerPassInterface
                 if (!isset($tag['alias'])) {
                     throw new \InvalidArgumentException(sprintf('The provider\'s alias is no defined for the service "%s"', $id));
                 }
-                $providersIds[$tag['alias']] = $id;
+                $providersIds[$tag['alias']] = (string) $id;
             }
         }
 

@@ -9,7 +9,7 @@ class BlackholePublisher extends Publisher
     /**
      * {@inheritdoc}
      */
-    public function publish($messageType, Message $message, array $overridenConfig = [])
+    public function publish(string $messageType, Message $message, array $overridenConfig = []): void
     {
     }
 }

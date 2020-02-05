@@ -19,10 +19,7 @@ class ExceptionCatcherProcessorConfigurator implements ProcessorConfiguratorInte
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param string $processorClass
-     */
-    public function __construct($processorClass, LoggerInterface $logger)
+    public function __construct(string $processorClass, LoggerInterface $logger)
     {
         $this->processorClass = $processorClass;
         $this->logger = $logger;
@@ -31,7 +28,7 @@ class ExceptionCatcherProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             $this->processorClass,
@@ -42,7 +39,7 @@ class ExceptionCatcherProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [
             ['no-catch', 'C', InputOption::VALUE_NONE, 'Deactivate exception catching.'],
@@ -52,7 +49,7 @@ class ExceptionCatcherProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-catch');
 
