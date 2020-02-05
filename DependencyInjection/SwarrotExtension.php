@@ -45,7 +45,7 @@ class SwarrotExtension extends Extension
                 $consumerConfig['connection'] = $config['default_connection'];
             }
 
-            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig, $config['processors_stack']);
+            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig);
         }
 
         $container->setParameter('swarrot.commands', $commands);
@@ -81,7 +81,7 @@ class SwarrotExtension extends Extension
      *
      * @return string
      */
-    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig, array $processorStack)
+    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig)
     {
         $processorConfigurators = [];
         foreach ($consumerConfig['middleware_stack'] as $middlewareStackConfig) {
