@@ -5,6 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.0] - 2020-03-06
+
+- Remove deprecated config (`publisher_logger` & `processors_stack`)
+- Remove deprecated processor configurators
+
 ## [1.8.1] - 2020-03-06
 
 - Allow to define command aliases in configuration
