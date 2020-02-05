@@ -77,20 +77,6 @@ swarrot:
                    #     retry_exchange: retry
                    #     retry_attempts: 3
                    #     retry_routing_key_pattern: 'retry_%%attempt%%'
-                 # - configurator: swarrot.processor.new_relic
-                 #   extras:
-                 #       new_relic_app_name: ~
-                 #       new_relic_license: ~
-                 #       new_relic_transaction_name: ~
-
-                 # - configurator: swarrot.processor.rpc_server
-                 #   extras:
-                 #       # Exchange on which rpc response will be published with `reply_to` as routing_key. 
-                 #       # If not configured will publish on default exchange where routing_key is used to define receiving queue.
-                 #       rpc_exchange: ~ 
-                 # - configurator: swarrot.processor.rpc_client
-                 #   extras:
-                 #       rpc_client_correlation_id: ~
 
                  # - configurator: swarrot.processor.services_resetter
 
