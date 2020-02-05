@@ -12,6 +12,11 @@ class NewRelicProcessorConfigurator implements ProcessorConfiguratorInterface
     use ProcessorConfiguratorEnableAware;
     use ProcessorConfiguratorExtrasAware;
 
+    public function __construct()
+    {
+        @trigger_error(sprintf('"%s" have been deprecated since SwarrotBundle 1.8', __CLASS__), E_USER_DEPRECATED);
+    }
+
     /**
      * {@inheritdoc}
      */
