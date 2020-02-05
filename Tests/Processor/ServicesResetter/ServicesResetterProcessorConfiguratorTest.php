@@ -2,15 +2,15 @@
 
 namespace Swarrot\SwarrotBundle\Tests\Processor\ServicesResetter;
 
-use Swarrot\Processor\ServicesResetter\ServicesResetterProcessor;
 use Swarrot\SwarrotBundle\Processor\ServicesResetter\ServicesResetterProcessorConfigurator;
 use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
+use Symfony\Contracts\Service\ResetInterface;
 
 class ServicesResetterProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
     protected function setUp(): void
     {
-        if (!class_exists(ServicesResetterProcessor::class)) {
+        if (!class_exists(ResetInterface::class)) {
             $this->markTestSkipped('The ServicesResetter processor is not available');
         }
     }
