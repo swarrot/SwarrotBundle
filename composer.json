@@ -24,7 +24,6 @@
         "phpunit/phpunit": "^8.4",
         "doctrine/dbal": "^2.2",
         "doctrine/common": "^2.2",
-        "sentry/sentry-symfony": "^2.3",
         "php-amqplib/php-amqplib": "^2.9",
         "symfony/phpunit-bridge": "^5.0"
     },
