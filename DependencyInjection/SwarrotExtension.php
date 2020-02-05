@@ -5,7 +5,6 @@ namespace Swarrot\SwarrotBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -107,14 +106,8 @@ class SwarrotExtension extends Extension
         }
 
         $id = 'swarrot.command.generated.'.$name;
-        // Test to remove once symfony <3.3 is not supported anymore
-        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
-            $container->setDefinition($id, new ChildDefinition($consumerConfig['command']));
-        } else {
-            $container->setDefinition($id, new DefinitionDecorator($consumerConfig['command']));
-        }
-        $container
-            ->getDefinition($id)
+        $definition = $container->setDefinition($id, new ChildDefinition($consumerConfig['command']));
+        $definition
             ->replaceArgument(1, $name)
             ->replaceArgument(2, $consumerConfig['connection'])
             ->replaceArgument(3, new Reference($consumerConfig['processor']))
@@ -131,26 +124,15 @@ class SwarrotExtension extends Extension
      *
      * @return string
      */
-    private function buildCommandProcessorConfigurator(
-        ContainerBuilder $container,
-        $commandName,
-        array $middlewareStackConfig
-    ) {
+    private function buildCommandProcessorConfigurator(ContainerBuilder $container, $commandName, array $middlewareStackConfig)
+    {
         $id = 'swarrot_extra.command.generated.'.$commandName.'.'.uniqid();
 
-        // Test to remove once symfony <3.3 is not supported anymore
-        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
-            $definition = $container->setDefinition($id, new ChildDefinition($middlewareStackConfig['configurator']));
-        } else {
-            $definition = $container->setDefinition($id, new DefinitionDecorator($middlewareStackConfig['configurator']));
-        }
-
+        $definition = $container->setDefinition($id, new ChildDefinition($middlewareStackConfig['configurator']));
         $definition->addMethodCall('setExtras', [$middlewareStackConfig['extras']]);
+
         if (!empty($middlewareStackConfig['first_arg_class'])) {
-            $definition->replaceArgument(
-                0,
-                $middlewareStackConfig['first_arg_class']
-            );
+            $definition->replaceArgument(0, $middlewareStackConfig['first_arg_class']);
         }
 
         return $id;
