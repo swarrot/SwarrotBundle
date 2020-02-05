@@ -24,12 +24,13 @@ class SwarrotCommand extends Command
     protected $connectionName;
     /** @var ProcessorInterface */
     protected $processor;
-    /** @var array */
+    /** @var array<ProcessorConfiguratorInterface> */
     protected $processorConfigurators;
     /** @var array */
     protected $extras;
     /** @var ?string */
     protected $queue;
+    /** @var array */
     protected $aliases;
 
     public function __construct(
@@ -87,7 +88,6 @@ You can also optionally specify the poll interval to use:
 EOT
             );
 
-        /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
             foreach ($processorConfigurator->getCommandOptions() as $args) {
                 call_user_func_array([$this, 'addOption'], $args);
@@ -103,7 +103,6 @@ EOT
         $options = $this->getOptions($input);
 
         $stack = new Builder();
-        /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
             if ($processorConfigurator->isEnabled()) {
                 call_user_func_array([$stack, 'push'], $processorConfigurator->getProcessorArguments($options));
@@ -132,7 +131,6 @@ EOT
             'poll_interval' => (int) $input->getOption('poll-interval'),
         ];
 
-        /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
             $processorOptions = $processorConfigurator->resolveOptions($input);
 

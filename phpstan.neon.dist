@@ -45,11 +45,6 @@ parameters:
             path: Processor/Retry/RetryProcessorConfigurator.php
 
         -
-            message: "#^Call to an undefined method Symfony\\\\Component\\\\Console\\\\Application\\:\\:getKernel\\(\\)\\.$#"
-            count: 1
-            path: SwarrotBundle.php
-
-        -
             message: "#^Method Swarrot\\\\SwarrotBundle\\\\DataCollector\\\\SwarrotDataCollector\\:\\:collect\\(\\) has parameter \\$exception with no typehint specified\\.$#"
             count: 1
             path: DataCollector/SwarrotDataCollector.php

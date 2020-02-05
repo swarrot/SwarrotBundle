@@ -74,14 +74,7 @@ class SwarrotExtension extends Extension
         return new Configuration($container->getParameter('kernel.debug'));
     }
 
-    /**
-     * buildCommand.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig)
+    public function buildCommand(ContainerBuilder $container, string $name, array $consumerConfig): string
     {
         $processorConfigurators = [];
         foreach ($consumerConfig['middleware_stack'] as $middlewareStackConfig) {
@@ -107,12 +100,7 @@ class SwarrotExtension extends Extension
         return $id;
     }
 
-    /**
-     * @param string $commandName
-     *
-     * @return string
-     */
-    private function buildCommandProcessorConfigurator(ContainerBuilder $container, $commandName, array $middlewareStackConfig)
+    private function buildCommandProcessorConfigurator(ContainerBuilder $container, string $commandName, array $middlewareStackConfig): string
     {
         $id = 'swarrot_extra.command.generated.'.$commandName.'.'.uniqid();
 
