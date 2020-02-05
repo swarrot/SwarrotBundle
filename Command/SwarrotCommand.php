@@ -16,22 +16,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SwarrotCommand extends Command
 {
+    /** @var FactoryInterface */
     protected $swarrotFactory;
+    /** @var string */
     protected $name;
+    /** @var string */
     protected $connectionName;
+    /** @var ProcessorInterface */
     protected $processor;
+    /** @var array */
     protected $processorConfigurators;
+    /** @var array */
     protected $extras;
+    /** @var ?string */
     protected $queue;
 
     public function __construct(
         FactoryInterface $swarrotFactory,
-        $name,
-        $connectionName,
+        string $name,
+        string $connectionName,
         ProcessorInterface $processor,
         array $processorConfigurators,
         array $extras,
-        $queue = null
+        string $queue = null
     ) {
         $this->swarrotFactory = $swarrotFactory;
         $this->name = $name;
@@ -47,7 +54,7 @@ class SwarrotCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $defaultPollInterval = isset($this->extras['poll_interval']) ? $this->extras['poll_interval'] : 500000;
 
@@ -87,7 +94,7 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $options = $this->getOptions($input);
 
@@ -113,12 +120,7 @@ EOT
         return 0;
     }
 
-    /**
-     * getOptions.
-     *
-     * @return array
-     */
-    protected function getOptions(InputInterface $input)
+    protected function getOptions(InputInterface $input): array
     {
         $options = $this->extras + [
             'queue' => $input->getArgument('queue'),

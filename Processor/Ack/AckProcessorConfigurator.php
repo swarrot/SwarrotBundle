@@ -22,10 +22,7 @@ class AckProcessorConfigurator implements ProcessorConfiguratorInterface
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param string $processorClass
-     */
-    public function __construct($processorClass, FactoryInterface $factory, LoggerInterface $logger)
+    public function __construct(string $processorClass, FactoryInterface $factory, LoggerInterface $logger)
     {
         $this->processorClass = $processorClass;
         $this->factory = $factory;
@@ -35,7 +32,7 @@ class AckProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             $this->processorClass,
@@ -47,7 +44,7 @@ class AckProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [
             ['no-ack', 'A', InputOption::VALUE_NONE, 'Deactivate ack.'],
@@ -58,7 +55,7 @@ class AckProcessorConfigurator implements ProcessorConfiguratorInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-ack');
 

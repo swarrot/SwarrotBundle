@@ -7,10 +7,7 @@ trait ProcessorConfiguratorEnableAware
     /** @var bool */
     private $enabled = true;
 
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }

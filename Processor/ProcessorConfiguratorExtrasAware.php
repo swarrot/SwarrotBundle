@@ -7,26 +7,22 @@ trait ProcessorConfiguratorExtrasAware
     /** @var array */
     private $extras = [];
 
-    public function setExtras(array $extras)
+    public function setExtras(array $extras): void
     {
         $this->extras = $extras;
     }
 
-    /**
-     * @return array
-     */
-    public function getExtras()
+    public function getExtras(): array
     {
         return $this->extras;
     }
 
     /**
-     * @param string $name
-     * @param mixed  $default
+     * @param mixed $default
      *
      * @return mixed
      */
-    protected function getExtra($name, $default = null)
+    protected function getExtra(string $name, $default = null)
     {
         return isset($this->extras[$name]) ? $this->extras[$name] : $default;
     }

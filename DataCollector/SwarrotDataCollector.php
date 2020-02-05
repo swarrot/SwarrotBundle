@@ -6,20 +6,20 @@ use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class SwarrotDataCollector extends DataCollector
 {
     /**
      * {@inheritdoc}
+     *
+     * @param \Throwable|\Exception $exception
      */
-    public function collect(Request $request, Response $response, $exception = null)
+    public function collect(Request $request, Response $response, $exception = null): void
     {
     }
 
-    /**
-     * onMessagePublished.
-     */
-    public function onMessagePublished(MessagePublishedEvent $event)
+    public function onMessagePublished(MessagePublishedEvent $event): void
     {
         $this->data[] = [
             'message_type' => $event->getMessageType(),
@@ -31,21 +31,14 @@ class SwarrotDataCollector extends DataCollector
     }
 
     /**
-     * getMessages.
-     *
-     * @return array
+     * @return array|Data
      */
     public function getMessages()
     {
         return $this->data;
     }
 
-    /**
-     * getNbMessages.
-     *
-     * @return int
-     */
-    public function getNbMessages()
+    public function getNbMessages(): int
     {
         return count($this->data);
     }
@@ -53,12 +46,12 @@ class SwarrotDataCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'swarrot';
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
     }
