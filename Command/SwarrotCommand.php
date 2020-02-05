@@ -100,12 +100,9 @@ EOT
         }
 
         $processor = $stack->resolve($this->processor);
+
         $optionsResolver = new OptionsResolver();
-        if (method_exists($optionsResolver, 'setDefined')) {
-            $optionsResolver->setDefined(['queue', 'connection']);
-        } else {
-            $optionsResolver->setOptional(['queue', 'connection']);
-        }
+        $optionsResolver->setDefined(['queue', 'connection']);
 
         $messageProvider = $this->swarrotFactory->getMessageProvider($options['queue'], $options['connection']);
 
