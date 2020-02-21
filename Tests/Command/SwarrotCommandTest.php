@@ -28,11 +28,12 @@ class SwarrotCommandTest extends TestCase
         $processorConfigurator2->getCommandOptions()->willReturn([['option3']]);
         $processorConfigurators = [$processorConfigurator1->reveal(), $processorConfigurator2->reveal()];
 
-        $command = new SwarrotCommand($factory->reveal(), 'foobar', 'foobar', $processor->reveal(), $processorConfigurators, []);
+        $command = new SwarrotCommand($factory->reveal(), 'foobar', 'foobar', $processor->reveal(), $processorConfigurators, [], ['alias1']);
 
         $this->assertTrue($command->getDefinition()->hasOption('option1'));
         $this->assertTrue($command->getDefinition()->hasOption('option2'));
         $this->assertTrue($command->getDefinition()->hasOption('option3'));
+        $this->assertArrayHasKey('alias1', $command->getAliases());
     }
 
     /**
