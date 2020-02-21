@@ -28,6 +28,7 @@
             <argument /> <!-- middleware stack -->
             <argument /> <!-- extra -->
             <argument /> <!-- queue -->
+            <argument /> <!-- aliases -->
         </service>
 
         <service id="swarrot.publisher" class="%swarrot.publisher.class%" public="true">

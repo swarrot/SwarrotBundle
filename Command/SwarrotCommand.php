@@ -23,6 +23,7 @@ class SwarrotCommand extends Command
     protected $processorConfigurators;
     protected $extras;
     protected $queue;
+    protected $aliases;
 
     public function __construct(
         FactoryInterface $swarrotFactory,
@@ -31,7 +32,8 @@ class SwarrotCommand extends Command
         ProcessorInterface $processor,
         array $processorConfigurators,
         array $extras,
-        $queue = null
+        $queue = null,
+        array $aliases = []
     ) {
         $this->swarrotFactory = $swarrotFactory;
         $this->name = $name;
@@ -40,6 +42,7 @@ class SwarrotCommand extends Command
         $this->processorConfigurators = $processorConfigurators;
         $this->extras = $extras;
         $this->queue = $queue;
+        $this->aliases = $aliases;
 
         parent::__construct();
     }
@@ -53,6 +56,7 @@ class SwarrotCommand extends Command
 
         $this
             ->setName('swarrot:consume:'.$this->name)
+            ->setAliases($this->aliases)
             ->setDescription('Consume messages from a given queue')
             ->addArgument('queue', InputArgument::OPTIONAL, 'Queue to consume', $this->queue)
             ->addArgument('connection', InputArgument::OPTIONAL, 'Connection to use', $this->connectionName)
