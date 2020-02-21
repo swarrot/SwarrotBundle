@@ -172,6 +172,21 @@ override default config values.
 
 Run your command with `-h` to have the full list of options.
 
+Note that you can define one or more _aliases_ for this command using the `command_alias` configuration:
+
+```yaml
+swarrot:
+    consumers:
+        my_consumer:
+            command_alias: 'my:super:commmand'
+```
+
+Thus allowing you to consume messages using a more appropriate wording:
+
+```bash
+app/console my:super:command queue_name [connection_name]
+```
+
 ## Implementing your own Provider
 
 If you want to implement your own provider (like Redis), you first have to

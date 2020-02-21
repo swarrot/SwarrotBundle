@@ -26,6 +26,7 @@ return [
         'name' => [
             'processor' => null,
             'command' => null,
+            'command_aliases' => [],
             'connection' => null,
             'queue' => null,
             'extras' => [],

@@ -98,6 +98,7 @@ class SwarrotExtension extends Extension
             ->replaceArgument(4, $processorConfigurators)
             ->replaceArgument(5, $consumerConfig['extras'])
             ->replaceArgument(6, $consumerConfig['queue'])
+            ->replaceArgument(7, $consumerConfig['command_aliases'])
         ;
 
         return $id;
