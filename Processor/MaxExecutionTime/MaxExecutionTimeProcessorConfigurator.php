@@ -19,10 +19,7 @@ class MaxExecutionTimeProcessorConfigurator implements ProcessorConfiguratorInte
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @param string $processorClass
-     */
-    public function __construct($processorClass, LoggerInterface $logger)
+    public function __construct(string $processorClass, LoggerInterface $logger)
     {
         $this->processorClass = $processorClass;
         $this->logger = $logger;
@@ -31,7 +28,7 @@ class MaxExecutionTimeProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             $this->processorClass,
@@ -42,7 +39,7 @@ class MaxExecutionTimeProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [
             [
@@ -58,7 +55,7 @@ class MaxExecutionTimeProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         return [
             'max_execution_time' => (int) $input->getOption('max-execution-time'),

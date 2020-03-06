@@ -13,7 +13,7 @@
     "require": {
         "php": "^7.2",
         "psr/log": "^1.0",
-        "swarrot/swarrot": "^3.4",
+        "swarrot/swarrot": "^4.0",
         "symfony/config": "^3.4|^4.2|^5.0",
         "symfony/console": "^3.4|^4.2|^5.0",
         "symfony/dependency-injection": "^3.4|^4.2|^5.0",
@@ -24,7 +24,6 @@
         "phpunit/phpunit": "^8.4",
         "doctrine/dbal": "^2.2",
         "doctrine/common": "^2.2",
-        "sentry/sentry-symfony": "^2.3",
         "php-amqplib/php-amqplib": "^2.9",
         "symfony/phpunit-bridge": "^5.0"
     },
@@ -39,7 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.8-dev"
+            "dev-master": "2.0-dev"
         }
     }
 }

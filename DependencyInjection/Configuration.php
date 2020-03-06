@@ -7,7 +7,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    protected $knownProcessors = [
+    /** @var array */
+    private $knownProcessors = [
         'ack' => 'Swarrot\Processor\Ack\AckProcessor',
         'exception_catcher' => 'Swarrot\Processor\ExceptionCatcher\ExceptionCatcherProcessor',
         'max_execution_time' => 'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
@@ -20,7 +21,7 @@ class Configuration implements ConfigurationInterface
 
     private $debug;
 
-    public function __construct($debug)
+    public function __construct(bool $debug)
     {
         $this->debug = $debug;
     }
@@ -28,7 +29,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('swarrot');
 
@@ -45,11 +46,6 @@ class Configuration implements ConfigurationInterface
             ->beforeNormalization()
                 ->always()
                 ->then(function ($v) {
-                    // Deal with old logger config
-                    if (isset($v['publisher_logger']) && !isset($v['logger'])) {
-                        $v['logger'] = $v['publisher_logger'];
-                    }
-
                     if (!isset($v['consumers'])) {
                         $v['consumers'] = [];
                     }
@@ -62,42 +58,12 @@ class Configuration implements ConfigurationInterface
                         }
                     }
 
-                    // Deal with old processor_stack configuration
-                    if (isset($v['processors_stack']) && count($v['processors_stack'])) {
-                        @trigger_error('The processors_stack key is deprecated and should not be used anymore. Use consumer\'s `middleware_stack` instead.', E_USER_DEPRECATED);
-
-                        $map = [ // Order matters
-                            'ack' => 'swarrot.processor.ack',
-                            'max_execution_time' => 'swarrot.processor.max_execution_time',
-                            'max_messages' => 'swarrot.processor.max_messages',
-                            'exception_catcher' => 'swarrot.processor.exception_catcher',
-                            'object_manager' => 'swarrot.processor.object_manager',
-                            'retry' => 'swarrot.processor.retry',
-                            'signal_handler' => 'swarrot.processor.signal_handler',
-                        ];
-
-                        foreach ($map as $key => $serviceName) {
-                            if (!array_key_exists($key, $v['processors_stack'])) {
-                                continue;
-                            }
-
-                            foreach ($v['consumers'] as &$consumerConfig) {
-                                $consumerConfig['middleware_stack'][] = [
-                                    'configurator' => $serviceName,
-                                    'first_arg_class' => $v['processors_stack'][$key],
-                                    'extras' => $consumerConfig['extras'],
-                                ];
-                            }
-                        }
-                    }
-
                     return $v;
                 })
             ->end()
             ->fixXmlConfig('connection')
             ->fixXmlConfig('consumer')
             ->fixXmlConfig('messages_type')
-            ->fixXmlConfig('processor', 'processors_stack')
             ->children()
                 ->scalarNode('provider')
                     ->defaultValue('pecl')
@@ -105,14 +71,6 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->scalarNode('default_connection')->defaultValue(null)->end()
                 ->scalarNode('default_command')->defaultValue('swarrot.command.base')->cannotBeEmpty()->end()
-                ->scalarNode('publisher_logger')
-                    ->validate()
-                    ->always()
-                        ->then(function ($v) {
-                            @trigger_error('The publisher_logger key is deprecated and should not be used anymore. Use `logger` instead.', E_USER_DEPRECATED);
-                        })
-                    ->end()
-                ->end()
                 ->scalarNode('logger')->defaultValue('logger')->cannotBeEmpty()->end()
                 ->scalarNode('publisher_confirm_enable')->defaultValue(false)->end()
                 ->scalarNode('publisher_confirm_timeout')->defaultValue(0)->end()
@@ -196,27 +154,6 @@ class Configuration implements ConfigurationInterface
                             ->end()
                         ->end()
                     ->end()
-                ->end()
-                ->arrayNode('processors_stack')
-                    ->beforeNormalization()
-                        ->ifArray()
-                        ->then(function ($v) use ($knownProcessors) {
-                            foreach ($v as $key => $class) {
-                                if (!array_key_exists($key, $knownProcessors)) {
-                                    continue;
-                                }
-
-                                if (!isset($class) || null === $class) {
-                                    $v[$key] = $knownProcessors[$key];
-                                }
-                            }
-
-                            return $v;
-                        })
-                    ->end()
-                    ->useAttributeAsKey('name')
-                    ->normalizeKeys(false)
-                    ->prototype('scalar')->isRequired()->end()
                 ->end()
                 ->booleanNode('enable_collector')->defaultValue($this->debug)->end()
             ->end()

@@ -33,7 +33,7 @@ class ServicesResetterProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             $this->processorClass,
@@ -44,7 +44,7 @@ class ServicesResetterProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [
             ['no-reset', null, InputOption::VALUE_NONE, 'Deactivate services reset after processing.'],
@@ -54,7 +54,7 @@ class ServicesResetterProcessorConfigurator implements ProcessorConfiguratorInte
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-reset');
 

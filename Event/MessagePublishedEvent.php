@@ -8,21 +8,13 @@ class MessagePublishedEvent extends SymfonyEvent
 {
     const NAME = 'swarrot.message_published';
 
-    protected $messageType;
-    protected $message;
-    protected $connection;
-    protected $exchange;
-    protected $routingKey;
+    private $messageType;
+    private $message;
+    private $connection;
+    private $exchange;
+    private $routingKey;
 
-    /**
-     * __construct.
-     *
-     * @param string $messageType
-     * @param string $connection
-     * @param string $exchange
-     * @param string $routingKey
-     */
-    public function __construct($messageType, Message $message, $connection, $exchange, $routingKey)
+    public function __construct(string $messageType, Message $message, string $connection, string $exchange, string $routingKey)
     {
         $this->messageType = $messageType;
         $this->message = $message;
@@ -31,52 +23,27 @@ class MessagePublishedEvent extends SymfonyEvent
         $this->routingKey = $routingKey;
     }
 
-    /**
-     * getMessageType.
-     *
-     * @return string
-     */
-    public function getMessageType()
+    public function getMessageType(): string
     {
         return $this->messageType;
     }
 
-    /**
-     * getMessage.
-     *
-     * @return Message
-     */
-    public function getMessage()
+    public function getMessage(): Message
     {
         return $this->message;
     }
 
-    /**
-     * getConnection.
-     *
-     * @return string
-     */
-    public function getConnection()
+    public function getConnection(): string
     {
         return $this->connection;
     }
 
-    /**
-     * getExchange.
-     *
-     * @return string
-     */
-    public function getExchange()
+    public function getExchange(): string
     {
         return $this->exchange;
     }
 
-    /**
-     * getRoutingKey.
-     *
-     * @return string
-     */
-    public function getRoutingKey()
+    public function getRoutingKey(): string
     {
         return $this->routingKey;
     }

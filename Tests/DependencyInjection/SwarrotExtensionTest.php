@@ -77,36 +77,6 @@ class SwarrotExtensionTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $method[1][0]);
     }
 
-    /**
-     * @group legacy
-     */
-    public function test_legacy_config_is_kept()
-    {
-        $container = $this->createContainer();
-        $config = [
-            'processors_stack' => [
-                'ack' => 'AppBundle\\MyAckProcessor',
-            ],
-            'consumers' => [
-                'testing' => [
-                    'processor' => 'app.swarrot_processor',
-                ],
-            ],
-        ];
-
-        $this->loadConfig($container, $config);
-
-        $this->assertHasService($container, 'swarrot.command.generated.testing');
-
-        $configurators = $container->getDefinition('swarrot.command.generated.testing')->getArgument(4);
-        $this->assertIsArray($configurators);
-        $this->assertCount(1, $configurators);
-
-        $this->assertInstanceOf('Symfony\Component\DependencyInjection\Reference', array_values($configurators)[0]);
-        $configuratorDefinition = $container->getDefinition((string) array_values($configurators)[0]);
-        $this->assertEquals('AppBundle\\MyAckProcessor', $configuratorDefinition->getArgument(0));
-    }
-
     public function test_it_registers_the_collector_by_default_in_debug_mode()
     {
         $container = $this->createContainer();
@@ -141,21 +111,6 @@ class SwarrotExtensionTest extends TestCase
         $this->loadConfig($container, ['enable_collector' => true]);
 
         $this->assertHasService($container, 'swarrot.data_collector');
-    }
-
-    /**
-     * @group legacy
-     */
-    public function test_it_use_the_asked_logger_with_deprecated_key()
-    {
-        $container = $this->createContainer(false);
-
-        $this->loadConfig($container, ['publisher_logger' => 'my_awesome_logger']);
-
-        $this->assertHasService($container, 'swarrot.logger');
-        $alias = $container->getAlias('swarrot.logger');
-
-        $this->assertEquals('my_awesome_logger', (string) $alias);
     }
 
     public function test_it_use_the_asked_logger_with_new_key()

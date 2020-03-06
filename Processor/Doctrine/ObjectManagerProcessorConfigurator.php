@@ -19,10 +19,7 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /** @var mixed */
     private $managerRegistry;
 
-    /**
-     * @param string $processorClass
-     */
-    public function __construct($processorClass, ManagerRegistry $managerRegistry)
+    public function __construct(string $processorClass, ManagerRegistry $managerRegistry)
     {
         $this->processorClass = $processorClass;
         $this->managerRegistry = $managerRegistry;
@@ -31,7 +28,7 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /**
      * {@inheritdoc}
      */
-    public function getProcessorArguments(array $options)
+    public function getProcessorArguments(array $options): array
     {
         return [
             $this->processorClass,
@@ -42,7 +39,7 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /**
      * {@inheritdoc}
      */
-    public function getCommandOptions()
+    public function getCommandOptions(): array
     {
         return [
             ['no-reset', null, InputOption::VALUE_NONE, 'Deactivate object manager reset after processing.'],
@@ -52,7 +49,7 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
     /**
      * {@inheritdoc}
      */
-    public function resolveOptions(InputInterface $input)
+    public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-reset');
 

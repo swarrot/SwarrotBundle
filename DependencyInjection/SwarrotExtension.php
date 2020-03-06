@@ -17,7 +17,7 @@ class SwarrotExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
@@ -45,7 +45,7 @@ class SwarrotExtension extends Extension
                 $consumerConfig['connection'] = $config['default_connection'];
             }
 
-            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig, $config['processors_stack']);
+            $commands[$name] = $this->buildCommand($container, $name, $consumerConfig);
         }
 
         $container->setParameter('swarrot.commands', $commands);
@@ -69,19 +69,12 @@ class SwarrotExtension extends Extension
     /**
      * {@inheritdoc}
      */
-    public function getConfiguration(array $configs, ContainerBuilder $container)
+    public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration($container->getParameter('kernel.debug'));
     }
 
-    /**
-     * buildCommand.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function buildCommand(ContainerBuilder $container, $name, array $consumerConfig, array $processorStack)
+    public function buildCommand(ContainerBuilder $container, string $name, array $consumerConfig): string
     {
         $processorConfigurators = [];
         foreach ($consumerConfig['middleware_stack'] as $middlewareStackConfig) {
@@ -107,12 +100,7 @@ class SwarrotExtension extends Extension
         return $id;
     }
 
-    /**
-     * @param string $commandName
-     *
-     * @return string
-     */
-    private function buildCommandProcessorConfigurator(ContainerBuilder $container, $commandName, array $middlewareStackConfig)
+    private function buildCommandProcessorConfigurator(ContainerBuilder $container, string $commandName, array $middlewareStackConfig): string
     {
         $id = 'swarrot_extra.command.generated.'.$commandName.'.'.uniqid();
 

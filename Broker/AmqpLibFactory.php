@@ -5,22 +5,28 @@ namespace Swarrot\SwarrotBundle\Broker;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Connection\AMQPSSLConnection;
+use Swarrot\Broker\MessageProvider\MessageProviderInterface;
 use Swarrot\Broker\MessageProvider\PhpAmqpLibMessageProvider;
+use Swarrot\Broker\MessagePublisher\MessagePublisherInterface;
 use Swarrot\Broker\MessagePublisher\PhpAmqpLibMessagePublisher;
 
 class AmqpLibFactory implements FactoryInterface
 {
     use UrlParserTrait;
 
+    /** @var array */
     protected $connections = [];
+    /** @var array<AMQPChannel> */
     protected $channels = [];
+    /** @var array */
     protected $messageProviders = [];
+    /** @var array */
     protected $messagePublishers = [];
 
     /**
      * {@inheritdoc}
      */
-    public function addConnection($name, array $connection)
+    public function addConnection(string $name, array $connection): void
     {
         if (!empty($connection['url'])) {
             $params = $this->parseUrl($connection['url']);
@@ -33,7 +39,7 @@ class AmqpLibFactory implements FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getMessageProvider($name, $connection)
+    public function getMessageProvider(string $name, string $connection): MessageProviderInterface
     {
         if (!isset($this->messageProviders[$connection][$name])) {
             if (!isset($this->messageProviders[$connection])) {
@@ -51,7 +57,7 @@ class AmqpLibFactory implements FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getMessagePublisher($name, $connection)
+    public function getMessagePublisher(string $name, string $connection): MessagePublisherInterface
     {
         if (!isset($this->messagePublishers[$connection][$name])) {
             if (!isset($this->messagePublishers[$connection])) {
@@ -68,12 +74,8 @@ class AmqpLibFactory implements FactoryInterface
 
     /**
      * Return the AMQPChannel of the given connection.
-     *
-     * @param string $connection
-     *
-     * @return AMQPChannel
      */
-    public function getChannel($connection)
+    public function getChannel(string $connection): AMQPChannel
     {
         if (isset($this->channels[$connection])) {
             return $this->channels[$connection];
@@ -81,10 +83,6 @@ class AmqpLibFactory implements FactoryInterface
 
         if (!isset($this->connections[$connection])) {
             throw new \InvalidArgumentException(sprintf('Unknown connection "%s". Available: [%s]', $connection, implode(', ', array_keys($this->connections))));
-        }
-
-        if (!isset($this->channels[$connection])) {
-            $this->channels[$connection] = [];
         }
 
         if (isset($this->connections[$connection]['ssl']) && $this->connections[$connection]['ssl']) {

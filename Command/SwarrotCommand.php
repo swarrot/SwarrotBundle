@@ -16,23 +16,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SwarrotCommand extends Command
 {
+    /** @var FactoryInterface */
     protected $swarrotFactory;
+    /** @var string */
     protected $name;
+    /** @var string */
     protected $connectionName;
+    /** @var ProcessorInterface */
     protected $processor;
+    /** @var array<ProcessorConfiguratorInterface> */
     protected $processorConfigurators;
+    /** @var array */
     protected $extras;
+    /** @var ?string */
     protected $queue;
+    /** @var array */
     protected $aliases;
 
     public function __construct(
         FactoryInterface $swarrotFactory,
-        $name,
-        $connectionName,
+        string $name,
+        string $connectionName,
         ProcessorInterface $processor,
         array $processorConfigurators,
         array $extras,
-        $queue = null,
+        string $queue = null,
         array $aliases = []
     ) {
         $this->swarrotFactory = $swarrotFactory;
@@ -50,7 +58,7 @@ class SwarrotCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $defaultPollInterval = isset($this->extras['poll_interval']) ? $this->extras['poll_interval'] : 500000;
 
@@ -80,7 +88,6 @@ You can also optionally specify the poll interval to use:
 EOT
             );
 
-        /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
             foreach ($processorConfigurator->getCommandOptions() as $args) {
                 call_user_func_array([$this, 'addOption'], $args);
@@ -91,12 +98,11 @@ EOT
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $options = $this->getOptions($input);
 
         $stack = new Builder();
-        /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
             if ($processorConfigurator->isEnabled()) {
                 call_user_func_array([$stack, 'push'], $processorConfigurator->getProcessorArguments($options));
@@ -117,12 +123,7 @@ EOT
         return 0;
     }
 
-    /**
-     * getOptions.
-     *
-     * @return array
-     */
-    protected function getOptions(InputInterface $input)
+    protected function getOptions(InputInterface $input): array
     {
         $options = $this->extras + [
             'queue' => $input->getArgument('queue'),
@@ -130,7 +131,6 @@ EOT
             'poll_interval' => (int) $input->getOption('poll-interval'),
         ];
 
-        /** @var ProcessorConfiguratorInterface $processorConfigurator */
         foreach ($this->processorConfigurators as $processorConfigurator) {
             $processorOptions = $processorConfigurator->resolveOptions($input);
 

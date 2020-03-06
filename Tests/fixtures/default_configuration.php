@@ -53,6 +53,4 @@ return [
         ],
     ],
     'enable_collector' => true,
-    'processors_stack' => [
-    ],
 ];
