@@ -14,7 +14,7 @@ class MessagePublishedEvent extends SymfonyEvent
     private $exchange;
     private $routingKey;
 
-    public function __construct(string $messageType, Message $message, string $connection, string $exchange, string $routingKey)
+    public function __construct(string $messageType, Message $message, string $connection, string $exchange, ?string $routingKey)
     {
         $this->messageType = $messageType;
         $this->message = $message;
@@ -43,7 +43,7 @@ class MessagePublishedEvent extends SymfonyEvent
         return $this->exchange;
     }
 
-    public function getRoutingKey(): string
+    public function getRoutingKey(): ?string
     {
         return $this->routingKey;
     }
