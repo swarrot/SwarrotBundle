@@ -102,7 +102,8 @@ class SwarrotExtension extends Extension
 
     private function buildCommandProcessorConfigurator(ContainerBuilder $container, string $commandName, array $middlewareStackConfig): string
     {
-        $id = 'swarrot_extra.command.generated.'.$commandName.'.'.uniqid();
+        $hash = hash('md5', $commandName.serialize($middlewareStackConfig));
+        $id = 'swarrot_extra.command.generated.'.$commandName.'.'.$hash;
 
         $definition = $container->setDefinition($id, new ChildDefinition($middlewareStackConfig['configurator']));
         $definition->addMethodCall('setExtras', [$middlewareStackConfig['extras']]);
