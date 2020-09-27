@@ -5,6 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.1] - 2020-09-27
+
+- Use hash for definition ID generation instead of uniqid
+- Fix compatibility with null as routing key
+
 ## [2.0.0] - 2020-03-06
 
 - Remove deprecated config (`publisher_logger` & `processors_stack`)
@@ -153,7 +158,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] - 2014-07-18
 
-[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v1.8.1...HEAD
+[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.0...v2.0.1
+[2.0.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.8.1...v2.0.0
 [1.8.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.8.0...v1.8.1
 [1.8.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.7.2...v1.8.0
 [1.7.2]: https://github.com/swarrot/SwarrotBundle/compare/v1.7.1...v1.7.2
