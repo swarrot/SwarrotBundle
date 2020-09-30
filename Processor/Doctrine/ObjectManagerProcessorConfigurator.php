@@ -2,7 +2,7 @@
 
 namespace Swarrot\SwarrotBundle\Processor\Doctrine;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
