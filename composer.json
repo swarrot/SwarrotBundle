@@ -36,6 +36,9 @@
             "/Tests/"
         ]
     },
+    "conflict": {
+        "doctrine/persistence": "<1.3"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
