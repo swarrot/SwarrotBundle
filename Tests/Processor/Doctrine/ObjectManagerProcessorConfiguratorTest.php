@@ -11,7 +11,7 @@ class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCa
     {
         $configurator = new ObjectManagerProcessorConfigurator(
             'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
-            $this->prophesize('Doctrine\Common\Persistence\ManagerRegistry')->reveal()
+            $this->prophesize('Doctrine\Persistence\ManagerRegistry')->reveal()
         );
         $this->assertInstanceOf(
             'Swarrot\SwarrotBundle\Processor\Doctrine\ObjectManagerProcessorConfigurator',
@@ -23,7 +23,7 @@ class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCa
     {
         $configurator = new ObjectManagerProcessorConfigurator(
             'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
-            $this->prophesize('Doctrine\Common\Persistence\ManagerRegistry')->reveal()
+            $this->prophesize('Doctrine\Persistence\ManagerRegistry')->reveal()
         );
         $configurator->setExtras([]);
         $input = $this->getUserInput([], $configurator);
@@ -35,7 +35,7 @@ class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCa
     {
         $configurator = new ObjectManagerProcessorConfigurator(
             'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
-            $this->prophesize('Doctrine\Common\Persistence\ManagerRegistry')->reveal()
+            $this->prophesize('Doctrine\Persistence\ManagerRegistry')->reveal()
         );
         $input = $this->getUserInput(['--no-reset' => true], $configurator);
 
@@ -45,7 +45,7 @@ class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCa
 
     public function test_it_can_returns_a_valid_processor()
     {
-        $dummyConnection = $this->prophesize('Doctrine\Common\Persistence\ManagerRegistry')->reveal();
+        $dummyConnection = $this->prophesize('Doctrine\Persistence\ManagerRegistry')->reveal();
 
         $configurator = new ObjectManagerProcessorConfigurator(
             'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
