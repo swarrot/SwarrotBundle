@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.0.2] - 2020-10-24
+
+- Update processor for doctrine/persistence:^2.0
+
 ## [2.0.1] - 2020-09-27
 
 - Use hash for definition ID generation instead of uniqid
@@ -158,7 +162,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] - 2014-07-18
 
-[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.2...HEAD
+[2.0.2]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.1...v2.0.2
 [2.0.1]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.8.1...v2.0.0
 [1.8.1]: https://github.com/swarrot/SwarrotBundle/compare/v1.8.0...v1.8.1
