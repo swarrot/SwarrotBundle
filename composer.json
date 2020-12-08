@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2 || ^8.0",
         "psr/log": "^1.0",
         "swarrot/swarrot": "^4.0",
         "symfony/config": "^3.4|^4.2|^5.0",
