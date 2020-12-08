@@ -15,7 +15,7 @@ class ServicesResetterProcessorConfiguratorTest extends ProcessorConfiguratorTes
         }
     }
 
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $configurator = new ServicesResetterProcessorConfigurator(
             'Swarrot\Processor\ServicesResetter\ServicesResetterProcessor',
@@ -27,7 +27,7 @@ class ServicesResetterProcessorConfiguratorTest extends ProcessorConfiguratorTes
         );
     }
 
-    public function test_it_resolves_options()
+    public function testItResolvesOptions()
     {
         $configurator = new ServicesResetterProcessorConfigurator(
             'Swarrot\Processor\ServicesResetter\ServicesResetterProcessor',
@@ -39,7 +39,7 @@ class ServicesResetterProcessorConfiguratorTest extends ProcessorConfiguratorTes
         $this->assertSame([], $configurator->resolveOptions($input));
     }
 
-    public function test_it_is_disablable()
+    public function testItIsDisablable()
     {
         $configurator = new ServicesResetterProcessorConfigurator(
             'Swarrot\Processor\ServicesResetter\ServicesResetterProcessor',
@@ -51,7 +51,7 @@ class ServicesResetterProcessorConfiguratorTest extends ProcessorConfiguratorTes
         $this->assertFalse($configurator->isEnabled());
     }
 
-    public function test_it_can_returns_a_valid_processor()
+    public function testItCanReturnsAValidProcessor()
     {
         $dummyResetter = $this->prophesize('Symfony\Contracts\Service\ResetInterface')->reveal();
 

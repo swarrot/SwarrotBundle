@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class SwarrotExtensionTest extends TestCase
 {
-    public function test_it_uses_the_default_connection_for_message_types()
+    public function testItUsesTheDefaultConnectionForMessageTypes()
     {
         $container = $this->createContainer();
         $config = [
@@ -33,7 +33,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertEquals($expectedMessageType, $messagesTypes['test']);
     }
 
-    public function test_it_registers_commands()
+    public function testItRegistersCommands()
     {
         $container = $this->createContainer();
         $config = [
@@ -77,7 +77,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $method[1][0]);
     }
 
-    public function test_it_registers_the_collector_by_default_in_debug_mode()
+    public function testItRegistersTheCollectorByDefaultInDebugMode()
     {
         $container = $this->createContainer();
 
@@ -86,7 +86,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertHasService($container, 'swarrot.data_collector');
     }
 
-    public function test_it_does_not_register_the_collector_by_default_in_non_debug_mode()
+    public function testItDoesNotRegisterTheCollectorByDefaultInNonDebugMode()
     {
         $container = $this->createContainer(false);
 
@@ -95,7 +95,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertNotHasService($container, 'swarrot.data_collector');
     }
 
-    public function test_it_does_not_register_the_collector_when_explicitly_disabled()
+    public function testItDoesNotRegisterTheCollectorWhenExplicitlyDisabled()
     {
         $container = $this->createContainer();
 
@@ -104,7 +104,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertNotHasService($container, 'swarrot.data_collector');
     }
 
-    public function test_it_registers_the_collector_when_explicitly_enabled()
+    public function testItRegistersTheCollectorWhenExplicitlyEnabled()
     {
         $container = $this->createContainer(false);
 
@@ -113,7 +113,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertHasService($container, 'swarrot.data_collector');
     }
 
-    public function test_it_use_the_asked_logger_with_new_key()
+    public function testItUseTheAskedLoggerWithNewKey()
     {
         $container = $this->createContainer(false);
 
@@ -125,7 +125,7 @@ class SwarrotExtensionTest extends TestCase
         $this->assertEquals('my_awesome_logger', (string) $alias);
     }
 
-    public function test_it_exposes_the_publisher_service()
+    public function testItExposesThePublisherService()
     {
         $container = $this->createContainer(false);
         $this->loadConfig($container);

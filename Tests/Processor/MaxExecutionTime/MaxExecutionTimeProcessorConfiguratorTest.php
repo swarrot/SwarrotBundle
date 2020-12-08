@@ -7,7 +7,7 @@ use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
 
 class MaxExecutionTimeProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $configurator = new MaxExecutionTimeProcessorConfigurator(
             'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
@@ -19,7 +19,7 @@ class MaxExecutionTimeProcessorConfiguratorTest extends ProcessorConfiguratorTes
         );
     }
 
-    public function test_it_used_default_extra()
+    public function testItUsedDefaultExtra()
     {
         $configurator = new MaxExecutionTimeProcessorConfigurator(
             'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
@@ -31,7 +31,7 @@ class MaxExecutionTimeProcessorConfiguratorTest extends ProcessorConfiguratorTes
         $this->assertSame(['max_execution_time' => 100], $configurator->resolveOptions($input));
     }
 
-    public function test_it_used_user_input()
+    public function testItUsedUserInput()
     {
         $configurator = new MaxExecutionTimeProcessorConfigurator(
             'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
@@ -44,7 +44,7 @@ class MaxExecutionTimeProcessorConfiguratorTest extends ProcessorConfiguratorTes
         $this->assertSame(['max_execution_time' => 200], $configurator->resolveOptions($input));
     }
 
-    public function test_it_used_default_value()
+    public function testItUsedDefaultValue()
     {
         $configurator = new MaxExecutionTimeProcessorConfigurator(
             'Swarrot\Processor\MaxExecutionTime\MaxExecutionTimeProcessor',
@@ -57,7 +57,7 @@ class MaxExecutionTimeProcessorConfiguratorTest extends ProcessorConfiguratorTes
         $this->assertSame(['max_execution_time' => 300], $configurator->resolveOptions($input));
     }
 
-    public function test_it_can_returns_a_valid_processor()
+    public function testItCanReturnsAValidProcessor()
     {
         $stubLogger = $this->prophesize('Psr\Log\LoggerInterface')->reveal();
 

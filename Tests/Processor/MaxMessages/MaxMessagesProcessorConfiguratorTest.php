@@ -7,7 +7,7 @@ use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
 
 class MaxMessagesProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $configurator = new MaxMessagesProcessorConfigurator(
             'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
@@ -19,7 +19,7 @@ class MaxMessagesProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         );
     }
 
-    public function test_it_used_default_extra()
+    public function testItUsedDefaultExtra()
     {
         $configurator = new MaxMessagesProcessorConfigurator(
             'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
@@ -31,7 +31,7 @@ class MaxMessagesProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertSame(['max_messages' => 100], $configurator->resolveOptions($input));
     }
 
-    public function test_it_used_user_input()
+    public function testItUsedUserInput()
     {
         $configurator = new MaxMessagesProcessorConfigurator(
             'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
@@ -44,7 +44,7 @@ class MaxMessagesProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertSame(['max_messages' => 200], $configurator->resolveOptions($input));
     }
 
-    public function test_it_used_default_value()
+    public function testItUsedDefaultValue()
     {
         $configurator = new MaxMessagesProcessorConfigurator(
             'Swarrot\Processor\MaxMessages\MaxMessagesProcessor',
@@ -57,7 +57,7 @@ class MaxMessagesProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertSame(['max_messages' => 300], $configurator->resolveOptions($input));
     }
 
-    public function test_it_can_returns_a_valid_processor()
+    public function testItCanReturnsAValidProcessor()
     {
         $stubLogger = $this->prophesize('Psr\Log\LoggerInterface')->reveal();
 

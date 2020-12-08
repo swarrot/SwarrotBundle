@@ -7,7 +7,7 @@ use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
 
 class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $configurator = new RetryProcessorConfigurator(
             'Swarrot\Processor\Retry\RetryProcessor',
@@ -17,7 +17,7 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Processor\Retry\RetryProcessorConfigurator', $configurator);
     }
 
-    public function test_it_used_default_extra()
+    public function testItUsedDefaultExtra()
     {
         $configurator = new RetryProcessorConfigurator(
             'Swarrot\Processor\Retry\RetryProcessor',
@@ -45,7 +45,7 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         );
     }
 
-    public function test_it_used_user_input()
+    public function testItUsedUserInput()
     {
         $configurator = new RetryProcessorConfigurator(
             'Swarrot\Processor\Retry\RetryProcessor',
@@ -67,7 +67,7 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         );
     }
 
-    public function test_it_used_default_value()
+    public function testItUsedDefaultValue()
     {
         $configurator = new RetryProcessorConfigurator(
             'Swarrot\Processor\Retry\RetryProcessor',
@@ -89,7 +89,7 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         );
     }
 
-    public function test_it_is_disablable()
+    public function testItIsDisablable()
     {
         $configurator = new RetryProcessorConfigurator(
             'Swarrot\Processor\Retry\RetryProcessor',
@@ -102,7 +102,7 @@ class RetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertFalse($configurator->isEnabled());
     }
 
-    public function test_it_can_returns_a_valid_processor()
+    public function testItCanReturnsAValidProcessor()
     {
         $stubLogger = $this->prophesize('Psr\Log\LoggerInterface')->reveal();
         $stubMessagePublisher = $this->prophesize('Swarrot\Broker\MessagePublisher\MessagePublisherInterface')->reveal();

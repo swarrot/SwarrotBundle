@@ -7,7 +7,7 @@ use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
 
 class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $configurator = new ObjectManagerProcessorConfigurator(
             'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
@@ -19,7 +19,7 @@ class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCa
         );
     }
 
-    public function test_it_resolves_options()
+    public function testItResolvesOptions()
     {
         $configurator = new ObjectManagerProcessorConfigurator(
             'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
@@ -31,7 +31,7 @@ class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCa
         $this->assertSame([], $configurator->resolveOptions($input));
     }
 
-    public function test_it_is_disablable()
+    public function testItIsDisablable()
     {
         $configurator = new ObjectManagerProcessorConfigurator(
             'Swarrot\Processor\Doctrine\ObjectManagerProcessor',
@@ -43,7 +43,7 @@ class ObjectManagerProcessorConfiguratorTest extends ProcessorConfiguratorTestCa
         $this->assertFalse($configurator->isEnabled());
     }
 
-    public function test_it_can_returns_a_valid_processor()
+    public function testItCanReturnsAValidProcessor()
     {
         $dummyConnection = $this->prophesize('Doctrine\Common\Persistence\ManagerRegistry')->reveal();
 
