@@ -95,6 +95,7 @@ class SwarrotExtension extends Extension
             ->addTag('console.command', [
                 'command' => 'swarrot:consume:'.$name,
             ])
+            ->setPublic(true)
         ;
 
         return $id;
