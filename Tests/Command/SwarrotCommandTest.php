@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SwarrotCommandTest extends TestCase
 {
-    public function test_it_add_options_from_processor_configurators()
+    public function testItAddOptionsFromProcessorConfigurators()
     {
         $processor = $this->prophesize('Swarrot\Processor\ProcessorInterface');
         $factory = $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface');
@@ -39,7 +39,7 @@ class SwarrotCommandTest extends TestCase
     /**
      * @dataProvider it_merges_arguments_from_config_and_command_line_dataprovider
      */
-    public function test_it_merges_arguments_from_config_and_command_line($commandOptions, $extras, $expectedResolvedOptions)
+    public function testItMergesArgumentsFromConfigAndCommandLine($commandOptions, $extras, $expectedResolvedOptions)
     {
         $factory = $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface');
         $messageProvider = $this->prophesize('Swarrot\Broker\MessageProvider\MessageProviderInterface');

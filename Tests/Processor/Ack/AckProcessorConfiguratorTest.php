@@ -7,7 +7,7 @@ use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
 
 class AckProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $configurator = new AckProcessorConfigurator(
             'Swarrot\Processor\Ack\AckProcessor',
@@ -17,7 +17,7 @@ class AckProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Processor\Ack\AckProcessorConfigurator', $configurator);
     }
 
-    public function test_it_used_default_extra()
+    public function testItUsedDefaultExtra()
     {
         $configurator = new AckProcessorConfigurator(
             'Swarrot\Processor\Ack\AckProcessor',
@@ -30,7 +30,7 @@ class AckProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertSame(['requeue_on_error' => true], $configurator->resolveOptions($input));
     }
 
-    public function test_it_used_user_input()
+    public function testItUsedUserInput()
     {
         $configurator = new AckProcessorConfigurator(
             'Swarrot\Processor\Ack\AckProcessor',
@@ -44,7 +44,7 @@ class AckProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertSame(['requeue_on_error' => true], $configurator->resolveOptions($input));
     }
 
-    public function test_it_used_default_value()
+    public function testItUsedDefaultValue()
     {
         $configurator = new AckProcessorConfigurator(
             'Swarrot\Processor\Ack\AckProcessor',
@@ -58,7 +58,7 @@ class AckProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertSame(['requeue_on_error' => false], $configurator->resolveOptions($input));
     }
 
-    public function test_it_is_disablable()
+    public function testItIsDisablable()
     {
         $configurator = new AckProcessorConfigurator(
             'Swarrot\Processor\Ack\AckProcessor',
@@ -71,7 +71,7 @@ class AckProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
         $this->assertFalse($configurator->isEnabled());
     }
 
-    public function test_it_can_returns_a_valid_processor()
+    public function testItCanReturnsAValidProcessor()
     {
         $stubLogger = $this->prophesize('Psr\Log\LoggerInterface')->reveal();
         $stubMessageProvider = $this->prophesize('Swarrot\Broker\MessageProvider\MessageProviderInterface')->reveal();

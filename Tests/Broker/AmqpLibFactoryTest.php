@@ -27,7 +27,7 @@ class AmqpLibFactoryTest extends TestCase
         };
     }
 
-    public function test_get_publisher_with_unknown_connection()
+    public function testGetPublisherWithUnknownConnection()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown connection "connection". Available: []');
@@ -35,7 +35,7 @@ class AmqpLibFactoryTest extends TestCase
         $this->factory->getMessagePublisher('exchange', 'connection');
     }
 
-    public function test_a_connection_can_be_added()
+    public function testAConnectionCanBeAdded()
     {
         $connectionData = [
             'host' => 'rabbitmq_host',
@@ -50,7 +50,7 @@ class AmqpLibFactoryTest extends TestCase
         $this->assertSame($connectionData, $this->factory->getConnectionData('connection'));
     }
 
-    public function test_a_connection_can_be_added_using_an_url()
+    public function testAConnectionCanBeAddedUsingAnUrl()
     {
         $url = 'amqp://rabbitmq_login:rabbitmq_password@rabbitmq_host:5672/swarrot';
 
@@ -68,7 +68,7 @@ class AmqpLibFactoryTest extends TestCase
         ], $this->factory->getConnectionData('connection'));
     }
 
-    public function test_it_throws_an_exception_if_the_url_is_invalid()
+    public function testItThrowsAnExceptionIfTheUrlIsInvalid()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid connection URL given: "bloup"');

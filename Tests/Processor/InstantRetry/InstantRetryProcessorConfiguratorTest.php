@@ -7,7 +7,7 @@ use Swarrot\SwarrotBundle\Tests\Processor\ProcessorConfiguratorTestCase;
 
 class InstantRetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $configurator = new InstantRetryProcessorConfigurator(
             $this->prophesize('Psr\Log\LoggerInterface')->reveal()
@@ -18,7 +18,7 @@ class InstantRetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCas
         );
     }
 
-    public function test_it_resolves_options()
+    public function testItResolvesOptions()
     {
         $configurator = new InstantRetryProcessorConfigurator(
             $this->prophesize('Psr\Log\LoggerInterface')->reveal()
@@ -29,7 +29,7 @@ class InstantRetryProcessorConfiguratorTest extends ProcessorConfiguratorTestCas
         $this->assertSame([], $configurator->resolveOptions($input));
     }
 
-    public function test_it_can_returns_a_valid_processor()
+    public function testItCanReturnsAValidProcessor()
     {
         $dummyConnection = $this->prophesize('Psr\Log\LoggerInterface')->reveal();
 

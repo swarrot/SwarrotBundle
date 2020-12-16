@@ -14,13 +14,13 @@ class PeclFactoryTest extends TestCase
         }
     }
 
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $factory = new PeclFactory();
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Broker\PeclFactory', $factory);
     }
 
-    public function test_get_publisher_with_unknown_connection()
+    public function testGetPublisherWithUnknownConnection()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown connection "connection". Available: []');
@@ -31,7 +31,7 @@ class PeclFactoryTest extends TestCase
         $factory->getMessagePublisher('exchange', 'connection');
     }
 
-    public function test_get_publisher_with_known_connection()
+    public function testGetPublisherWithKnownConnection()
     {
         $logger = $this->prophesize('Psr\Log\LoggerInterface');
         $factory = new PeclFactory($logger->reveal());
@@ -41,7 +41,7 @@ class PeclFactoryTest extends TestCase
         $this->assertInstanceOf('Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher', $publisher);
     }
 
-    public function test_get_publisher_with_connection_build_from_url()
+    public function testGetPublisherWithConnectionBuildFromUrl()
     {
         $url = 'amqp://localhost:5672/swarrot';
 
@@ -54,7 +54,7 @@ class PeclFactoryTest extends TestCase
         $this->assertInstanceOf('Swarrot\Broker\MessagePublisher\PeclPackageMessagePublisher', $publisher);
     }
 
-    public function test_it_throws_an_exception_if_the_url_is_invalid()
+    public function testItThrowsAnExceptionIfTheUrlIsInvalid()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid connection URL given: "bloup"');

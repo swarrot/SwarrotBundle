@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Alias;
 
 class ProviderCompilerPassTest extends TestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $this->assertInstanceOf(
             'Swarrot\\SwarrotBundle\\DependencyInjection\\Compiler\\ProviderCompilerPass',
@@ -17,7 +17,7 @@ class ProviderCompilerPassTest extends TestCase
         );
     }
 
-    public function test_should_not_run_if_already_declared()
+    public function testShouldNotRunIfAlreadyDeclared()
     {
         $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
@@ -32,7 +32,7 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    public function test_should_not_run_if_not_configured()
+    public function testShouldNotRunIfNotConfigured()
     {
         $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
 
@@ -48,7 +48,7 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    public function test_missing_alias()
+    public function testMissingAlias()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The provider\'s alias is no defined for the service "foo"');
@@ -71,7 +71,7 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    public function test_unexistant_provider()
+    public function testUnexistantProvider()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid provider "foo"');
@@ -104,7 +104,7 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    public function test_invalid_provider()
+    public function testInvalidProvider()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The provider "foo.bar" is not valid');
@@ -147,7 +147,7 @@ class ProviderCompilerPassTest extends TestCase
         $compiler->process($container->reveal());
     }
 
-    public function test_successful_provider()
+    public function testSuccessfulProvider()
     {
         $container = $this->prophesize('Symfony\\Component\\DependencyInjection\\ContainerBuilder');
         $definition = $this->prophesize('Symfony\\Component\\DependencyInjection\\Definition');

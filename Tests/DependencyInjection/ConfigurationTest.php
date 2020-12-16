@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Parser;
 
 class ConfigurationTest extends TestCase
 {
-    public function test_with_default_configuration()
+    public function testWithDefaultConfiguration()
     {
         $parser = new Parser();
         $config = $parser->parse(file_get_contents(__DIR__.'/../fixtures/default_configuration.yml'));

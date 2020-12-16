@@ -10,7 +10,7 @@ use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 
 class PublisherTest extends TestCase
 {
-    public function test_it_is_initializable()
+    public function testItIsInitializable()
     {
         $publisher = new Publisher(
             $this->prophesize('Swarrot\SwarrotBundle\Broker\FactoryInterface')->reveal(),
@@ -20,7 +20,7 @@ class PublisherTest extends TestCase
         $this->assertInstanceOf('Swarrot\SwarrotBundle\Broker\Publisher', $publisher);
     }
 
-    public function test_publish_with_unknown_message_type()
+    public function testPublishWithUnknownMessageType()
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Unknown message type "message_type". Available are [].');
@@ -34,7 +34,7 @@ class PublisherTest extends TestCase
         $publisher->publish('message_type', $message);
     }
 
-    public function test_publish_with_valid_message_type()
+    public function testPublishWithValidMessageType()
     {
         if (!class_exists('Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy')) {
             $this->markTestSkipped('The LegacyEventDispatcherProxy class is not available');
