@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.2.0] - 2020-12-16
+
+- Add PHP 8 support
+
 ## [2.1.0] - 2020-10-25
 
 - Update processor for doctrine/persistence:^2.0
@@ -162,7 +166,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.1] - 2014-07-18
 
-[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/swarrot/SwarrotBundle/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/swarrot/SwarrotBundle/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.1...v2.1.0
 [2.0.1]: https://github.com/swarrot/SwarrotBundle/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/swarrot/SwarrotBundle/compare/v1.8.1...v2.0.0
