@@ -3,8 +3,8 @@
 namespace Swarrot\SwarrotBundle\Broker;
 
 use PhpAmqpLib\Channel\AMQPChannel;
-use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Connection\AMQPSSLConnection;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Swarrot\Broker\MessageProvider\MessageProviderInterface;
 use Swarrot\Broker\MessageProvider\PhpAmqpLibMessageProvider;
 use Swarrot\Broker\MessagePublisher\MessagePublisherInterface;
@@ -108,7 +108,7 @@ class AmqpLibFactory implements FactoryInterface
                 $ssl_opts
             );
         } else {
-            $conn = new AMQPConnection(
+            $conn = new AMQPStreamConnection(
                 $this->connections[$connection]['host'],
                 $this->connections[$connection]['port'],
                 $this->connections[$connection]['login'],
