@@ -7,6 +7,7 @@ parameters:
     excludes_analyse:
         - Tests
         - vendor
+        - Event/SymfonyEvent.php
 
     ignoreErrors:
         -
@@ -43,8 +44,3 @@ parameters:
             message: "#^Cannot cast array\\<string\\>\\|bool\\|string\\|null to int\\.$#"
             count: 1
             path: Processor/Retry/RetryProcessorConfigurator.php
-
-        -
-            message: "#^Method Swarrot\\\\SwarrotBundle\\\\DataCollector\\\\SwarrotDataCollector\\:\\:collect\\(\\) has parameter \\$exception with no typehint specified\\.$#"
-            count: 1
-            path: DataCollector/SwarrotDataCollector.php

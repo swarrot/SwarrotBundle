@@ -3,14 +3,17 @@
 namespace Swarrot\SwarrotBundle\Tests\Processor;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
-class ProcessorConfiguratorTestCase extends TestCase
+abstract class ProcessorConfiguratorTestCase extends TestCase
 {
+    use ProphecyTrait;
+
     protected function createProcessor(ProcessorConfiguratorInterface $configurator, array $options = [])
     {
         $stubProcessor = $this->prophesize('Swarrot\Processor\ProcessorInterface')->reveal();

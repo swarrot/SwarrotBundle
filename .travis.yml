@@ -23,19 +23,20 @@ matrix:
   fast_finish: true
   include:
     - php: 8.0
-    - php: 7.3
-    - php: 7.2
-      env: COMPOSER_FLAGS="--prefer-lowest --prefer-stable" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
     - php: 7.4
+
+    # Tests with latest librabbitmq version
+    - php: 8.0
       env: LIBRABBITMQ_VERSION="master"
       dist: focal
-    - php: 7.3
-      env: DEPENDENCIES=dev COMPOSER_FLAGS="--prefer-stable"
+
+    # Test with lowest versions
+    - php: 7.4
+      env: COMPOSER_FLAGS="--prefer-lowest --prefer-stable" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
 
 before_install:
   - sudo ./Tests/bin/install_rabbitmq-c.sh
   - ./Tests/bin/install_php-amqp.sh
-  - if [ "$DEPENDENCIES" = "dev" ]; then perl -pi -e 's/^}$/,"minimum-stability":"dev"}/' composer.json; fi;
 
 install:
   - composer update --prefer-dist --no-progress --no-suggest $COMPOSER_FLAGS --ansi

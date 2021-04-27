@@ -4,12 +4,15 @@ namespace Swarrot\SwarrotBundle\Tests\Broker;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Swarrot\Broker\Message;
 use Swarrot\SwarrotBundle\Broker\Publisher;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
 
 class PublisherTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testItIsInitializable()
     {
         $publisher = new Publisher(

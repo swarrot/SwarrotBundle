@@ -10,22 +10,27 @@
             "homepage": "http://odolbeau.fr/"
         }
     ],
+    "config": {
+        "sort-packages": true
+    },
     "require": {
-        "php": ">7.2.5",
+        "php": ">=7.4",
         "psr/log": "^1.0",
         "swarrot/swarrot": "^4.0",
-        "symfony/config": "^3.4|^4.2|^5.0",
-        "symfony/console": "^3.4|^4.2|^5.0",
-        "symfony/dependency-injection": "^3.4|^4.2|^5.0",
-        "symfony/http-kernel": "^3.4|^4.2|^5.0",
-        "symfony/yaml": "^3.4|^4.2|^5.0"
+        "symfony/config": "^3.4|^4.4|^5.2",
+        "symfony/console": "^3.4|^4.4|^5.2",
+        "symfony/dependency-injection": "^3.4|^4.4|^5.2",
+        "symfony/http-kernel": "^3.4|^4.4|^5.2",
+        "symfony/yaml": "^3.4|^4.4|^5.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.4",
-        "doctrine/dbal": "^2.2",
         "doctrine/common": "^2.9",
+        "doctrine/dbal": "^2.2",
         "php-amqplib/php-amqplib": "^2.9",
-        "symfony/phpunit-bridge": "^5.0"
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.5",
+        "symfony/event-dispatcher": "^5.2",
+        "symfony/phpunit-bridge": "^5.2"
     },
     "suggest": {
         "php-amqplib/php-amqplib": "Required if using amqp_lib"

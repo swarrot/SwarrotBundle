@@ -3,10 +3,13 @@
 namespace Swarrot\SwarrotBundle\Tests\Broker;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Swarrot\SwarrotBundle\Broker\PeclFactory;
 
 class PeclFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     protected function setUp(): void
     {
         if (!class_exists('AMQPConnection')) {

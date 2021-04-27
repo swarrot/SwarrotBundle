@@ -1,7 +1,7 @@
 .PHONY: static
 
 DIR := ${CURDIR}
-QA_IMAGE := jakzal/phpqa:php7.3-alpine
+QA_IMAGE := jakzal/phpqa:php8.0-alpine
 
 cs-lint:
 	@docker run --rm -v $(DIR):/project -w /project $(QA_IMAGE) php-cs-fixer fix --diff-format udiff --dry-run -vvv
