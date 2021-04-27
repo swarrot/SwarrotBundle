@@ -3,6 +3,7 @@
 namespace Swarrot\SwarrotBundle\Tests\Command;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Swarrot\Broker\Message;
 use Swarrot\Processor\ConfigurableInterface;
 use Swarrot\Processor\ProcessorInterface;
@@ -17,6 +18,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SwarrotCommandTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testItAddOptionsFromProcessorConfigurators()
     {
         $processor = $this->prophesize('Swarrot\Processor\ProcessorInterface');

@@ -3,10 +3,11 @@
 namespace Swarrot\SwarrotBundle\Event;
 
 use Swarrot\Broker\Message;
+use Symfony\Contracts\EventDispatcher\Event;
 
-class MessagePublishedEvent extends SymfonyEvent
+class MessagePublishedEvent extends Event
 {
-    const NAME = 'swarrot.message_published';
+    public const NAME = 'swarrot.message_published';
 
     private $messageType;
     private $message;

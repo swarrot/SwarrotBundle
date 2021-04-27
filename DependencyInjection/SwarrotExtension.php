@@ -71,7 +71,7 @@ class SwarrotExtension extends Extension
      */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
-        return new Configuration($container->getParameter('kernel.debug'));
+        return new Configuration((bool) $container->getParameter('kernel.debug'));
     }
 
     public function buildCommand(ContainerBuilder $container, string $name, array $consumerConfig): string
