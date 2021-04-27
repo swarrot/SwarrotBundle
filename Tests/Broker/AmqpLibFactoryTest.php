@@ -11,7 +11,7 @@ class AmqpLibFactoryTest extends TestCase
 
     protected function setUp(): void
     {
-        if (!class_exists('PhpAmqpLib\Connection\AMQPConnection')) {
+        if (!class_exists('PhpAmqpLib\Connection\AMQPStreamConnection')) {
             $this->markTestSkipped('The php-amqplib/php-amqplib package is not available');
         }
 

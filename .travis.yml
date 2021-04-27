@@ -26,8 +26,9 @@ matrix:
     - php: 7.3
     - php: 7.2
       env: COMPOSER_FLAGS="--prefer-lowest --prefer-stable" PHPUNIT_FLAGS="--exclude-group legacy" # See https://github.com/symfony/symfony/issues/22515
-    - php: 7.3
+    - php: 7.4
       env: LIBRABBITMQ_VERSION="master"
+      dist: focal
     - php: 7.3
       env: DEPENDENCIES=dev COMPOSER_FLAGS="--prefer-stable"
 
