@@ -136,6 +136,10 @@ class PeclFactory implements FactoryInterface
             $this->amqpConnections[$connection]->connect();
         }
 
+        if (!$this->amqpConnections[$connection]->isConnected()) {
+            $this->amqpConnections[$connection]->connect();
+        }
+
         return new \AMQPChannel($this->amqpConnections[$connection]);
     }
 }
