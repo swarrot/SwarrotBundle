@@ -7,44 +7,10 @@ parameters:
     excludes_analyse:
         - Tests
         - vendor
+        - Event/SymfonyEvent.php
 
     ignoreErrors:
         -
             message: "#^Else branch is unreachable because previous condition is always true\\.$#"
             count: 1
             path: Broker/Publisher.php
-
-        -
-            message: "#^Cannot cast array\\<string\\>\\|bool\\|string\\|null to int\\.$#"
-            count: 1
-            path: Command/SwarrotCommand.php
-
-        -
-            message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\TreeBuilder\\:\\:root\\(\\)\\.$#"
-            count: 1
-            path: DependencyInjection/Configuration.php
-
-        -
-            message: "#^Cannot cast array\\<string\\>\\|bool\\|string\\|null to int\\.$#"
-            count: 1
-            path: Processor/MaxExecutionTime/MaxExecutionTimeProcessorConfigurator.php
-
-        -
-            message: "#^Cannot cast array\\<string\\>\\|bool\\|string\\|null to int\\.$#"
-            count: 1
-            path: Processor/MaxMessages/MaxMessagesProcessorConfigurator.php
-
-        -
-            message: "#^Cannot cast array\\<string\\>\\|string\\|null to string\\.$#"
-            count: 1
-            path: Processor/Retry/RetryProcessorConfigurator.php
-
-        -
-            message: "#^Cannot cast array\\<string\\>\\|bool\\|string\\|null to int\\.$#"
-            count: 1
-            path: Processor/Retry/RetryProcessorConfigurator.php
-
-        -
-            message: "#^Method Swarrot\\\\SwarrotBundle\\\\DataCollector\\\\SwarrotDataCollector\\:\\:collect\\(\\) has parameter \\$exception with no typehint specified\\.$#"
-            count: 1
-            path: DataCollector/SwarrotDataCollector.php

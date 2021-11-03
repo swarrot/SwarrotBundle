@@ -32,16 +32,11 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('swarrot');
-
-        if (method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            // BC layer for symfony/config 4.1 and older
-            $rootNode = $treeBuilder->root('swarrot');
-        }
+        $rootNode = $treeBuilder->getRootNode();
 
         $knownProcessors = $this->knownProcessors;
 
+        /* @phpstan-ignore-next-line */
         $rootNode
             ->beforeNormalization()
                 ->always()

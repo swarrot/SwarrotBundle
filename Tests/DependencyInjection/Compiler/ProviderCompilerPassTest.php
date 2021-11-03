@@ -3,12 +3,15 @@
 namespace Swarrot\SwarrotBundle\Tests\DependencyInjection\Compiler;
 
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Swarrot\SwarrotBundle\Broker\FactoryInterface;
 use Swarrot\SwarrotBundle\DependencyInjection\Compiler\ProviderCompilerPass;
 use Symfony\Component\DependencyInjection\Alias;
 
 class ProviderCompilerPassTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testItIsInitializable()
     {
         $this->assertInstanceOf(
