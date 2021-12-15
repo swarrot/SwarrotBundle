@@ -15,7 +15,7 @@ class SwarrotDataCollector extends DataCollector
      *
      * @param \Throwable|\Exception $exception
      */
-    public function collect(Request $request, Response $response, $exception = null): void
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
     }
 

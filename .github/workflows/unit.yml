@@ -1,0 +1,52 @@
+on: [push, pull_request]
+name: Unit test
+jobs:
+    tests:
+        name: PHP ${{ matrix.php }} / SF ^${{ matrix.symfony }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php: [7.4, 8.0]
+                symfony: [4.4.*, 5.4.*]
+
+        services:
+            rabbitmq:
+                # 3.8.10 and later versions has enabled TLSv1.3 by default which is not supported by PHP images
+                # TLSv1.3 can be disabled by using configuration file, but not environment variables
+                image: rabbitmq:3.8.9-management
+                ports:
+                    - 5671:5671
+                    - 5672:5672
+                    - 15671:15671
+                    - 15672:15672
+                env:
+                    RABBITMQ_DEFAULT_VHOST: swarrot
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@2.16.0
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions:  amqp
+                  coverage: none
+
+            - name: Start broker service
+              run: docker restart ${{ job.services.rabbitmq.id }}
+
+            - name: Install Symfony Flex
+              run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
+
+            - name: Install the dependencies
+              env:
+                  SYMFONY_REQUIRE: ${{ matrix.symfony }}
+              run: composer install --no-interaction --prefer-dist --no-progress --no-suggest
+
+            - name: Wait for broker service
+              run: Tests/bin/wait_broker
+
+            - name: Run the unit tests
+              run: vendor/bin/phpunit --colors=always
