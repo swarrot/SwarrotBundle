@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+- replace Travis by Github action
+
 ## [2.3.0] - 2021-11-03
 
 - php-amqplib: use AMQPStreamConnection instead of AMQPConnection

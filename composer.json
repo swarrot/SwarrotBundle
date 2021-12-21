@@ -17,11 +17,11 @@
         "php": ">=7.4",
         "psr/log": "^1.0",
         "swarrot/swarrot": "^4.0",
-        "symfony/config": "^4.4|^5.3",
-        "symfony/console": "^4.4|^5.3",
-        "symfony/dependency-injection": "^4.4|^5.3",
-        "symfony/http-kernel": "^4.4|^5.3",
-        "symfony/yaml": "^4.4|^5.3"
+        "symfony/config": "^4.4|^5.4",
+        "symfony/console": "^4.4|^5.4",
+        "symfony/dependency-injection": "^4.4|^5.4",
+        "symfony/http-kernel": "^4.4|^5.4",
+        "symfony/yaml": "^4.4|^5.4"
     },
     "require-dev": {
         "doctrine/common": "^2.9",
@@ -29,8 +29,8 @@
         "php-amqplib/php-amqplib": "^2.9",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5",
-        "symfony/event-dispatcher": "^5.3",
-        "symfony/phpunit-bridge": "^5.3"
+        "symfony/event-dispatcher": "^4.4|^5.4",
+        "symfony/phpunit-bridge": "^4.4|^5.4"
     },
     "suggest": {
         "php-amqplib/php-amqplib": "Required if using amqp_lib"
