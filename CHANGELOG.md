@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.4.0] - 2021-12-22
+
 - replace Travis by Github action
 - Add support to Symfony 6.0
 
