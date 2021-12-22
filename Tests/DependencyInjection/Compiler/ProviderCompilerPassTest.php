@@ -117,11 +117,11 @@ class ProviderCompilerPassTest extends TestCase
 
         $stdClass = new \stdClass();
 
-        $definition->getClass()->willReturn($stdClass);
+        $definition->getClass()->willReturn(\stdClass::class);
         $definition->addMethodCall()->shouldNotBeCalled();
 
         $parameterBag = $this->prophesize('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
-        $parameterBag->resolveValue($stdClass)->willReturn(new \stdClass())->shouldBeCalledTimes(1);
+        $parameterBag->resolveValue(\stdClass::class)->willReturn(new \stdClass())->shouldBeCalledTimes(1);
         $container->getParameterBag()->willReturn($parameterBag->reveal());
 
         $container->has('swarrot.factory.default')->willReturn(false);
@@ -156,7 +156,7 @@ class ProviderCompilerPassTest extends TestCase
         $definition = $this->prophesize('Symfony\\Component\\DependencyInjection\\Definition');
 
         $definition->getClass()->willReturn(FactoryInterface::class)->shouldBeCalledTimes(1);
-        $definition->addMethodCall('addConnection', ['foo', []])->shouldBeCalledTimes(1);
+        $definition->addMethodCall('addConnection', ['foo', []])->shouldBeCalledTimes(1)->willReturn($definition);
 
         $parameterBag = $this->prophesize('Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag');
         $parameterBag->remove('swarrot.provider_config')->shouldBeCalledTimes(1);
