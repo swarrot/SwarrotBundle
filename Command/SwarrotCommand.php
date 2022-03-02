@@ -33,6 +33,9 @@ class SwarrotCommand extends Command
     /** @var array */
     protected $aliases;
 
+    /** @var string */
+    protected static $defaultDescription = 'Consume messages from a given queue';
+
     public function __construct(
         FactoryInterface $swarrotFactory,
         string $name,
@@ -65,7 +68,7 @@ class SwarrotCommand extends Command
         $this
             ->setName('swarrot:consume:'.$this->name)
             ->setAliases($this->aliases)
-            ->setDescription('Consume messages from a given queue')
+            ->setDescription(self::$defaultDescription)
             ->addArgument('queue', InputArgument::OPTIONAL, 'Queue to consume', $this->queue)
             ->addArgument('connection', InputArgument::OPTIONAL, 'Connection to use', $this->connectionName)
             ->addOption(
