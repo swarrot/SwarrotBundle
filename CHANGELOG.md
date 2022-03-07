@@ -5,6 +5,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## 2.4.1 - 2022-03-07
+
+- Make command lazy loadable
+
 ## [2.4.0] - 2021-12-22
 
 - replace Travis by Github action
