@@ -17,6 +17,8 @@
             <tag name="swarrot.provider_factory" alias="pecl"/>
         </service>
         <service id="swarrot.factory.amqp_lib" class="%swarrot.factory.amqp_lib.class%">
+            <argument>%swarrot.publisher_confirm_enable%</argument>
+            <argument>%swarrot.publisher_confirm_timeout%</argument>
             <tag name="swarrot.provider_factory" alias="amqp_lib"/>
         </service>
 
