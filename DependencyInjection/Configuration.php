@@ -90,7 +90,10 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('login')->defaultValue('guest')->end()
                             ->scalarNode('password')->defaultValue('guest')->end()
                             ->scalarNode('vhost')->defaultValue('/')->end()
-
+                            ->arrayNode('options')
+                                ->useAttributeAsKey('key')
+                                ->prototype('variable')->end()
+                            ->end()
                             ->booleanNode('ssl')->defaultValue(false)->end()
                             ->arrayNode('ssl_options')
                                 ->children()

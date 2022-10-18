@@ -105,7 +105,8 @@ class AmqpLibFactory implements FactoryInterface
                 $this->connections[$connection]['login'],
                 $this->connections[$connection]['password'],
                 $this->connections[$connection]['vhost'],
-                $ssl_opts
+                $ssl_opts,
+                $this->connections[$connection]['options'] ?? []
             );
         } else {
             $conn = new AMQPStreamConnection(
@@ -113,7 +114,17 @@ class AmqpLibFactory implements FactoryInterface
                 $this->connections[$connection]['port'],
                 $this->connections[$connection]['login'],
                 $this->connections[$connection]['password'],
-                $this->connections[$connection]['vhost']
+                $this->connections[$connection]['vhost'],
+                $this->connections[$connection]['options']['insist'] ?? false,
+                $this->connections[$connection]['options']['login_method'] ?? 'AMQPLAIN',
+                $this->connections[$connection]['options']['login_response'] ?? null,
+                $this->connections[$connection]['options']['locale'] ?? 'en_US',
+                $this->connections[$connection]['options']['connection_timeout'] ?? 3.0,
+                $this->connections[$connection]['options']['read_write_timeout'] ?? 3.0,
+                $this->connections[$connection]['options']['context'] ?? null,
+                $this->connections[$connection]['options']['keepalive'] ?? false,
+                $this->connections[$connection]['options']['heartbeat'] ?? 0,
+                $this->connections[$connection]['options']['channel_rpc_timeout'] ?? 0.0
             );
         }
 

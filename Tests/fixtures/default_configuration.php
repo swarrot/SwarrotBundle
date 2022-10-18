@@ -14,6 +14,7 @@ return [
             'login' => 'guest',
             'password' => 'guest',
             'vhost' => '/',
+            'options' => [],
             'ssl' => false,
             'ssl_options' => [
                 'verify_peer' => true,

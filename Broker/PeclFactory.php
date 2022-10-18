@@ -49,6 +49,10 @@ class PeclFactory implements FactoryInterface
             $params = $this->parseUrl($connection['url']);
             $connection = array_merge($connection, $params);
         }
+        if (isset($connection['options'])) {
+            $connection = array_merge($connection, $connection['options']);
+            unset($connection['options']);
+        }
 
         $this->connections[$name] = $connection;
     }
