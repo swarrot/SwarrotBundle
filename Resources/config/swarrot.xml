@@ -94,23 +94,6 @@
                  class="Swarrot\SwarrotBundle\Processor\MemoryLimit\MemoryLimitProcessorConfigurator">
             <argument type="service" id="swarrot.logger"/>
         </service>
-        <service id="swarrot.processor.new_relic"
-                 class="Swarrot\SwarrotBundle\Processor\NewRelic\NewRelicProcessorConfigurator">
-        </service>
-        <service id="swarrot.processor.rpc_client"
-                 class="Swarrot\SwarrotBundle\Processor\RPC\RpcClientProcessorConfigurator">
-            <argument type="service" id="swarrot.logger"/>
-        </service>
-        <service id="swarrot.processor.rpc_server"
-                 class="Swarrot\SwarrotBundle\Processor\RPC\RpcServerProcessorConfigurator">
-            <argument type="service" id="swarrot.factory.default"/>
-            <argument type="service" id="swarrot.logger"/>
-        </service>
-        <service id="swarrot.processor.sentry"
-                 class="Swarrot\SwarrotBundle\Processor\Sentry\SentryProcessorConfigurator">
-            <argument>Swarrot\Processor\Sentry\SentryProcessor</argument>
-            <argument type="service" id="sentry.client" on-invalid="ignore"/>
-        </service>
         <service id="swarrot.processor.services_resetter"
                  class="Swarrot\SwarrotBundle\Processor\ServicesResetter\ServicesResetterProcessorConfigurator">
             <argument>Swarrot\Processor\ServicesResetter\ServicesResetterProcessor</argument>
