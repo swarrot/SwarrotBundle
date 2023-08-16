@@ -23,9 +23,6 @@ class AmqpLibFactory implements FactoryInterface
     /** @var array */
     protected $messagePublishers = [];
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConnection(string $name, array $connection): void
     {
         if (!empty($connection['url'])) {
@@ -36,9 +33,6 @@ class AmqpLibFactory implements FactoryInterface
         $this->connections[$name] = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMessageProvider(string $name, string $connection): MessageProviderInterface
     {
         if (!isset($this->messageProviders[$connection][$name])) {
@@ -54,9 +48,6 @@ class AmqpLibFactory implements FactoryInterface
         return $this->messageProviders[$connection][$name];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMessagePublisher(string $name, string $connection): MessagePublisherInterface
     {
         if (!isset($this->messagePublishers[$connection][$name])) {

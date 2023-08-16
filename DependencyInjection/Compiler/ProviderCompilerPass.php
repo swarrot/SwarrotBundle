@@ -8,9 +8,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ProviderCompilerPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container): void
     {
         if ($container->has('swarrot.factory.default') || !$container->hasParameter('swarrot.provider_config')) {

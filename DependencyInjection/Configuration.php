@@ -26,9 +26,6 @@ class Configuration implements ConfigurationInterface
         $this->debug = $debug;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('swarrot');
