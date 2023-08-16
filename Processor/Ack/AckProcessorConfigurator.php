@@ -29,9 +29,6 @@ class AckProcessorConfigurator implements ProcessorConfiguratorInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         return [
@@ -41,9 +38,6 @@ class AckProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [
@@ -52,9 +46,6 @@ class AckProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-ack');

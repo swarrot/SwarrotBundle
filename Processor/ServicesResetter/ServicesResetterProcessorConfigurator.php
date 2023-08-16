@@ -30,9 +30,6 @@ class ServicesResetterProcessorConfigurator implements ProcessorConfiguratorInte
         $this->servicesResetter = $servicesResetter;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         return [
@@ -41,9 +38,6 @@ class ServicesResetterProcessorConfigurator implements ProcessorConfiguratorInte
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [
@@ -51,9 +45,6 @@ class ServicesResetterProcessorConfigurator implements ProcessorConfiguratorInte
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-reset');

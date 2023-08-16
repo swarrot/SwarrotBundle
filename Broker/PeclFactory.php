@@ -40,9 +40,6 @@ class PeclFactory implements FactoryInterface
         $this->timeout = $timeout;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConnection(string $name, array $connection): void
     {
         if (!empty($connection['url'])) {
@@ -53,9 +50,6 @@ class PeclFactory implements FactoryInterface
         $this->connections[$name] = $connection;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMessageProvider(string $name, string $connection): MessageProviderInterface
     {
         if (!isset($this->messageProviders[$connection][$name])) {
@@ -71,9 +65,6 @@ class PeclFactory implements FactoryInterface
         return $this->messageProviders[$connection][$name];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMessagePublisher(string $name, string $connection): MessagePublisherInterface
     {
         if (!isset($this->messagePublishers[$connection][$name])) {

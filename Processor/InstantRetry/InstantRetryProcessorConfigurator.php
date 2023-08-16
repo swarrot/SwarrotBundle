@@ -21,9 +21,6 @@ class InstantRetryProcessorConfigurator implements ProcessorConfiguratorInterfac
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         return [
@@ -32,17 +29,11 @@ class InstantRetryProcessorConfigurator implements ProcessorConfiguratorInterfac
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         return $this->getExtras();

@@ -58,9 +58,6 @@ class SwarrotCommand extends Command
         parent::__construct();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $defaultPollInterval = isset($this->extras['poll_interval']) ? $this->extras['poll_interval'] : 500000;
@@ -98,9 +95,6 @@ EOT
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $options = $this->getOptions($input);

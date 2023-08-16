@@ -16,7 +16,7 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
 
     /** @var string */
     private $processorClass;
-    /** @var mixed */
+
     private $managerRegistry;
 
     public function __construct(string $processorClass, ManagerRegistry $managerRegistry)
@@ -25,9 +25,6 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         return [
@@ -36,9 +33,6 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [
@@ -46,9 +40,6 @@ class ObjectManagerProcessorConfigurator implements ProcessorConfiguratorInterfa
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-reset');

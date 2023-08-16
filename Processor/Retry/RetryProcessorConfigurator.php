@@ -29,9 +29,6 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         $exchange = $this->getExtra('retry_exchange', 'retry');
@@ -43,9 +40,6 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [
@@ -60,9 +54,6 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         $this->enabled = !$input->getOption('no-retry');

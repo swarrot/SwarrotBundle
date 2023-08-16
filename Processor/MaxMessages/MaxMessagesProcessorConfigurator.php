@@ -25,9 +25,6 @@ class MaxMessagesProcessorConfigurator implements ProcessorConfiguratorInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         return [
@@ -36,9 +33,6 @@ class MaxMessagesProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [
@@ -52,9 +46,6 @@ class MaxMessagesProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         return [
