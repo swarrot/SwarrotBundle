@@ -2,6 +2,7 @@
 
 namespace Swarrot\SwarrotBundle\Processor\Doctrine;
 
+use Doctrine\DBAL\Connection;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorEnableAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorExtrasAware;
 use Swarrot\SwarrotBundle\Processor\ProcessorConfiguratorInterface;
@@ -15,8 +16,12 @@ class ConnectionProcessorConfigurator implements ProcessorConfiguratorInterface
     /** @var string */
     private $processorClass;
 
+    /** @var list<Connection> */
     private $connections;
 
+    /**
+     * @param list<Connection> $connections
+     */
     public function __construct(string $processorClass, $connections)
     {
         $this->processorClass = $processorClass;

@@ -17,6 +17,11 @@ trait ProcessorConfiguratorExtrasAware
         return $this->extras;
     }
 
+    /**
+     * @param mixed $default
+     *
+     * @return mixed
+     */
     protected function getExtra(string $name, $default = null)
     {
         return isset($this->extras[$name]) ? $this->extras[$name] : $default;
