@@ -138,6 +138,7 @@ class TestFinalProcessor implements ProcessorInterface
     public function process(Message $message, array $options): bool
     {
         $this->processCallOptions = $options;
+
         // return false to stop the consumer.
         return false;
     }
