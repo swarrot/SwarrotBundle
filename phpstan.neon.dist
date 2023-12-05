@@ -4,7 +4,7 @@ parameters:
     checkMissingIterableValueType: false
     paths:
         - .
-    excludes_analyse:
+    excludePaths:
         - Tests
         - vendor
         - Event/SymfonyEvent.php
@@ -14,7 +14,11 @@ parameters:
             message: "#^Else branch is unreachable because previous condition is always true\\.$#"
             count: 1
             path: Broker/Publisher.php
+
         -
-            message: "#^Call to an undefined method Symfony\\\\Component\\\\Config\\\\Definition\\\\Builder\\\\NodeDefinition::fixXmlConfig\\(\\)\\.$#"
-            count: 1
-            path: DependencyInjection/Configuration.php
+            message: '#^Cannot cast mixed to.*#'
+            paths:
+                - Command/SwarrotCommand.php
+                - Processor/MaxExecutionTime/MaxExecutionTimeProcessorConfigurator.php
+                - Processor/MaxMessages/MaxMessagesProcessorConfigurator.php
+                - Processor/Retry/RetryProcessorConfigurator.php

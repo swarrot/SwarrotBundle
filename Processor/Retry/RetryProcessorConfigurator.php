@@ -35,6 +35,7 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
     public function getProcessorArguments(array $options): array
     {
         $exchange = $this->getExtra('retry_exchange', 'retry');
+        assert(is_string($exchange));
 
         return [
             $this->processorClass,
@@ -68,6 +69,7 @@ class RetryProcessorConfigurator implements ProcessorConfiguratorInterface
         $this->enabled = !$input->getOption('no-retry');
 
         $key = $this->getExtra('retry_routing_key_pattern', 'retry_%attempt%s');
+        assert(is_string($key));
 
         return [
             'retry_key_pattern' => str_replace('%queue%', (string) $input->getArgument('queue'), $key),

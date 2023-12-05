@@ -28,7 +28,9 @@ class ProviderCompilerPass implements CompilerPassInterface
             }
         }
 
-        list($provider, $connections) = $container->getParameter('swarrot.provider_config');
+        /** @var array{string, array<string, mixed>} $providerConfig */
+        $providerConfig = $container->getParameter('swarrot.provider_config');
+        list($provider, $connections) = $providerConfig;
 
         if (!isset($providersIds[$provider])) {
             throw new \InvalidArgumentException(sprintf('Invalid provider "%s"', $provider));
@@ -36,6 +38,8 @@ class ProviderCompilerPass implements CompilerPassInterface
 
         $id = $providersIds[$provider];
         $definition = $container->getDefinition($id);
+
+        /** @var class-string $className */
         $className = $container->getParameterBag()->resolveValue($definition->getClass());
 
         $reflection = new \ReflectionClass($className);
