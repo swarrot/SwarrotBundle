@@ -17,8 +17,11 @@ return [
             'ssl' => false,
             'ssl_options' => [
                 'verify_peer' => true,
+                'verify_peer_name' => null,
+                'allow_self_signed' => null,
                 'cafile' => null,
                 'local_cert' => null,
+                'ciphers' => null,
             ],
         ],
     ],

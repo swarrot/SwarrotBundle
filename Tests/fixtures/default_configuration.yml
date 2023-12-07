@@ -18,8 +18,11 @@ swarrot:
             ssl:                  false
             ssl_options:
                 verify_peer:          ~
+                verify_peer_name:     ~
+                allow_self_signed:    ~
                 cafile:               ~
                 local_cert:           ~
+                ciphers:              ~
     consumers:
 
         # Prototype
