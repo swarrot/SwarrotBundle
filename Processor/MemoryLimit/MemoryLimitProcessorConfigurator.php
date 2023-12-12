@@ -21,9 +21,6 @@ class MemoryLimitProcessorConfigurator implements ProcessorConfiguratorInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         return [
@@ -32,17 +29,11 @@ class MemoryLimitProcessorConfigurator implements ProcessorConfiguratorInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         return $this->getExtras();

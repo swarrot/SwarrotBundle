@@ -11,8 +11,6 @@ use Symfony\Component\VarDumper\Cloner\Data;
 class SwarrotDataCollector extends DataCollector
 {
     /**
-     * {@inheritdoc}
-     *
      * @param \Throwable|\Exception $exception
      */
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
@@ -43,9 +41,6 @@ class SwarrotDataCollector extends DataCollector
         return count($this->data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'swarrot';

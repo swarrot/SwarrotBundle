@@ -24,9 +24,6 @@ class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterfa
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProcessorArguments(array $options): array
     {
         return [
@@ -35,17 +32,11 @@ class SignalHandlerProcessorConfigurator implements ProcessorConfiguratorInterfa
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCommandOptions(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveOptions(InputInterface $input): array
     {
         return $this->getExtras();

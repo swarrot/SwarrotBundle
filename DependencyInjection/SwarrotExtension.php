@@ -14,9 +14,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class SwarrotExtension extends Extension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
@@ -66,9 +63,6 @@ class SwarrotExtension extends Extension
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfiguration(array $configs, ContainerBuilder $container): Configuration
     {
         return new Configuration((bool) $container->getParameter('kernel.debug'));

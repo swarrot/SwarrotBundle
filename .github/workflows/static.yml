@@ -14,8 +14,17 @@ jobs:
   phpstan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Run PHPStan
-        uses: docker://odolbeau/swarrot-phpqa:latest
+      - name: "Checkout code"
+        uses: "actions/checkout@master"
+
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
         with:
-          args: phpstan analyze
+          coverage: "none"
+          php-version: "8.3"
+
+      - name: "Install dependencies with Composer"
+        uses: "ramsey/composer-install@v2"
+
+      - name: "Run a static analysis with phpstan/phpstan"
+        run: "vendor/bin/phpstan analyse"
