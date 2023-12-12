@@ -24,8 +24,8 @@
         "symfony/yaml": "^4.4|^5.4|^6.0"
     },
     "require-dev": {
-        "doctrine/common": "^2.9",
-        "doctrine/dbal": "^2.2",
+        "doctrine/common": "^2.9|^3.0",
+        "doctrine/dbal": "^2.2|^3.0",
         "php-amqplib/php-amqplib": "^2.9|^3.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.2",
