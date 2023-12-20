@@ -11,11 +11,6 @@ parameters:
 
     ignoreErrors:
         -
-            message: "#^Else branch is unreachable because previous condition is always true\\.$#"
-            count: 1
-            path: Broker/Publisher.php
-
-        -
             message: '#^Cannot cast mixed to.*#'
             paths:
                 - Command/SwarrotCommand.php

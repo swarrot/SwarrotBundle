@@ -6,14 +6,13 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Swarrot\Broker\Message;
 use Swarrot\SwarrotBundle\Event\MessagePublishedEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface as ContractsEventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class Publisher
 {
     /** @var FactoryInterface */
     protected $factory;
-    /** @var ContractsEventDispatcherInterface|EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
     /** @var array */
     protected $messageTypes;
@@ -50,18 +49,10 @@ class Publisher
 
         $messagePublisher->publish($message, $routingKey);
 
-        if ($this->eventDispatcher instanceof ContractsEventDispatcherInterface) {
-            $this->eventDispatcher->dispatch(
-                new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey),
-                MessagePublishedEvent::NAME
-            );
-        } else {
-            // Dispatch the old way as we are using Event Dispatcher < 4.3
-            $this->eventDispatcher->dispatch(
-                MessagePublishedEvent::NAME,
-                new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey)
-            );
-        }
+        $this->eventDispatcher->dispatch(
+            new MessagePublishedEvent($messageType, $message, $connection, $exchange, $routingKey),
+            MessagePublishedEvent::NAME
+        );
     }
 
     public function isKnownMessageType(string $messageType): bool
