@@ -66,7 +66,7 @@ class SwarrotCommandTest extends TestCase
         }
     }
 
-    public function it_merges_arguments_from_config_and_command_line_dataprovider()
+    public static function it_merges_arguments_from_config_and_command_line_dataprovider()
     {
         return [
             'No option from the command line and no extras' => [
