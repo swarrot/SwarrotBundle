@@ -5,6 +5,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.5.0] - 2024-01-04
+
 - Add support to Symfony 7.0
 - Remove Symfony <5.4 support
 
