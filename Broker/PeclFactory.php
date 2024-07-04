@@ -33,7 +33,7 @@ class PeclFactory implements FactoryInterface
     /** @var array */
     protected $amqpConnections = [];
 
-    public function __construct(LoggerInterface $logger = null, bool $publisherConfirms = false, float $timeout = 0.0)
+    public function __construct(?LoggerInterface $logger = null, bool $publisherConfirms = false, float $timeout = 0.0)
     {
         $this->logger = $logger ?: new NullLogger();
         $this->publisherConfirms = $publisherConfirms;

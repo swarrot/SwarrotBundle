@@ -19,7 +19,7 @@ class Publisher
     /** @var LoggerInterface */
     protected $logger;
 
-    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = [], LoggerInterface $logger = null)
+    public function __construct(FactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $messageTypes = [], ?LoggerInterface $logger = null)
     {
         $this->factory = $factory;
         $this->eventDispatcher = $eventDispatcher;
