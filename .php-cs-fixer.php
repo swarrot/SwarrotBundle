@@ -14,7 +14,7 @@ $config
         '@Symfony' => true,
         'array_syntax' => ['syntax' => 'short'],
         'no_superfluous_phpdoc_tags' => [
-            'allow_mixed' => true, # PHPStan will complain about missing types otherwise
+            'allow_mixed' => true, // PHPStan will complain about missing types otherwise
         ],
     ])
     ->setFinder($finder)
