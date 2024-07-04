@@ -40,7 +40,7 @@ class SwarrotCommand extends Command
         ProcessorInterface $processor,
         array $processorConfigurators,
         array $extras,
-        string $queue = null,
+        ?string $queue = null,
         array $aliases = []
     ) {
         $this->swarrotFactory = $swarrotFactory;
