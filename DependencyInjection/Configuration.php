@@ -33,7 +33,6 @@ class Configuration implements ConfigurationInterface
 
         $knownProcessors = $this->knownProcessors;
 
-        /* @phpstan-ignore-next-line */
         $rootNode
             ->beforeNormalization()
                 ->always()
