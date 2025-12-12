@@ -41,7 +41,7 @@ class SwarrotCommand extends Command
         array $processorConfigurators,
         array $extras,
         ?string $queue = null,
-        array $aliases = []
+        array $aliases = [],
     ) {
         $this->swarrotFactory = $swarrotFactory;
         $this->name = $name;
