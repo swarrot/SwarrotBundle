@@ -15,7 +15,7 @@ class AmqpLibFactoryTest extends TestCase
             $this->markTestSkipped('The php-amqplib/php-amqplib package is not available');
         }
 
-        $this->factory = new class() extends AmqpLibFactory {
+        $this->factory = new class extends AmqpLibFactory {
             public function getConnectionData(string $name): array
             {
                 if (!isset($this->connections[$name])) {
