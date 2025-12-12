@@ -6,7 +6,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -18,8 +18,8 @@ class SwarrotExtension extends Extension
     {
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
 
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('swarrot.xml');
+        $loader = new PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('swarrot.php');
 
         if (null === $config['default_connection']) {
             reset($config['connections']);
@@ -59,7 +59,7 @@ class SwarrotExtension extends Extension
         $container->setParameter('swarrot.messages_types', $messagesTypes);
 
         if ($config['enable_collector']) {
-            $loader->load('collector.xml');
+            $loader->load('collector.php');
         }
     }
 
