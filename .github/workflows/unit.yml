@@ -2,24 +2,21 @@ on: [push, pull_request]
 name: Unit test
 jobs:
     tests:
-        name: PHP ${{ matrix.php }} / SF ^${{ matrix.symfony }}
+        name: PHP ${{ matrix.php }}${{ matrix.name_suffix }}
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
-                php: [7.4, 8.0, 8.1, 8.2, 8.3]
-                symfony: [5.4.*, 6.4.*, 7.0.*]
-                exclude:
-                    - php: 7.4
-                      symfony: 6.4.*
-                    - php: 7.4
-                      symfony: 7.0.*
-                    - php: 8.0
-                      symfony: 6.4.*
-                    - php: 8.0
-                      symfony: 7.0.*
-                    - php: 8.1
-                      symfony: 7.0.*
+                php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+                name_suffix: ['']
+                symfony: ['']
+                include:
+                  - php: '7.4'
+                    symfony: '5.4.*'
+                    name_suffix: ' / SF 5.4 LTS'
+                  - php: '8.1'
+                    symfony: '6.4.*'
+                    name_suffix: ' / SF 5.4 LTS'
 
         services:
             rabbitmq:
@@ -36,7 +33,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
@@ -44,11 +41,13 @@ jobs:
                   php-version: ${{ matrix.php }}
                   extensions:  amqp
                   coverage: none
+                  ini-file: 'development'
 
             - name: Start broker service
               run: docker restart ${{ job.services.rabbitmq.id }}
 
             - name: Install Symfony Flex
+              if: matrix.symfony != ''
               run: |
                 composer global config --no-plugins allow-plugins.symfony/flex true
                 composer global require --no-progress --no-scripts symfony/flex
