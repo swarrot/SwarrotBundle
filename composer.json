@@ -17,22 +17,22 @@
         "php": "^8.2",
         "psr/log": "^1.0|^2.0|^3.0",
         "swarrot/swarrot": "^4.0",
-        "symfony/config": "^6.4|^7.0",
-        "symfony/console": "^6.4|^7.0",
-        "symfony/dependency-injection": "^6.4|^7.0",
-        "symfony/http-kernel": "^6.4|^7.0",
-        "symfony/yaml": "^6.4|^7.0"
+        "symfony/config": "^6.4|^7.0|^8.0",
+        "symfony/console": "^6.4|^7.0|^8.0",
+        "symfony/dependency-injection": "^6.4|^7.0|^8.0",
+        "symfony/http-kernel": "^6.4|^7.0|^8.0",
+        "symfony/yaml": "^6.4|^7.0|^8.0"
     },
     "require-dev": {
-        "doctrine/dbal": "^2.2|^3.0",
+        "doctrine/dbal": "^2.2|^3.0|^4.0",
         "doctrine/persistence": "^3.0 || ^4.0",
         "friendsofphp/php-cs-fixer": "^3.59",
         "php-amqplib/php-amqplib": "^2.9|^3.0",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpstan/phpstan": "^1.2",
         "phpunit/phpunit": "^9.5",
-        "symfony/event-dispatcher": "^6.4|^7.0",
-        "symfony/phpunit-bridge": "^6.4|^7.0"
+        "symfony/event-dispatcher": "^6.4|^7.0|^8.0",
+        "symfony/phpunit-bridge": "^6.4|^7.0|^8.0"
     },
     "suggest": {
         "php-amqplib/php-amqplib": "Required if using amqp_lib"
