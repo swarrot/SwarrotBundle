@@ -14,6 +14,10 @@ class AmqpLibFactory implements FactoryInterface
 {
     use UrlParserTrait;
 
+    /** @var bool */
+    protected $publisherConfirms;
+    /** @var float */
+    protected $timeout;
     /** @var array */
     protected $connections = [];
     /** @var array<AMQPChannel> */
@@ -22,6 +26,12 @@ class AmqpLibFactory implements FactoryInterface
     protected $messageProviders = [];
     /** @var array */
     protected $messagePublishers = [];
+
+    public function __construct(bool $publisherConfirms = false, float $timeout = 0.0)
+    {
+        $this->publisherConfirms = $publisherConfirms;
+        $this->timeout = $timeout;
+    }
 
     public function addConnection(string $name, array $connection): void
     {
@@ -57,7 +67,7 @@ class AmqpLibFactory implements FactoryInterface
 
             $channel = $this->getChannel($connection);
 
-            $this->messagePublishers[$connection][$name] = new PhpAmqpLibMessagePublisher($channel, $name);
+            $this->messagePublishers[$connection][$name] = new PhpAmqpLibMessagePublisher($channel, $name, $this->publisherConfirms, $this->timeout);
         }
 
         return $this->messagePublishers[$connection][$name];

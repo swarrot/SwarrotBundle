@@ -133,6 +133,17 @@ class SwarrotExtensionTest extends TestCase
         $this->assertTrue($container->getDefinition('swarrot.publisher')->isPublic());
     }
 
+    public function testItWiresPublisherConfirmsIntoAmqpLibFactory()
+    {
+        $container = $this->createContainer(false);
+        $this->loadConfig($container);
+
+        $this->assertSame([
+            '%swarrot.publisher_confirm_enable%',
+            '%swarrot.publisher_confirm_timeout%',
+        ], $container->getDefinition('swarrot.factory.amqp_lib')->getArguments());
+    }
+
     private function assertHasService(ContainerBuilder $container, $id)
     {
         $this->assertTrue(
