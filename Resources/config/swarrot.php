@@ -45,6 +45,10 @@ return static function (ContainerConfigurator $container) {
         ->tag('swarrot.provider_factory', ['alias' => 'pecl']);
 
     $services->set('swarrot.factory.amqp_lib', '%swarrot.factory.amqp_lib.class%')
+        ->args([
+            '%swarrot.publisher_confirm_enable%',
+            '%swarrot.publisher_confirm_timeout%',
+        ])
         ->tag('swarrot.provider_factory', ['alias' => 'amqp_lib']);
 
     $services->set('swarrot.command.base', '%swarrot.command.base.class%')

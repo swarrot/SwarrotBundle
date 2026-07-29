@@ -2,7 +2,9 @@
 
 namespace Swarrot\SwarrotBundle\Tests\Broker;
 
+use PhpAmqpLib\Channel\AMQPChannel;
 use PHPUnit\Framework\TestCase;
+use Swarrot\Broker\Message;
 use Swarrot\SwarrotBundle\Broker\AmqpLibFactory;
 
 class AmqpLibFactoryTest extends TestCase
@@ -66,6 +68,37 @@ class AmqpLibFactoryTest extends TestCase
             'password' => 'rabbitmq_password',
             'vhost' => 'swarrot',
         ], $this->factory->getConnectionData('connection'));
+    }
+
+    public function testPublisherConfirmsCanBeEnabled()
+    {
+        $channel = $this->createMock(AMQPChannel::class);
+        $channel
+            ->expects($this->once())
+            ->method('confirm_select')
+        ;
+        $channel
+            ->expects($this->once())
+            ->method('wait_for_pending_acks')
+            ->with(5.0)
+        ;
+
+        $factory = new class($channel) extends AmqpLibFactory {
+            public function __construct(private AMQPChannel $channel)
+            {
+                parent::__construct(true, 5.0);
+            }
+
+            public function getChannel(string $connection): AMQPChannel
+            {
+                return $this->channel;
+            }
+        };
+
+        $factory
+            ->getMessagePublisher('exchange', 'connection')
+            ->publish(new Message('body'), 'routing-key')
+        ;
     }
 
     public function testItThrowsAnExceptionIfTheUrlIsInvalid()
